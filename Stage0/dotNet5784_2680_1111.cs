@@ -6,6 +6,7 @@ namespace Targil_0 // Note: actual namespace depends on the project name.
     {
         static void Main(string[] args)
         {
+
             Welcome2680();
             Console.ReadKey();
             Welcome1111();
@@ -17,6 +18,7 @@ namespace Targil_0 // Note: actual namespace depends on the project name.
             Console.WriteLine("Enter your name:");
             string userName = Console.ReadLine();
             Console.WriteLine("{0}, welcome to my first console aplication");
+
         }
     }
 }
