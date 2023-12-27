@@ -9,7 +9,6 @@ namespace Targil0 // Note: actual namespace depends on the project name.
             Welcome2680();
             Welcome1111();
             Console.ReadKey();
-
         }
         static partial void Welcome1111();
         private static void Welcome2680()
