@@ -15,6 +15,7 @@ public class EngineerImplementation : IEngineer
         // Check if an engineer with the same ID already exists
         foreach (var _engineer in DataSource.Engineers)
         {
+
             if (_engineer.Id == item.Id)
                 throw new Exception($"Engineer with ID={item.Id} already exist");
             
