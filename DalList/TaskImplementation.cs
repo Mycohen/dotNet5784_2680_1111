@@ -69,6 +69,10 @@ public class TaskImplementation : ITask
 
     public void Update(Task item)
     {
-        throw new NotImplementedException();
+        Task? deletedTask = Read(item.Id);
+        if (deletedTask == null)
+            throw new InvalidOperationException("ERROR: task with such ID does not exist");
+        DataSource.Tasks.Remove(deletedTask);
+        DataSource.Tasks.Add(item);
     }
 }

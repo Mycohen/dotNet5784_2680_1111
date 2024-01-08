@@ -42,13 +42,11 @@ public class EngineerImplementation : IEngineer
 
     public void Update(Engineer item)
     {
-       Engineer? updatedEngineer = Read(item.Id);
-        if (updatedEngineer == null)
+       Engineer? deletedEngineer = Read(item.Id);
+        if (deletedEngineer == null)
             throw new InvalidOperationException("ERROR: the engineer doesn't exist🙈");
-
-
-
-
+        DataSource.Engineers.Remove(deletedEngineer);
+        DataSource.Engineers.Add(item);
 
     }
 }
