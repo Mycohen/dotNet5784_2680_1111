@@ -16,8 +16,12 @@ public class EngineerImplementation : IEngineer
         foreach (var _engineer in DataSource.Engineers)
         {
             if (_engineer.Id == item.Id)
-                throw new InvalidOperationException("ERROR: an Engineer with such ID already exists");
+                throw new Exception($"Engineer with ID={item.Id} already exist");
+            
         }
+        if (item.Id<0|| item.Email==null ||item.Email.Length==0|| item.Cost<=0||
+            item.Name==null||item.Name.Length==0 )
+            throw new Exception("The Engineer properties are invalid");
 
         // Add the new engineer to the collection
         DataSource.Engineers.Add(newEngineer);
@@ -34,7 +38,7 @@ public class EngineerImplementation : IEngineer
 
         // Throw an exception if the engineer doesn't exist
         if (deletedEngineer == null)
-            throw new InvalidOperationException("ERROR: the engineer doesn't exist");
+            throw new Exception($"Engineer with ID={id} doesn't exist");
 
         // Remove the engineer from the collection
         DataSource.Engineers.Remove(deletedEngineer);
@@ -65,7 +69,7 @@ public class EngineerImplementation : IEngineer
 
         // Throw an exception if the engineer doesn't exist
         if (deletedEngineer == null)
-            throw new InvalidOperationException("ERROR: the engineer doesn't exist");
+            throw new Exception($"Engineer with ID={item.Id} doesn't exist");
 
         // Remove the existing engineer
         DataSource.Engineers.Remove(deletedEngineer);

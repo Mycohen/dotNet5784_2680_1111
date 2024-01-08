@@ -20,12 +20,13 @@ public class DependencyImplementation : IDependency
 
     // Method to create a new dependency
     public int Create(Dependency item)
-    {
-        if (FindId(item) != null)
-            throw new InvalidOperationException("ERROR!! The dependency already exists");
+    {Dependency? res=FindId(item);
+        if (res != null)
+            throw new Exception($"Dependency with ID={res.Id} already exist");
 
         if (item.DependentTask == item.DependsOnTask)
             throw new Exception("ERROR: The task cannot depend on itself");
+
 
         // Create a new dependency with a new ID
         Dependency newItem = new Dependency(DataSource.Config.NextDepID, item.DependentTask, item.DependsOnTask);
@@ -37,7 +38,7 @@ public class DependencyImplementation : IDependency
     public void Delete(int id)
     {
         Dependency? deletedItem = Read(id); // Read the dependency with the given ID
-        if (deletedItem == null) throw new InvalidOperationException("ERROR: There is no such dependency");
+        if (deletedItem == null) new Exception("ERROR: There is no such dependency");
         DataSource.Dependencies.Remove(deletedItem); // Remove the dependency from the collection
     }
 
@@ -61,7 +62,9 @@ public class DependencyImplementation : IDependency
     public void Update(Dependency item)
     {
         Dependency? deletedItem = Read(item.Id);
-        if (deletedItem == null) throw new InvalidOperationException("ERROR: There is no such dependency");
+        if (deletedItem == null) throw new Exception($"Dependency with ID={item.Id} doesn't exist");
+        if (item.DependentTask == item.DependsOnTask)
+            throw new Exception("ERROR: The task cannot depend on itself");
         DataSource.Dependencies.Remove(deletedItem); // Remove the existing dependency
         DataSource.Dependencies.Add(item); // Add the updated dependency
     }

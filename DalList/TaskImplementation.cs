@@ -38,7 +38,7 @@ public class TaskImplementation : ITask
     {
         // Check if a task with the same properties already exists
         if (FindId(item) == null)
-            throw new InvalidOperationException("ERROR: a task with such properties already exists");
+            throw new Exception($"A task with ID={item.Id} already exist");
 
         // Create a new task with a new ID
         Task newTask = new Task(
@@ -57,6 +57,12 @@ public class TaskImplementation : ITask
             item.Remarks,
             item.EngineerId
         );
+        if (item.Alias ==null || item.Alias.Length ==0
+           || item.Description == null || item.Description.Length == 0
+          ||  item.CreatedAtDate ==null || item.RequiredEffortTime ==null || item.StartDate == null
+            || item.ScheduledDate==null|| item.DeadlineDate==null || item.CompleteDate==null
+           || item.EngineerId<0)
+            throw new Exception("The Task properties are invalid");
 
         // Add the new task to the collection
         DataSource.Tasks.Add(newTask);
@@ -74,7 +80,7 @@ public class TaskImplementation : ITask
         // Throw an exception if the task doesn't exist
         if (ptrTask == null)
         {
-            throw new InvalidOperationException("ERROR: this task with such ID doesn't exist");
+            throw new Exception("ERROR: this task with such ID doesn't exist");
         }
 
         // Remove the task from the collection
@@ -106,8 +112,7 @@ public class TaskImplementation : ITask
 
         // Throw an exception if the task doesn't exist
         if (deletedTask == null)
-            throw new InvalidOperationException("ERROR: task with such ID does not exist");
-
+            throw new Exception($"A task with ID={item.Id} doesn't exist");
         // Remove the existing task
         DataSource.Tasks.Remove(deletedTask);
 
