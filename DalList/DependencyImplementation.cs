@@ -63,8 +63,6 @@ public class DependencyImplementation : IDependency
         Dependency? deletedItem = Read(item.Id);
         if (deletedItem == null) throw new InvalidOperationException("ERROR: There is no such dependency");
         DataSource.Dependencies.Remove(deletedItem); // Remove the existing dependency
-        DataSource.Dependencies.Add(item);
-       
-       
+        DataSource.Dependencies.Add(item); // Add the updated dependency
     }
 }
