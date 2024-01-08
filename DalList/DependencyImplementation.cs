@@ -62,7 +62,11 @@ public class DependencyImplementation : IDependency
     {
         Dependency? deletedItem = FindId(item);
         if (deletedItem == null) throw new InvalidOperationException("ERROR: There is no such dependency");
+        Dependency updatedItem = new Dependency(deletedItem.Id, item.DependentTask, item.DependsOnTask);
+        //if(updatedItem.DependentTask==updatedItem.DependsOnTask)
+        //    throw new Exception("ERROR: The task cannot depend on itself");
+        DataSource.Dependencies.Add(updatedItem);
         DataSource.Dependencies.Remove(deletedItem); // Remove the existing dependency
-        Create(item); // Create a new dependency with the updated information
+       
     }
 }

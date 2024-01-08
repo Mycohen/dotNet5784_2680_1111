@@ -7,7 +7,15 @@ public class EngineerImplementation : IEngineer
 {
     public int Create(Engineer item)
     {
-        throw new NotImplementedException();
+        Engineer newEngineer= new Engineer(item.Id,item.Email,item.Cost,item.Name,item.Level);
+       foreach (var _engineer in DataSource.Engineers)
+        {
+            if(_engineer.Id == item.Id)
+                throw new InvalidOperationException("ERRROR: an Engineer with suhch ID already exist");
+        }
+            
+        DataSource.Engineers.Add(newEngineer);
+        return newEngineer.Id;
     }
 
     public void Delete(int id)
@@ -29,12 +37,18 @@ public class EngineerImplementation : IEngineer
 
     public List<Engineer> ReadAll()
     {
-        throw new NotImplementedException();
+        return new List<Engineer>(DataSource.Engineers); // Return a copy of the dependencies collection
     }
 
     public void Update(Engineer item)
     {
-       Delete(item.Id);
+       Engineer? updatedEngineer = Read(item.Id);
+        if (updatedEngineer == null)
+            throw new InvalidOperationException("ERROR: the engineer doesn't exist🙈");
+
+
+
+
 
     }
 }

@@ -10,7 +10,7 @@ public record Task(
     DO.EngineerExperience Complexity=EngineerExperience.Intermediate,
     DateTime? StartDate = null,
     DateTime? ScheduledDate = null,
-    DateTime? DeadlineDatee = null,
+    DateTime? DeadlineDate = null,
     DateTime? CompleteDate = null,
     string? Deliverables = null,
     string? Remarks = null,
