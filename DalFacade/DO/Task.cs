@@ -46,7 +46,8 @@
         DateTime? StartDate = null,
 
         /// <summary>
-        /// Gets or sets the scheduled date for the task (optional).
+        /// Gets or sets the 
+        /// (optional).
         /// </summary>
         DateTime? ScheduledDate = null,
 

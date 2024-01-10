@@ -1,4 +1,4 @@
-﻿namespace DelTest;
+﻿namespace DalTest;
 using DalApi;
 using DO;
 using System;

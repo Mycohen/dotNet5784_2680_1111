@@ -30,4 +30,8 @@
         /// </summary>
         Expert
     }
+    public enum MainMenuOption { MainExit, TaskMenu, EngineerMenu, DependencyMenu};
+    public enum CrudMenuOption { SubExit, CreateOp, UpdateOp, PrintSingleOp, PrintAllOp, DeleteOp};
+
+
 }
