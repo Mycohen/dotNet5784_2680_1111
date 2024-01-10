@@ -9,21 +9,32 @@ public static class Initialization
 {
     private static int MIN_ID = 200000000;
     private static int MAX_ID = 400000000;
-
+    // 
     private static IDependency? s_dalDependency;
     private static IEngineer? s_dalEngineer;
     private static ITask? s_dalTask;
+    //
     private static readonly Random s_rand = new();
 
-    private static int[] _id = new int[10];
+    private static int[] _ids = new int[10];
 
     private static void setIds()
     {
+        bool alredyExist;
         for (int i = 0; i < 10; i++)
         {
+            alredyExist = false;
             do
-                _id[i] = s_rand.Next(MIN_ID, MAX_ID);
-             while (_id.FirstOrDefault(_id[i]))      
+            {
+                _ids[i] = s_rand.Next(MIN_ID, MAX_ID);
+                foreach (var element in _ids)
+                {
+                    if (_ids[i] == element)
+                    {
+                        alredyExist = true;
+                    }
+                }
+            } while (alredyExist);
         }
     }
     private static string[] tasksAlias = {
@@ -184,8 +195,21 @@ public static class Initialization
             "Sophia Harris"
     };
     
+    private static string[] engineerMails = {
+    "yael.cohen@example.com",
+    "eitan.levi@example.com",
+    "maya.ben-david@example.com",
+    "itai.avraham@example.com",
+    "tamar.schwartz@example.com",
+    "emma.wilson@example.com",
+    "daniel.taylor@example.com",
+    "ava.anderson@example.com",
+    "alexander.white@example.com",
+    "sophia.harris@example.com"
+};
+    private static int[] costs =  new int[10];
 
-    
+
     private static void CreateTask()
     {
 
@@ -198,23 +222,37 @@ public static class Initialization
             string _Description = taskDescription[index];
             DateTime _CreatedAtDate = DateTime.Now.AddDays(index).AddHours(index * 2);
             TimeSpan _RequierdEffortTime = TimeSpan.FromDays(s_rand.Next(1, 15));
-            bool _IsMileStone = (_id[randomIndexId] % 2 == 0) ? true : false;
+            bool _IsMileStone = (_ids[randomIndexId] % 2 == 0) ? true : false;
             EngineerExperience _Complexity = (EngineerExperience)taskLevelsArray[index];
             DateTime _StartDate = _CreatedAtDate.Add(_RequierdEffortTime).AddDays(s_rand.Next(0, 5));
             DateTime _ScheduledDate = _StartDate.Add(_RequierdEffortTime);
             DateTime _DeadLineDate = _ScheduledDate.AddDays(s_rand.Next(7, 14));
             DateTime _CompleteDate = _StartDate.AddDays(s_rand.Next(0, 40));
-            string _Remarks = (_id[randomIndexId] % 4 == 0) ? additionalRemarks[index] : string.Empty;
-            string _deliverables = (_id[randomIndexId] % 2 == 0) ? deliverablesDescription[index] : string.Empty;
+            string _Remarks = (_ids[randomIndexId] % 4 == 0) ? additionalRemarks[index] : string.Empty;
+            string _deliverables = (_ids[randomIndexId] % 2 == 0) ? deliverablesDescription[index] : string.Empty;
             Task newTask = new Task(0, _Alias, _Description, _CreatedAtDate, _RequierdEffortTime,
                _IsMileStone, _Complexity, _StartDate, _ScheduledDate, _DeadLineDate, _CompleteDate,
-               _deliverables, _Remarks, randomIndexId);
+               _deliverables, _Remarks, _ids[randomIndexId]);
             s_dalTask!.Create(newTask);
             index++;
         }
 
     }
-
+    private static void CreateEngineer()
+    {
+        int index = 0;
+        foreach (var engineerName in engineerNames)
+        {
+            int _Id = _ids[index];
+            string _Email = engineerMails[index];
+            int _Cost = s_rand.Next(5000, 35000);
+            string _Name = engineerNames[index];
+            //Logical error my ocuures for task level yo high for Engineer
+            EngineerExperience _Level = (EngineerExperience)s_rand.Next(0, 4);
+            Engineer newEnginner = new Engineer(_Id,_Email, _Cost, _Name, _Level); 
+            index++;
+        }
+    }
     
 
 
