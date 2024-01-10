@@ -3,6 +3,7 @@ using DalApi;
 using DO;
 using System;
 using System.Data.Common;
+using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
 
 public static class Initialization
@@ -20,11 +21,21 @@ public static class Initialization
 
     private static void setIds()
     {
+        bool alredyExist;
         for (int i = 0; i < 10; i++)
         {
+            alredyExist = false;
             do
+            {
                 _id[i] = s_rand.Next(MIN_ID, MAX_ID);
-             while (_id.FirstOrDefault(_id[i]))      
+                foreach(var element in _id)
+                {
+                    if (_id[i] == element)
+                    {
+                        alredyExist = true;
+                    }
+                }
+            } while (alredyExist);    
         }
     }
     private static string[] tasksAlias = {
@@ -184,9 +195,42 @@ public static class Initialization
             "Alexander White",
             "Sophia Harris"
     };
-    
 
-    
+    int[] tasksDependencies = {
+        // Example of task dependencies
+        0, 1,   // Structural Analysis depends on CAD Modeling
+        2, 1,   // Prototyping depends on CAD Modeling
+        3, 2,   // Electrical Circuit Design depends on Prototyping
+        4, 3,   // Software Development depends on Electrical Circuit Design
+        5, 4,   // Project Management depends on Software Development
+        6, 5,   // Material Testing depends on Project Management
+        7, 6,   // Quality Assurance depends on Material Testing
+        8, 7,   // Fluid Dynamics Analysis depends on Quality Assurance
+        9, 8,   // Environmental Impact Assessment depends on Fluid Dynamics Analysis
+        10, 4,  // Robotics Programming depends on Software Development
+        11, 10, // Thermal Analysis depends on Robotics Programming
+        12, 11, // Network Design depends on Thermal Analysis
+        13, 12, // Optimization Modeling depends on Network Design
+        14, 13, // Instrumentation Calibration depends on Optimization Modeling
+        15, 14, // Geotechnical Engineering depends on Instrumentation Calibration
+        16, 15, // Energy Efficiency Analysis depends on Geotechnical Engineering
+        17, 16, // Risk Assessment depends on Energy Efficiency Analysis
+        18, 17, // Finite Element Analysis (FEA) depends on Risk Assessment
+        19, 18, // Aerospace Systems Design depends on Finite Element Analysis (FEA)
+        20, 4,  // Machine Learning Integration depends on Software Development
+        21, 20, // Automated Manufacturing depends on Machine Learning Integration
+        22, 21, // Telecommunication System Design depends on Automated Manufacturing
+        23, 22, // Hydraulic System Design depends on Telecommunication System Design
+        24, 23, // Fire Protection Engineering depends on Hydraulic System Design
+        25, 24, // Renewable Energy System Optimization depends on Fire Protection Engineering
+        26, 25, // Human Factors Engineering depends on Renewable Energy System Optimization
+        27, 26, // Structural Health Monitoring depends on Human Factors Engineering
+        28, 27, // Water Resource Management depends on Structural Health Monitoring
+        29, 28  // Simulations and Modeling depends on Water Resource Management
+    };
+
+
+
     private static void CreateTask()
     {
 
@@ -216,6 +260,16 @@ public static class Initialization
 
     }
 
+    private static void createDependency()
+    {
+        for (int i = 0; i < 59 ; i+=2)
+        {
+            int _dependentTask = tasksDependencies[i];
+            int _dependsOnTask = tasksDependencies[i + 1];
+            Dependency newDependency = new Dependency(_dependentTask, _dependsOnTask);
+            s_dalDependency!.Create(newDependency);
+        }
+    }
     
 
 
