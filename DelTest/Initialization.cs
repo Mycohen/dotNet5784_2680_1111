@@ -2,6 +2,7 @@
 using DalApi;
 using DO;
 using System;
+using System.Data.Common;
 using System.Runtime.CompilerServices;
 
 public static class Initialization
@@ -13,7 +14,19 @@ public static class Initialization
     private static IEngineer? s_dalEngineer;
     private static ITask? s_dalTask;
     private static readonly Random s_rand = new();
-   private static string[] tasksAlias = {
+
+    private static int[] _id = new int[10];
+
+    private static void setIds()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            do
+                _id[i] = s_rand.Next(MIN_ID, MAX_ID);
+             while (_id.FirstOrDefault(_id[i]))      
+        }
+    }
+    private static string[] tasksAlias = {
             "Structural Analysis",
             "CAD Modeling",
             "Prototyping",
@@ -44,7 +57,7 @@ public static class Initialization
             "Structural Health Monitoring",
             "Water Resource Management",
             "Simulations and Modeling"
-        };
+    };
 
     private static string[] taskDescription = {
             "Evaluate the integrity and stability of structures through mathematical modeling and analysis.",
@@ -77,7 +90,7 @@ public static class Initialization
             "Implement systems to monitor and assess the health of structures over time.",
             "Plan and manage water resources for agricultural, industrial, and municipal use.",
             "Create computer simulations to model and analyze complex engineering systems and scenarios."
-        };
+    };
     private static string[] deliverablesDescription = {
                 "Consider collaboration with other teams.",
                 "Critical task, handle with care.",
@@ -98,8 +111,8 @@ public static class Initialization
                 "Verify compatibility with existing systems.",
                 "Collaborate with QA for testing procedures.",
                 "Communicate progress to project manager.",
-                "Task completion critical for project milestone.",
-        };
+                "Task completion critical for project milestone."
+    };
 
 
     private static int[] taskLevelsArray = {
@@ -133,7 +146,8 @@ public static class Initialization
             4, // "Structural Health Monitoring"
             3, // "Water Resource Management"
             4  // "Simulations and Modeling"
-        };
+    };
+
     private static string[] additionalRemarks = {
             "Task completed successfully.",
             "Encountered unexpected challenges but resolved them efficiently.",
@@ -155,7 +169,8 @@ public static class Initialization
             "Addressed and resolved performance bottlenecks.",
             "Task involved integration with third-party systems.",
             "Suggested improvements for future similar tasks."
-        };
+    };
+
     private static string[] engineerNames = {
             "Yael Cohen",
             "Eitan Levi",
@@ -166,42 +181,41 @@ public static class Initialization
             "Daniel Taylor",
             "Ava Anderson",
             "Alexander White",
-            "Sophia Harris",
-            "Liam Martin"
-        };
-    private static int[] _id = new int[10];
-   
+            "Sophia Harris"
+    };
+    
+
+    
     private static void CreateTask()
     {
-        
 
-        int i = 0;
+        int index = 0;
+        int randomIndexId = s_rand.Next(0, 9);
         foreach (var _taskName in tasksAlias)
         {
-            int _id;
-            do
-            {
-                _id = s_rand.Next(MIN_ID, MAX_ID);
-            } while (s_dalTask!.Read(_id) != null);
-
+            
             string _Alias = _taskName;
-            string _Description = taskDescription[i];
-            DateTime _CreatedAtDate = DateTime.Now.AddDays(i).AddHours(i * 2);
+            string _Description = taskDescription[index];
+            DateTime _CreatedAtDate = DateTime.Now.AddDays(index).AddHours(index * 2);
             TimeSpan _RequierdEffortTime = TimeSpan.FromDays(s_rand.Next(1, 15));
-            bool _IsMileStone = (_id % 2 == 0) ? true : false;
-            EngineerExperience _Complexity = (EngineerExperience)taskLevelsArray[i];
+            bool _IsMileStone = (_id[randomIndexId] % 2 == 0) ? true : false;
+            EngineerExperience _Complexity = (EngineerExperience)taskLevelsArray[index];
             DateTime _StartDate = _CreatedAtDate.Add(_RequierdEffortTime).AddDays(s_rand.Next(0, 5));
             DateTime _ScheduledDate = _StartDate.Add(_RequierdEffortTime);
             DateTime _DeadLineDate = _ScheduledDate.AddDays(s_rand.Next(7, 14));
             DateTime _CompleteDate = _StartDate.AddDays(s_rand.Next(0, 40));
-            string _Remarks = (_id % 4 == 0) ? additionalRemarks[i] : string.Empty;
-            string _deliverables = (_id % 2 == 0) ? deliverablesDescription[i] : string.Empty;
+            string _Remarks = (_id[randomIndexId] % 4 == 0) ? additionalRemarks[index] : string.Empty;
+            string _deliverables = (_id[randomIndexId] % 2 == 0) ? deliverablesDescription[index] : string.Empty;
             Task newTask = new Task(0, _Alias, _Description, _CreatedAtDate, _RequierdEffortTime,
                _IsMileStone, _Complexity, _StartDate, _ScheduledDate, _DeadLineDate, _CompleteDate,
-               _deliverables, _Remarks, _id);
+               _deliverables, _Remarks, randomIndexId);
             s_dalTask!.Create(newTask);
-            i++;
-
+            index++;
         }
+
     }
+
+    
+
+
 }
