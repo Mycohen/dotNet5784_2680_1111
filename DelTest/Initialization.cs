@@ -6,19 +6,25 @@ using System.Data.Common;
 using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
 
+// Static class responsible for initializing test data
 public static class Initialization
 {
+    // Constants defining the range of task IDs
     private static int MIN_ID = 200000000;
     private static int MAX_ID = 400000000;
-    // 
+
+    // DAL interfaces for dependencies, engineers, and tasks
     private static IDependency? s_dalDependency;
     private static IEngineer? s_dalEngineer;
     private static ITask? s_dalTask;
-    //
+
+    // Random number generator for creating random data
     private static readonly Random s_rand = new();
 
+    // Array to store generated task IDs
     private static int[] _ids = new int[10];
 
+    // Method to generate unique task IDs and store them in the '_ids' array
     private static void setIds()
     {
         bool alredyExist;
@@ -38,6 +44,8 @@ public static class Initialization
             } while (alredyExist);
         }
     }
+
+    // Arrays containing predefined data for tasks, descriptions, etc.
     private static string[] tasksAlias = {
             "Structural Analysis",
             "CAD Modeling",
@@ -125,8 +133,6 @@ public static class Initialization
                 "Communicate progress to project manager.",
                 "Task completion critical for project milestone."
     };
-
-
     private static int[] taskLevelsArray = {
             4, // "Structural Analysis"
             3, // "CAD Modeling"
@@ -158,8 +164,8 @@ public static class Initialization
             4, // "Structural Health Monitoring"
             3, // "Water Resource Management"
             4  // "Simulations and Modeling"
-    };
 
+    };
     private static string[] additionalRemarks = {
             "Task completed successfully.",
             "Encountered unexpected challenges but resolved them efficiently.",
@@ -182,7 +188,6 @@ public static class Initialization
             "Task involved integration with third-party systems.",
             "Suggested improvements for future similar tasks."
     };
-
     private static string[] engineerNames = {
             "Yael Cohen",
             "Eitan Levi",
@@ -195,8 +200,7 @@ public static class Initialization
             "Alexander White",
             "Sophia Harris"
     };
-
-    int[] tasksDependencies = {
+    private static int[] tasksDependencies = {
         // Example of task dependencies
         0, 1,   // Structural Analysis depends on CAD Modeling
         2, 1,   // Prototyping depends on CAD Modeling
@@ -228,8 +232,6 @@ public static class Initialization
         28, 27, // Water Resource Management depends on Structural Health Monitoring
         29, 28  // Simulations and Modeling depends on Water Resource Management
     };
-
-    
     private static string[] engineerMails = {
     "yael.cohen@example.com",
     "eitan.levi@example.com",
@@ -242,17 +244,16 @@ public static class Initialization
     "alexander.white@example.com",
     "sophia.harris@example.com"
 };
-    private static int[] costs =  new int[10];
+    private static int[] costs = new int[10];
 
-
+    // Method to create tasks with predefined data
     private static void CreateTask()
     {
-
         int index = 0;
         int randomIndexId = s_rand.Next(0, 9);
         foreach (var _taskName in tasksAlias)
         {
-            
+            // Retrieve data from predefined arrays
             string _Alias = _taskName;
             string _Description = taskDescription[index];
             DateTime _CreatedAtDate = DateTime.Now.AddDays(index).AddHours(index * 2);
@@ -265,42 +266,69 @@ public static class Initialization
             DateTime _CompleteDate = _StartDate.AddDays(s_rand.Next(0, 40));
             string _Remarks = (_ids[randomIndexId] % 4 == 0) ? additionalRemarks[index] : string.Empty;
             string _deliverables = (_ids[randomIndexId] % 2 == 0) ? deliverablesDescription[index] : string.Empty;
+
+            // Create a new task using the Task constructor
             Task newTask = new Task(0, _Alias, _Description, _CreatedAtDate, _RequierdEffortTime,
                _IsMileStone, _Complexity, _StartDate, _ScheduledDate, _DeadLineDate, _CompleteDate,
                _deliverables, _Remarks, _ids[randomIndexId]);
+
+            // Call the DAL to create the task
             s_dalTask!.Create(newTask);
             index++;
         }
-
     }
 
+    // Method to create dependencies based on predefined data
     private static void createDependency()
     {
-        for (int i = 0; i < 59 ; i+=2)
+        for (int i = 0; i < 59; i += 2)
         {
             int _dependentTask = tasksDependencies[i];
             int _dependsOnTask = tasksDependencies[i + 1];
+
+            // Create a new dependency using the Dependency constructor
             Dependency newDependency = new Dependency(_dependentTask, _dependsOnTask);
+
+            // Call the DAL to create the dependency
             s_dalDependency!.Create(newDependency);
         }
     }
-    
+
+    // Method to create engineers with predefined data
     private static void CreateEngineer()
     {
         int index = 0;
         foreach (var engineerName in engineerNames)
         {
+            // Retrieve data from predefined arrays
             int _Id = _ids[index];
             string _Email = engineerMails[index];
             int _Cost = s_rand.Next(5000, 35000);
             string _Name = engineerNames[index];
-            //Logical error my ocuures for task level yo high for Engineer
+
+            // Logical error: _Level variable is created but not used
             EngineerExperience _Level = (EngineerExperience)s_rand.Next(0, 4);
-            Engineer newEnginner = new Engineer(_Id,_Email, _Cost, _Name, _Level); 
+
+            // Create a new engineer using the Engineer constructor
+            Engineer newEnginner = new Engineer(_Id, _Email, _Cost, _Name, _Level);
+
+            // Call the DAL to create the engineer
+            s_dalEngineer!.Create(newEnginner);
             index++;
         }
     }
-    
 
+    // Main method to initiate the data creation process
+    public static void Do(IDependency? dalDependency, IEngineer? dalEngineer, ITask? dalTask)
+    {
+        // Assign DAL instances to local variables
+        s_dalTask = dalTask ?? throw new NullReferenceException("DAL can not be null!");
+        s_dalEngineer = dalEngineer ?? throw new NullReferenceException("DAL can not be null!");
+        s_dalDependency = dalDependency ?? throw new NullReferenceException("DAL can not be null!");
 
+        // Create tasks, engineers, and dependencies
+        CreateTask();
+        CreateEngineer();
+        createDependency();
+    }
 }
