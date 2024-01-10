@@ -12,12 +12,8 @@ public static class Initialization
     private static IDependency? s_dalDependency;
     private static IEngineer? s_dalEngineer;
     private static ITask? s_dalTask;
-
     private static readonly Random s_rand = new();
-
-    private static void CreateTask()
-    {
-        string[] tasksAlias = {
+   private static string[] tasksAlias = {
             "Structural Analysis",
             "CAD Modeling",
             "Prototyping",
@@ -50,7 +46,7 @@ public static class Initialization
             "Simulations and Modeling"
         };
 
-        string[] taskDescription = {
+    private static string[] taskDescription = {
             "Evaluate the integrity and stability of structures through mathematical modeling and analysis.",
             "Create detailed computer-aided design (CAD) models for various engineering projects.",
             "Build physical prototypes to test and validate design concepts before full-scale production.",
@@ -82,7 +78,7 @@ public static class Initialization
             "Plan and manage water resources for agricultural, industrial, and municipal use.",
             "Create computer simulations to model and analyze complex engineering systems and scenarios."
         };
-        string[] deliverablesDescription = {
+    private static string[] deliverablesDescription = {
                 "Consider collaboration with other teams.",
                 "Critical task, handle with care.",
                 "Check for legal compliance during execution.",
@@ -106,7 +102,7 @@ public static class Initialization
         };
 
 
-        int[] taskLevelsArray = {
+    private static int[] taskLevelsArray = {
             4, // "Structural Analysis"
             3, // "CAD Modeling"
             2, // "Prototyping"
@@ -138,7 +134,7 @@ public static class Initialization
             3, // "Water Resource Management"
             4  // "Simulations and Modeling"
         };
-        string[] additionalRemarks = {
+    private static string[] additionalRemarks = {
             "Task completed successfully.",
             "Encountered unexpected challenges but resolved them efficiently.",
             "Completed ahead of schedule.",
@@ -160,8 +156,7 @@ public static class Initialization
             "Task involved integration with third-party systems.",
             "Suggested improvements for future similar tasks."
         };
-
-        string[] engineerNames = {
+    private static string[] engineerNames = {
             "Yael Cohen",
             "Eitan Levi",
             "Maya Ben-David",
@@ -174,6 +169,11 @@ public static class Initialization
             "Sophia Harris",
             "Liam Martin"
         };
+    private static int[] _id = new int[10];
+   
+    private static void CreateTask()
+    {
+        
 
         int i = 0;
         foreach (var _taskName in tasksAlias)
