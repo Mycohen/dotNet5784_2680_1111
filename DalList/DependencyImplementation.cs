@@ -39,7 +39,7 @@ public class DependencyImplementation : IDependency
     {
         Dependency? deletedItem = Read(id); // Read the dependency with the given ID
         if (deletedItem == null) new Exception("ERROR: There is no such dependency");
-        DataSource.Dependencies.Remove(deletedItem); // Remove the dependency from the collection
+        DataSource.Dependencies.Remove(deletedItem!); // Remove the dependency from the collection
     }
 
     // Method to read a dependency by ID

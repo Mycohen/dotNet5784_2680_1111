@@ -1,4 +1,4 @@
-﻿namespace DelTest;
+﻿namespace DalTest;
 using DalApi;
 using DO;
 using System;
@@ -10,8 +10,8 @@ using System.Runtime.CompilerServices;
 public static class Initialization
 {
     // Constants defining the range of task IDs
-    private static int MIN_ID = 200000000;
-    private static int MAX_ID = 400000000;
+    private static int MIN_ID = (int)2e8;
+    private static int MAX_ID = (int)4e8;
 
     // DAL interfaces for dependencies, engineers, and tasks
     private static IDependency? s_dalDependency;
