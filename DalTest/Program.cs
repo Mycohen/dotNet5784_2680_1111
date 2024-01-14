@@ -13,21 +13,141 @@ internal static class Program
     public static IDependency? s_dalDependency = new DependencyImplementation();
     public static IEngineer? s_dalEngineer = new EngineerImplementation();
     public static ITask? s_dalTask = new TaskImplementation();
-   
-           
-		public static void Main()
-        {
-            try
-            {
-                Initialization.Do(s_dalDependency, s_dalEngineer, s_dalTask);
 
-               //.... I'm  too tierd to write the main... :<
-            }
-            catch (global::System.Exception errorMasseege)
+
+    public static void Main()
+    {
+        try
+        {
+            Initialization.Do(s_dalDependency, s_dalEngineer, s_dalTask);
+
+            ptintMainManu();
+            if (Enum.TryParse(Console.ReadLine(), out MainMenuOption mainMenuChoice))
             {
-                Console.WriteLine(errorMasseege);
+                switch (mainMenuChoice)
+                {
+                    case MainMenuOption.MainExit:
+                        Environment.Exit(0);
+                        break;
+                    case MainMenuOption.TaskMenu:
+                        taskOptions;
+                        break;
+                    case MainMenuOption.EngineerMenu:
+                        engineerOptions
+                        break;
+                    case MainMenuOption.DependencyMenu:
+                        dependencyOptions;
+                        break;
+                    default: throw new Exception("ERROR: Invalid choice input Please try again");
+                }
+            }
+            else
+            {
+                throw new Exception("ERROR: Invalid choice input Please try again");
             }
         }
+        catch (global::System.Exception errorMasseege)
+        {
+            Console.WriteLine(errorMasseege);
+        }
+    }
+
+    private static void taskOptions()
+    {
+        printSubMenu("Task");
+        if (Enum.TryParse(Console.ReadLine(), out CrudMenuOption crudMenuCoice))
+        {
+            switch (crudMenuCoice)
+            {
+                case CrudMenuOption.SubExit:
+                    return;
+                case CrudMenuOption.CreateOp:
+                    createTask();
+                    break;
+                case CrudMenuOption.UpdateOp:
+                    updateTask();
+                    break;
+                case CrudMenuOption.PrintSingleOp:
+                    readTask();
+                    break;
+                case CrudMenuOption.PrintAllOp:
+                    readAllTask();
+                    break;
+                case CrudMenuOption.DeleteOp:
+                    removeTask();
+                    break;
+                default: throw new Exception("ERROR: Invalid choice input Please try again");
+            }
+        }
+        else
+        {
+            throw new Exception("ERROR: Invalid choice input Please try again");
+        }
+    }
+    private static void engineerOptions()
+    {
+        printSubMenu("Engineer");
+        if (Enum.TryParse(Console.ReadLine(), out CrudMenuOption crudMenuCoice))
+        {
+            switch (crudMenuCoice)
+            {
+                case CrudMenuOption.SubExit:
+                    return;
+                case CrudMenuOption.CreateOp:
+                    createEngineer();
+                    break;
+                case CrudMenuOption.UpdateOp:
+                    updateEngineer();
+                    break;
+                case CrudMenuOption.PrintSingleOp:
+                    readEngineer();
+                    break;
+                case CrudMenuOption.PrintAllOp:
+                    readAllEngineers();
+                    break;
+                case CrudMenuOption.DeleteOp:
+                    removeEngineer();
+                    break;
+                default: throw new Exception("ERROR: Invalid choice input Please try again");
+            }
+        }
+        else
+        {
+            throw new Exception("ERROR: Invalid choice input Please try again");
+        }
+    }
+    private static void dependencyOptions()
+    {
+        printSubMenu("Dependency");
+        if (Enum.TryParse(Console.ReadLine(), out CrudMenuOption crudMenuCoice))
+        {
+            switch (crudMenuCoice)
+            {
+                case CrudMenuOption.SubExit:
+                    return;
+                case CrudMenuOption.CreateOp:
+                    createDependency();
+                    break;
+                case CrudMenuOption.UpdateOp:
+                    updateDependency();
+                    break;
+                case CrudMenuOption.PrintSingleOp:
+                    readEngineer();
+                    break;
+                case CrudMenuOption.PrintAllOp:
+                    readAllEngineers();
+                    break;
+                case CrudMenuOption.DeleteOp:
+                    removeEngineer();
+                    break;
+                default: throw new Exception("ERROR: Invalid choice input Please try again");
+            }
+        }
+        else
+        {
+            throw new Exception("ERROR: Invalid choice input Please try again");
+        }
+    }
 
     private static void ptintMainManu()
     {
@@ -40,7 +160,7 @@ internal static class Program
     private static void printSubMenu(string entity)
     {
         Console.WriteLine("Enter 0 for returning to the main menu.");
-        Console.WriteLine($"Enter 1 to Create a list of  {entity}s");
+        Console.WriteLine($"Enter 1 to Create a list of {entity}s");
         Console.WriteLine($"Enter 2 to Update the {entity}");
         Console.WriteLine($"Enter 3 to Print a {entity} by entering its ID");
         Console.WriteLine($"Enter 4 to Read all of the {entity} elements");
@@ -240,7 +360,7 @@ internal static class Program
         Console.WriteLine("Engineer Email: " + engineer.Email);
         Console.WriteLine("Engineer Cost: " + engineer.Cost);
     }
-}
+
 
 
     private static void createTask()
@@ -305,12 +425,6 @@ internal static class Program
 
     }
 
-    private static bool yesOrNo()
-    {
-       string? message = Console.ReadLine()?.Trim().ToUpper(); // Read input and convert to uppercase
-        bool _answer =message == "Y";
-        return _answer;
-    }
     private static int getInt(string userInput)
     {
 
