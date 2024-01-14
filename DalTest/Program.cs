@@ -171,7 +171,7 @@ internal static class Program
     private static void createEngineer()
     {
         Console.WriteLine("Enter Engineer's ID: the range for the the id is 2*10^8 to 4*10^8");
-        int id = isValidIntInput(); 
+        int id = isValidIntInput();
         if (id < 2e8 || id > 4e8)
         { throw new Exception("Invalid ID number. please enter in the range"); }
 
@@ -198,7 +198,7 @@ internal static class Program
         string email = (yesOrNo()) ? emailCheck_update_createEngineer() : correntEngineerData!.Email!;
 
         updateEngineer_PrintText("Cost");
-        double cost = yesOrNo() ?  
+        double cost = yesOrNo() ?
             (Double.TryParse(Console.ReadLine(), out cost) ? cost : throw new Exception("Error casting the input to cast ")) :
             (double)correntEngineerData!.Cost!;
 
@@ -207,9 +207,9 @@ internal static class Program
             correntEngineerData!.Name!;
 
         updateEngineer_PrintText("Level");
-       EngineerExperience level = (yesOrNo()) ? (EngineerExperience)isValidIntInput() : correntEngineerData!.Level!;
+        EngineerExperience level = (yesOrNo()) ? (EngineerExperience)isValidIntInput() : correntEngineerData!.Level!;
 
-        Engineer updatedEngineerData = new Engineer(Id:  id, Email: email, Name: name, Cost: cost, Level: level);
+        Engineer updatedEngineerData = new Engineer(Id: id, Email: email, Name: name, Cost: cost, Level: level);
         s_dalEngineer!.Update(updatedEngineerData);
     }
 
@@ -253,13 +253,13 @@ internal static class Program
     private static void readAllEngineers()
     {
         List<Engineer> engineers = s_dalEngineer!.ReadAll();
-       
+
         foreach (Engineer engineer in engineers)
         {
             printEngineer(engineer!);
         }
     }
-   
+
     private static void removeEngineer()
     {
         Console.WriteLine("Enter the ID of Engineer you want to remove\n ");
@@ -271,7 +271,7 @@ internal static class Program
 
 
     //Dependency 
-    private static void createDependency() 
+    private static void createDependency()
     {
         Console.WriteLine("Enter depented task ID");
         int dependentTask = isValidIntInput();
@@ -280,17 +280,17 @@ internal static class Program
         Dependency dependencyInstance = new Dependency(dependentTask, dependsOnTask);
         s_dalDependency!.Create(dependencyInstance);
     }
-    
-    private static void updateDependency() 
+
+    private static void updateDependency()
     {
-        
+
         Console.WriteLine("Enter the ID of the task you want to update");
         int id = isValidIntInput();
 
         Dependency currentDependencyData = s_dalDependency!.Read(id) ?? throw new Exception("Dependency with such ID does not exist");
 
         Console.WriteLine("Do you want to update the current task? (y/n)");
-        int dependentTask = (yesOrNo()) ?  isValidIntInput() : (int)currentDependencyData!.DependentTask!;
+        int dependentTask = (yesOrNo()) ? isValidIntInput() : (int)currentDependencyData!.DependentTask!;
 
         Console.WriteLine("Do you want to update the dependency task? (y/n)");
         int dependentOnTask = (yesOrNo()) ? isValidIntInput() : (int)currentDependencyData!.DependsOnTask!;
@@ -298,7 +298,7 @@ internal static class Program
         Dependency updatedDapendancyData = new Dependency(dependentTask, dependentOnTask);
 
     }
-    private static void readDependency() 
+    private static void readDependency()
     {
         Console.WriteLine("Enter the ID of dependency you want to read");
         int id = isValidIntInput();
@@ -320,7 +320,7 @@ internal static class Program
     {
         Console.WriteLine("Enter the ID of the Dependency you wish to delete");
         int id = isValidIntInput();
-        
+
         s_dalDependency!.Delete(id);
     }
     private static void printDependency(Dependency dependency)
@@ -332,8 +332,8 @@ internal static class Program
 
 
     // help functions
-   
-    
+
+
 
     private static int isValidIntInput()
     {
@@ -346,7 +346,7 @@ internal static class Program
         else { throw new Exception("Error: the input can not be converted to int type"); }
     }
 
-   
+
 
     private static void printEngineer(Engineer engineer)
     {
@@ -382,7 +382,7 @@ internal static class Program
         DateTime? _startDate = CheckDateTimeFormat(userInput);
         Console.WriteLine("Enter the schedule date for the task (e.g., 2024-01-10):");
         userInput = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
-        DateTime? _scheduleDate =CheckDateTimeFormat(userInput);
+        DateTime? _scheduleDate = CheckDateTimeFormat(userInput);
         Console.WriteLine("Enter the task dead line date (e.g., 2024-01-10):");
         userInput = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
         DateTime _deadLineDate = CheckDateTimeFormat(userInput);
@@ -413,101 +413,49 @@ internal static class Program
         updateEngineer_PrintText("Description");
         string description = (yesOrNo()) ? (Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)")) :
              taskT!.Description!;
-        DateTime? createdAtDate =taskT!.CreatedAtDate;
+
+        DateTime? createdAtDate = taskT!.CreatedAtDate;
 
         updateEngineer_PrintText("Required effort time");
-        TimeSpan? requiredEffortTime;
-        bool ans = yesOrNo();
-        if (ans)
-        {
-            string? requiredEffo = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
-            requiredEffortTime = checkTimeSpanFormat(requiredEffo);
-        }
-        else
-        {
-            requiredEffortTime = taskT.RequiredEffortTime;
-        }
+        TimeSpan? requiredEffortTime = yesOrNo() ? checkTimeSpanFormat(Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)")) : taskT.RequiredEffortTime;
+
         updateEngineer_PrintText("Is Milestone");
         bool isMilstone = yesOrNo();
+
         updateEngineer_PrintText("Complexity");
-        EngineerExperience? complexity;
-        ans = yesOrNo();
-        if (ans)
-        {
-            int comp = getInt(Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)"));
-            complexity = (EngineerExperience)comp;
-        }
-        else
-        {
-            complexity = taskT.Complexity;
-        }
+        EngineerExperience? complexity = yesOrNo() ? (EngineerExperience?)getInt(Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)")) : taskT.Complexity;
+
 
         updateEngineer_PrintText("Start Date");
-        DateTime? startDate;
-        ans = yesOrNo();
-        if (ans)
-        {
-            string? startD = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
-            startDate = CheckDateTimeFormat(startD);
-        }
-        else
-        {
-            startDate = taskT.StartDate;
-        }
-        updateEngineer_PrintText("Schedule Date");
-        DateTime? scheduleDate;
-        ans = yesOrNo();
-        if (ans)
-        {
-            string? schedule = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
-            scheduleDate = CheckDateTimeFormat(schedule);
-        }
-        else
-        {
-            scheduleDate = taskT.ScheduledDate;
+        DateTime? startDate = yesOrNo() ? CheckDateTimeFormat(Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)")) : taskT.StartDate;
 
-        }
+        updateEngineer_PrintText("Schedule Date");
+        DateTime? scheduleDate = yesOrNo() ? CheckDateTimeFormat(Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)")) : taskT.ScheduledDate;
+
 
         updateEngineer_PrintText("Dead Line Date");
-        DateTime? deadLineDate;
-        ans = yesOrNo();
-        if (ans)
-        {
-            string? dead = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
-            deadLineDate = CheckDateTimeFormat(dead);
-        }
-        else
-        {
-            deadLineDate = taskT.DeadlineDate;
+       DateTime? deadLineDate = yesOrNo() ? CheckDateTimeFormat(Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)")) : taskT.DeadlineDate;
 
-        }
         updateEngineer_PrintText("Complete Date");
-        DateTime? completeDate;
-        ans = yesOrNo();
-        if (ans)
-        {
-            string? comp = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
-            completeDate = CheckDateTimeFormat(comp);
-        }
-        else
-        {
-           completeDate = taskT.CompleteDate;
+       DateTime? completeDate = yesOrNo() ? CheckDateTimeFormat(Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)")) : taskT.CompleteDate;
 
-        }
         updateEngineer_PrintText("Deliverables");
         string deliverables = (yesOrNo()) ? (Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)")) :
              taskT!.Deliverables!;
+
         updateEngineer_PrintText("Remarks");
         string remarks = (yesOrNo()) ? (Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)")) :
         taskT!.Remarks!;
+
         int engineerId = taskT!.EngineerId;
+
         Task taskToUpdate = new Task(Id: id, Alias: alias, Description: description, CreatedAtDate: createdAtDate, RequiredEffortTime: requiredEffortTime,
-            IsMilestone:isMilstone,Complexity:(EngineerExperience)complexity,StartDate:startDate, ScheduledDate:scheduleDate,
-            DeadlineDate:deadLineDate, CompleteDate:completeDate, Deliverables:deliverables,
-            Remarks:remarks,EngineerId:engineerId);
+            IsMilestone: isMilstone, Complexity: (EngineerExperience)complexity, StartDate: startDate, ScheduledDate: scheduleDate,
+            DeadlineDate: deadLineDate, CompleteDate: completeDate, Deliverables: deliverables,
+            Remarks: remarks, EngineerId: engineerId);
 
     }
-    private static void ReadTask()
+    private static void readTask()
     {
 
         Console.WriteLine("Enter the task ID which you want to print:");
@@ -541,6 +489,16 @@ internal static class Program
         {
             PrintTask(task!);
         }
+    }
+    private static void removeTask()
+    {
+        Console.WriteLine("Enter the ID of Task you want to remove");
+        int id = isValidIntInput();
+        Task correntEngineerData = s_dalTask!.Read(id) ?? throw new Exception("Task with such ID does not exist");
+        s_dalTask!.Delete(id);
+    }
+
+
 
     private static int getInt(string userInput)
     {
