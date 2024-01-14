@@ -244,7 +244,7 @@ public static class Initialization
     "alexander.white@example.com",
     "sophia.harris@example.com"
 };
-    private static int[] costs = new int[10];
+    private static double[] costs = new double[10];
 
     // Method to create tasks with predefined data
     private static void CreateTask()
@@ -327,8 +327,9 @@ public static class Initialization
         s_dalDependency = dalDependency ?? throw new NullReferenceException("DAL can not be null!");
 
         // Create tasks, engineers, and dependencies
-        CreateTask();
+
         CreateEngineer();
+        CreateTask();
         createDependency();
     }
 }
