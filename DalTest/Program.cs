@@ -35,7 +35,7 @@ internal static class Program
                         taskOptions;
                         break;
                     case MainMenuOption.EngineerMenu:
-                        engineerOptions
+                        engineerOptions;
                         break;
                     case MainMenuOption.DependencyMenu:
                         dependencyOptions;
