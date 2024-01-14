@@ -1,22 +1,15 @@
 ﻿namespace DalTest;
 using DalApi;
 using Dal;
-using System.Runtime.InteropServices;
 using System.Net.Mail;
 using DO;
-using System.Reflection.Metadata;
-using System.ComponentModel.DataAnnotations;
-using System.Transactions;
-using System.Reflection.Emit;
-using System.Xml.Linq;
+
 
 internal static class Program
 {
     public static IDependency? s_dalDependency = new DependencyImplementation();
     public static IEngineer? s_dalEngineer = new EngineerImplementation();
     public static ITask? s_dalTask = new TaskImplementation();
-
-
     public static void Main()
     {
         try
@@ -32,13 +25,13 @@ internal static class Program
                         Environment.Exit(0);
                         break;
                     case MainMenuOption.TaskMenu:
-                        taskOptions;
+                        taskOptions();
                         break;
                     case MainMenuOption.EngineerMenu:
-                        engineerOptions;
+                        engineerOptions();
                         break;
                     case MainMenuOption.DependencyMenu:
-                        dependencyOptions;
+                        dependencyOptions();
                         break;
                     default: throw new Exception("ERROR: Invalid choice input Please try again");
                 }
@@ -53,7 +46,6 @@ internal static class Program
             Console.WriteLine(errorMasseege);
         }
     }
-
     private static void taskOptions()
     {
         printSubMenu("Task");
@@ -150,7 +142,6 @@ internal static class Program
             throw new Exception("ERROR: Invalid choice input Please try again");
         }
     }
-
     private static void ptintMainManu()
     {
         Console.WriteLine(@"Enter 0 for quiting the program.
@@ -158,7 +149,6 @@ internal static class Program
                             Enter 2 for Engineers nenu
                             Enter 3 for Dependencies menu");
     }
-
     private static void printSubMenu(string entity)
     {
         Console.WriteLine("Enter 0 for returning to the main menu.");
@@ -168,6 +158,9 @@ internal static class Program
         Console.WriteLine($"Enter 4 to Read all of the {entity} elements");
         Console.WriteLine($"Enter 5 to Remove all of the {entity} elements");
     }
+
+
+    //Engineer
     private static void createEngineer()
     {
         Console.WriteLine("Enter Engineer's ID: the range for the the id is 2*10^8 to 4*10^8");
@@ -212,8 +205,6 @@ internal static class Program
         Engineer updatedEngineerData = new Engineer(Id: id, Email: email, Name: name, Cost: cost, Level: level);
         s_dalEngineer!.Update(updatedEngineerData);
     }
-
-
     private static void updateEngineer_PrintText(string type)
     {
         Console.WriteLine($"Do you wish to update the {type} property? enter yes/no \n");
@@ -241,7 +232,6 @@ internal static class Program
             return false;
         }
     }
-
     private static void readEngineer()
     {
         Console.WriteLine("what Engineer do you want to Print: (enter an ID)\n");
@@ -249,7 +239,6 @@ internal static class Program
         Engineer correntEngineerData = s_dalEngineer!.Read(id) ?? throw new Exception("Engineer with such ID does not exist");
         printEngineer(correntEngineerData);
     }
-
     private static void readAllEngineers()
     {
         List<Engineer> engineers = s_dalEngineer!.ReadAll();
@@ -259,7 +248,6 @@ internal static class Program
             printEngineer(engineer!);
         }
     }
-
     private static void removeEngineer()
     {
         Console.WriteLine("Enter the ID of Engineer you want to remove\n ");
@@ -280,7 +268,6 @@ internal static class Program
         Dependency dependencyInstance = new Dependency(dependentTask, dependsOnTask);
         s_dalDependency!.Create(dependencyInstance);
     }
-
     private static void updateDependency()
     {
 
@@ -296,6 +283,7 @@ internal static class Program
         int dependentOnTask = (yesOrNo()) ? isValidIntInput() : (int)currentDependencyData!.DependsOnTask!;
 
         Dependency updatedDapendancyData = new Dependency(dependentTask, dependentOnTask);
+        s_dalDependency!.Update(updatedDapendancyData);
 
     }
     private static void readDependency()
@@ -306,7 +294,6 @@ internal static class Program
         printDependency(currentEngineerData);
 
     }
-
     private static void readAllDependency()
     {
         List<Dependency> dependencies = s_dalDependency!.ReadAll();
@@ -315,7 +302,6 @@ internal static class Program
             printDependency(dependency);
         }
     }
-
     private static void removeDependency()
     {
         Console.WriteLine("Enter the ID of the Dependency you wish to delete");
@@ -329,25 +315,6 @@ internal static class Program
         Console.WriteLine($"The dependent task is : {dependency.DependentTask}");
         Console.WriteLine($"The task that is nessery for current task {dependency.DependsOnTask}");
     }
-
-
-    // help functions
-
-
-
-    private static int isValidIntInput()
-    {
-        //check if the input can be transformed from string to input
-        bool isValid = int.TryParse(Console.ReadLine(), out int value);
-        if (isValid)
-        {
-            return value;
-        }
-        else { throw new Exception("Error: the input can not be converted to int type"); }
-    }
-
-
-
     private static void printEngineer(Engineer engineer)
     {
         Console.WriteLine("Engineer ID: " + engineer.Id);
@@ -358,7 +325,7 @@ internal static class Program
     }
 
 
-
+    //Task 
     private static void createTask()
     {
 
@@ -434,10 +401,10 @@ internal static class Program
 
 
         updateEngineer_PrintText("Dead Line Date");
-       DateTime? deadLineDate = yesOrNo() ? CheckDateTimeFormat(Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)")) : taskT.DeadlineDate;
+        DateTime? deadLineDate = yesOrNo() ? CheckDateTimeFormat(Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)")) : taskT.DeadlineDate;
 
         updateEngineer_PrintText("Complete Date");
-       DateTime? completeDate = yesOrNo() ? CheckDateTimeFormat(Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)")) : taskT.CompleteDate;
+        DateTime? completeDate = yesOrNo() ? CheckDateTimeFormat(Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)")) : taskT.CompleteDate;
 
         updateEngineer_PrintText("Deliverables");
         string deliverables = (yesOrNo()) ? (Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)")) :
@@ -453,6 +420,7 @@ internal static class Program
             IsMilestone: isMilstone, Complexity: (EngineerExperience)complexity, StartDate: startDate, ScheduledDate: scheduleDate,
             DeadlineDate: deadLineDate, CompleteDate: completeDate, Deliverables: deliverables,
             Remarks: remarks, EngineerId: engineerId);
+        s_dalTask!.Update(taskToUpdate);
 
     }
     private static void readTask()
@@ -499,7 +467,17 @@ internal static class Program
     }
 
 
-
+    // help functions
+    private static int isValidIntInput()
+    {
+        //check if the input can be transformed from string to input
+        bool isValid = int.TryParse(Console.ReadLine(), out int value);
+        if (isValid)
+        {
+            return value;
+        }
+        else { throw new Exception("Error: the input can not be converted to int type"); }
+    }
     private static int getInt(string userInput)
     {
 
@@ -528,7 +506,6 @@ internal static class Program
             throw new Exception("Invalid DateTime format");
         }
     }
-
     private static bool yesOrNo()
     {
         // Read input and convert to uppercase
