@@ -7,6 +7,8 @@ using DO;
 using System.Reflection.Metadata;
 using System.ComponentModel.DataAnnotations;
 using System.Transactions;
+using System.Reflection.Emit;
+using System.Xml.Linq;
 
 internal static class Program
 {
@@ -205,7 +207,7 @@ internal static class Program
             correntEngineerData!.Name!;
 
         updateEngineer_PrintText("Level");
-        EngineerExperience level = (yesOrNo()) ? (EngineerExperience)isValidIntInput() : correntEngineerData!.Level!;
+       EngineerExperience level = (yesOrNo()) ? (EngineerExperience)isValidIntInput() : correntEngineerData!.Level!;
 
         Engineer updatedEngineerData = new Engineer(Id:  id, Email: email, Name: name, Cost: cost, Level: level);
         s_dalEngineer!.Update(updatedEngineerData);
@@ -329,7 +331,7 @@ internal static class Program
     }
 
 
-    // help function 
+    // help functions
    
     
 
@@ -344,13 +346,7 @@ internal static class Program
         else { throw new Exception("Error: the input can not be converted to int type"); }
     }
 
-    private static bool yesOrNo()
-    {
-        // Read input and convert to uppercase
-        string message = Console.ReadLine()?.Trim().ToUpper() ?? throw new Exception("can't enter a null"); 
-        bool _answer = message!.StartsWith('Y');
-        return _answer;
-    }
+   
 
     private static void printEngineer(Engineer engineer)
     {
@@ -365,81 +361,226 @@ internal static class Program
 
     private static void createTask()
     {
-        
+
         Console.WriteLine("Enter the task alias: ");
-        string? _Alias= Console.ReadLine();
+        string? _Alias = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
         Console.WriteLine("Enter the task description");
-        string? _Description= Console.ReadLine();
+        string? _Description = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
         DateTime _CreatedAtDate = DateTime.Now;
         Console.WriteLine("Enter the required effort time for the task, enter in the format [d.]hh:mm:ss[.fffffff]");
-        string? userInput = Console.ReadLine();
-        TimeSpan _requiredEffortTimeI=TimeSpan.Parse(userInput);
+        string? userInput = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
+        TimeSpan _requiredEffortTimeI = checkTimeSpanFormat(userInput);
         Console.WriteLine("Does the task have a milestone ? (Y/N):");
-         userInput = Console.ReadLine()?.Trim().ToUpper(); // Read input and convert to uppercase
+        userInput = Console.ReadLine()?.Trim().ToUpper(); // Read input and convert to uppercase
         bool _IsMilestone = userInput == "Y";
         Console.WriteLine("Enter the complexity of the task? (0-5)");
-        userInput = Console.ReadLine();
-        int complexity=getInt(userInput);
-        EngineerExperience ?_complexity = (EngineerExperience)complexity;
+        userInput = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
+        int complexity = getInt(userInput);
+        EngineerExperience? _complexity = (EngineerExperience)complexity;
         Console.WriteLine("Enter the planned start date for the task (e.g., 2024-01-10): ");
-        userInput = Console.ReadLine();
-        DateTime? _startDate= DateTime.Parse(userInput);
+        userInput = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
+        DateTime? _startDate = CheckDateTimeFormat(userInput);
         Console.WriteLine("Enter the schedule date for the task (e.g., 2024-01-10):");
-        userInput= Console.ReadLine();
-        DateTime?_scheduleDate= DateTime.Parse(userInput);
+        userInput = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
+        DateTime? _scheduleDate =CheckDateTimeFormat(userInput);
         Console.WriteLine("Enter the task dead line date (e.g., 2024-01-10):");
-        userInput= Console.ReadLine();
-        DateTime _deadLineDate= DateTime.Parse(userInput);
+        userInput = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
+        DateTime _deadLineDate = CheckDateTimeFormat(userInput);
         Console.WriteLine("If the task was completed, enter the completed date (e.g., 2024-01-10):");
-        DateTime _completeDatte= DateTime.Parse(userInput);
+        userInput = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
+        DateTime _completeDatte = CheckDateTimeFormat(userInput);
         Console.WriteLine("Enter the deliverables associated with the task: ");
-        string? _deliverables= Console.ReadLine();
+        string? _deliverables = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
         Console.WriteLine("Enter the remarks associated with the task: ");
-        string? _remarks = Console.ReadLine();
+        string? _remarks = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
         Console.WriteLine("Enter the Engineer ID for the task");
-        userInput=Console.ReadLine();
-        int _engineerid=getInt(userInput);
+        userInput = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
+        int _engineerid = getInt(userInput);
         Task inputTak = new Task(0, _Alias, _Description, _CreatedAtDate, _requiredEffortTimeI,
             _IsMilestone, (EngineerExperience)complexity, _startDate, _scheduleDate, _deadLineDate,
             _completeDatte, _deliverables, _remarks, _engineerid);
     }
-    private static void readTask()
+    private static void updateTask()
+    {
+        Console.WriteLine("what Task do you want to update: (enter an ID)\n");
+        int id = isValidIntInput();
+        Task taskT = s_dalTask!.Read(id) ?? throw new Exception("Engineer with such ID does not exist");
+
+        updateEngineer_PrintText("Alias");
+        string alias = (yesOrNo()) ? (Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)")) :
+             taskT!.Alias!;
+
+        updateEngineer_PrintText("Description");
+        string description = (yesOrNo()) ? (Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)")) :
+             taskT!.Description!;
+        DateTime? createdAtDate =taskT!.CreatedAtDate;
+
+        updateEngineer_PrintText("Required effort time");
+        TimeSpan? requiredEffortTime;
+        bool ans = yesOrNo();
+        if (ans)
+        {
+            string? requiredEffo = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
+            requiredEffortTime = checkTimeSpanFormat(requiredEffo);
+        }
+        else
+        {
+            requiredEffortTime = taskT.RequiredEffortTime;
+        }
+        updateEngineer_PrintText("Is Milestone");
+        bool isMilstone = yesOrNo();
+        updateEngineer_PrintText("Complexity");
+        EngineerExperience? complexity;
+        ans = yesOrNo();
+        if (ans)
+        {
+            int comp = getInt(Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)"));
+            complexity = (EngineerExperience)comp;
+        }
+        else
+        {
+            complexity = taskT.Complexity;
+        }
+
+        updateEngineer_PrintText("Start Date");
+        DateTime? startDate;
+        ans = yesOrNo();
+        if (ans)
+        {
+            string? startD = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
+            startDate = CheckDateTimeFormat(startD);
+        }
+        else
+        {
+            startDate = taskT.StartDate;
+        }
+        updateEngineer_PrintText("Schedule Date");
+        DateTime? scheduleDate;
+        ans = yesOrNo();
+        if (ans)
+        {
+            string? schedule = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
+            scheduleDate = CheckDateTimeFormat(schedule);
+        }
+        else
+        {
+            scheduleDate = taskT.ScheduledDate;
+
+        }
+
+        updateEngineer_PrintText("Dead Line Date");
+        DateTime? deadLineDate;
+        ans = yesOrNo();
+        if (ans)
+        {
+            string? dead = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
+            deadLineDate = CheckDateTimeFormat(dead);
+        }
+        else
+        {
+            deadLineDate = taskT.DeadlineDate;
+
+        }
+        updateEngineer_PrintText("Complete Date");
+        DateTime? completeDate;
+        ans = yesOrNo();
+        if (ans)
+        {
+            string? comp = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
+            completeDate = CheckDateTimeFormat(comp);
+        }
+        else
+        {
+           completeDate = taskT.CompleteDate;
+
+        }
+        updateEngineer_PrintText("Deliverables");
+        string deliverables = (yesOrNo()) ? (Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)")) :
+             taskT!.Deliverables!;
+        updateEngineer_PrintText("Remarks");
+        string remarks = (yesOrNo()) ? (Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)")) :
+        taskT!.Remarks!;
+        int engineerId = taskT!.EngineerId;
+        Task taskToUpdate = new Task(Id: id, Alias: alias, Description: description, CreatedAtDate: createdAtDate, RequiredEffortTime: requiredEffortTime,
+            IsMilestone:isMilstone,Complexity:(EngineerExperience)complexity,StartDate:startDate, ScheduledDate:scheduleDate,
+            DeadlineDate:deadLineDate, CompleteDate:completeDate, Deliverables:deliverables,
+            Remarks:remarks,EngineerId:engineerId);
+
+    }
+    private static void ReadTask()
     {
 
         Console.WriteLine("Enter the task ID which you want to print:");
-        string? userInput=Console.ReadLine();
-       int id =getInt(userInput);
-        ITask t = new TaskImplementation();
-        Task i= t.Read(id)!;
-        Console.WriteLine($"ID={i.Id} ");
-        Console.WriteLine($"Alias={i.Alias} ");
-        Console.WriteLine($"Description={i.Description} ");
-        Console.WriteLine($"Created At Date={i.CreatedAtDate} ");
-        
-
-
-
-
-
-
+        string? userInput = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
+        int id = getInt(userInput);
+        Task correntTaskData = s_dalTask!.Read(id) ?? throw new Exception("Engineer with such ID does not exist");
+    }
+    private static void PrintTask(Task taskToPrint)
+    {
+        Console.WriteLine("Task ID:" + taskToPrint.Id);
+        Console.WriteLine("Tsak Alias:" + taskToPrint.Alias);
+        Console.WriteLine("Tsak Descrription:" + taskToPrint.Description);
+        Console.WriteLine("Tsak Created at :" + taskToPrint.CreatedAtDate);
+        Console.WriteLine("Required time for the task:" + taskToPrint.RequiredEffortTime);
+        Console.WriteLine("Does the task have a milestone?:" + taskToPrint.IsMilestone);
+        Console.WriteLine("Complexity's task:" + taskToPrint.Complexity);
+        Console.WriteLine("The task stated at:" + taskToPrint.StartDate);
+        Console.WriteLine("Task schedule date:" + taskToPrint.ScheduledDate);
+        Console.WriteLine("Dead line  task:" + taskToPrint.DeadlineDate);
+        Console.WriteLine("Task completed at:" + taskToPrint.CompleteDate);
+        Console.WriteLine("Task deliverables:" + taskToPrint.Deliverables);
+        Console.WriteLine("Task remarks:" + taskToPrint.Remarks);
+        Console.WriteLine("Task Engineer ID:" + taskToPrint.EngineerId);
 
     }
+    private static void readAllTask()
+    {
+        List<Task> tasks = s_dalTask!.ReadAll();
+
+        foreach (Task task in tasks)
+        {
+            PrintTask(task!);
+        }
 
     private static int getInt(string userInput)
     {
 
         return int.Parse(userInput);
     }
-    private static void checkTimeSpanFormat(string userInput)
+    private static TimeSpan checkTimeSpanFormat(string? userInput)
     {
-        if (!(TimeSpan.TryParse(userInput, out TimeSpan _RequiredEffortTime)))
+        if ((TimeSpan.TryParse(userInput, out TimeSpan _RequiredEffortTime)))
+        {
+            return TimeSpan.Parse(userInput);
+        }
+        else
+        {
             throw new Exception("ERROR: the duration is incorrect");
+        }
+
     }
-    private static void checkDateTimeFormat(string ?userInput)
+    private static DateTime CheckDateTimeFormat(string? userInput)
     {
-        if (!(DateTime.TryParse(userInput, out DateTime plannedStartDate)))
-            throw new Exception("");
+        if (DateTime.TryParse(userInput, out DateTime parsedDateTime))
+        {
+            return parsedDateTime;
+        }
+        else
+        {
+            throw new Exception("Invalid DateTime format");
+        }
     }
 
+    private static bool yesOrNo()
+    {
+        // Read input and convert to uppercase
+        string message = Console.ReadLine()?.Trim().ToUpper() ?? throw new Exception("can't enter a null");
+        bool _answer = message!.StartsWith('Y');
+        return _answer;
+    }
 
 }
+
+
+
+
