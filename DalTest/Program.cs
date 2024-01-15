@@ -235,6 +235,7 @@ internal static class Program
     }
     private static string emailCheck_update_createEngineer()
     {
+        updateEngineer_PrintText("Email");
         string email = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
         if (!IsValidEmail(email))
         {
