@@ -3,6 +3,7 @@ using DalApi;
 using Dal;
 using System.Net.Mail;
 using DO;
+using System.Diagnostics.Metrics;
 
 
 internal static class Program
@@ -15,36 +16,40 @@ internal static class Program
         try
         {
             Initialization.Do(s_dalDependency, s_dalEngineer, s_dalTask);
-
-            ptintMainManu();
-            if (Enum.TryParse(Console.ReadLine(), out MainMenuOption mainMenuChoice))
+            do
             {
-                switch (mainMenuChoice)
+                printMainMenu();
+                if (Enum.TryParse(Console.ReadLine(), out MainMenuOption mainMenuChoice))
                 {
-                    case MainMenuOption.MainExit:
-                        Environment.Exit(0);
-                        break;
-                    case MainMenuOption.TaskMenu:
-                        taskOptions();
-                        break;
-                    case MainMenuOption.EngineerMenu:
-                        engineerOptions();
-                        break;
-                    case MainMenuOption.DependencyMenu:
-                        dependencyOptions();
-                        break;
-                    default: throw new Exception("ERROR: Invalid choice input Please try again");
+                    switch (mainMenuChoice)
+                    {
+                        case MainMenuOption.MainExit:
+                            Environment.Exit(0);
+                            break;
+                        case MainMenuOption.TaskMenu:
+                            taskOptions();
+                            break;
+                        case MainMenuOption.EngineerMenu:
+                            engineerOptions();
+                            break;
+                        case MainMenuOption.DependencyMenu:
+                            dependencyOptions();
+                            break;
+                        default: throw new Exception("ERROR: Invalid choice input Please try again");
+                    }
+                }
+                else
+                {
+                    throw new Exception("ERROR: Invalid choice input Please try again");
                 }
             }
-            else
-            {
-                throw new Exception("ERROR: Invalid choice input Please try again");
-            }
+            while (true);
         }
         catch (Exception errorMasseege)
         {
             Console.WriteLine(errorMasseege);
         }
+    
     }
     private static void taskOptions()
     {
@@ -152,12 +157,12 @@ internal static class Program
             throw new Exception("ERROR: Invalid choice input Please try again");
         }
     }
-    private static void ptintMainManu()
+    private static void printMainMenu()
     {
-        Console.WriteLine(@"Enter 0 for quiting the program.
-                            Enter 1 for Tasks menu.
-                            Enter 2 for Engineers nenu
-                            Enter 3 for Dependencies menu");
+        Console.WriteLine(@"Enter 0 for quiting the program:");
+        Console.WriteLine("Enter 1 for Tasks menu:");
+        Console.WriteLine("Enter 2 for Engineers nenu:");
+        Console.WriteLine("Enter 3 for Dependencies menu");
     }
     private static void printSubMenu(string entity)
     {
@@ -249,6 +254,16 @@ internal static class Program
         Engineer correntEngineerData = s_dalEngineer!.Read(id) ?? throw new Exception("Engineer with such ID does not exist");
         printEngineer(correntEngineerData);
     }
+    private static void printEngineer(Engineer engineer)
+    {
+        Console.WriteLine("Engineer ID: " + engineer.Id);
+        Console.WriteLine("Engineer Name: " + engineer.Name);
+        Console.WriteLine("Engineer Level: " + engineer.Level);
+        Console.WriteLine("Engineer Email: " + engineer.Email);
+        Console.WriteLine("Engineer Cost: " + engineer.Cost);
+        Console.WriteLine("\n");
+
+    }
     private static void readAllEngineers()
     {
         List<Engineer> engineers = s_dalEngineer!.ReadAll();
@@ -327,14 +342,8 @@ internal static class Program
         Console.WriteLine($"The ID of the dependency is : {dependency.Id}");
         Console.WriteLine($"The dependent task is : {dependency.DependentTask}");
         Console.WriteLine($"The task that is nessery for current task {dependency.DependsOnTask}");
-    }
-    private static void printEngineer(Engineer engineer)
-    {
-        Console.WriteLine("Engineer ID: " + engineer.Id);
-        Console.WriteLine("Engineer Name: " + engineer.Name);
-        Console.WriteLine("Engineer Level: " + engineer.Level);
-        Console.WriteLine("Engineer Email: " + engineer.Email);
-        Console.WriteLine("Engineer Cost: " + engineer.Cost);
+        Console.WriteLine("\n");
+
     }
     private static void removeAllDependency()
     {
@@ -463,6 +472,7 @@ internal static class Program
         Console.WriteLine("Task deliverables:" + taskToPrint.Deliverables);
         Console.WriteLine("Task remarks:" + taskToPrint.Remarks);
         Console.WriteLine("Task Engineer ID:" + taskToPrint.EngineerId);
+        Console.WriteLine("\n");
 
     }
     private static void readAllTask()
@@ -480,6 +490,10 @@ internal static class Program
         int id = isValidIntInput();
         Task correntEngineerData = s_dalTask!.Read(id) ?? throw new Exception("Task with such ID does not exist");
         s_dalTask!.Delete(id);
+    }
+    private static void removeAllTasks()
+    {
+        s_dalTask!.DeleteAll();
     }
 
 
