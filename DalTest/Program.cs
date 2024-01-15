@@ -167,34 +167,40 @@ internal static class Program
     private static void printSubMenu(string entity)
     {
         Console.WriteLine("Enter 0 for returning to the main menu.");
-        Console.WriteLine($"Enter 1 to Create a list of {entity}s");
+        Console.WriteLine($"Enter 1 to Create {entity}");
         Console.WriteLine($"Enter 2 to Update the {entity}");
         Console.WriteLine($"Enter 3 to Print a {entity} by entering its ID");
         Console.WriteLine($"Enter 4 to Read all of the {entity} elements");
-        Console.WriteLine($"Enter 5 to Remove all of the {entity} elements");
+        Console.WriteLine($"Enter 5 to Remove instance of the {entity} element");
+        Console.WriteLine($"Enter 6 to Remove all of the {entity} elements");
+
     }
 
 
     //Engineer
     private static void createEngineer()
     {
-        Console.WriteLine("Enter Engineer's ID: the range for the the id is 2*10^8 to 4*10^8");
+        Console.WriteLine($"Enter Engineer's ID: the range for the the id is from {2e8} to {4e8}");
         int id = isValidIntInput();
         if (id < 2e8 || id > 4e8)
         { throw new Exception("Invalid ID number. please enter in the range"); }
 
+        Console.WriteLine("Enter Engineer's name\n");
+        string name = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
+
+        Console.WriteLine("Enter the email for Engineer\n");
         string email = emailCheck_update_createEngineer();
 
         Console.WriteLine("Enter the cost for Engineer\n");
         double cost = double.TryParse(Console.ReadLine(), out cost) ? cost : throw new Exception("Error casting the input to cast ");
 
-        Console.WriteLine("Enter Engineer's name\n");
-        string name = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
-
+        Console.WriteLine("Enter Engineer's level\n");
         EngineerExperience level = (EngineerExperience)isValidIntInput();
 
         Engineer engineerInstence = new Engineer(Id: id, Email: email, Cost: cost, Name: name, Level: level);
         s_dalEngineer!.Create(engineerInstence);
+        Console.WriteLine("The data received succesfully, here is Data:\n");
+        printEngineer(engineerInstence);
     }
     private static void updateEngineer()
     {
@@ -219,6 +225,8 @@ internal static class Program
 
         Engineer updatedEngineerData = new Engineer(Id: id, Email: email, Name: name, Cost: cost, Level: level);
         s_dalEngineer!.Update(updatedEngineerData);
+        Console.WriteLine("The data received succesfully, here is Data:\n");
+        printEngineer(updatedEngineerData);
     }
     private static void updateEngineer_PrintText(string type)
     {
@@ -295,6 +303,8 @@ internal static class Program
         int dependsOnTask = isValidIntInput();
         Dependency dependencyInstance = new Dependency(dependentTask, dependsOnTask);
         s_dalDependency!.Create(dependencyInstance);
+        Console.WriteLine("The data received succesfully, here is Data:\n");
+        printDependency(dependencyInstance);
     }
     private static void updateDependency()
     {
@@ -312,6 +322,8 @@ internal static class Program
 
         Dependency updatedDapendancyData = new Dependency(dependentTask, dependentOnTask);
         s_dalDependency!.Update(updatedDapendancyData);
+        Console.WriteLine("The data received succesfully, here is Data:\n");
+       printDependency(updatedDapendancyData);
 
     }
     private static void readDependency()
@@ -446,6 +458,8 @@ internal static class Program
             DeadlineDate: deadLineDate, CompleteDate: completeDate, Deliverables: deliverables,
             Remarks: remarks, EngineerId: engineerId);
         s_dalTask!.Update(taskToUpdate);
+        Console.WriteLine("The data received succesfully, here is Data:\n");
+        PrintTask(taskToUpdate);
 
     }
     private static void readTask()
