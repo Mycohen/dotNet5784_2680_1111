@@ -27,6 +27,7 @@ public static class Initialization
     // Method to generate unique task IDs and store them in the '_ids' array
     private static void setIds()
     {
+        int temp = 0;
         bool alredyExist;
         int temp = 0;
         for (int i = 0; i < 10; i++)
@@ -34,7 +35,7 @@ public static class Initialization
             alredyExist = false;
             do
             {
-                 temp = s_rand.Next(MIN_ID, MAX_ID);
+                temp = s_rand.Next(MIN_ID, MAX_ID);
                 foreach (var element in _ids)
                 {
                     if (temp == element)
@@ -206,7 +207,7 @@ public static class Initialization
     };
     private static int[] tasksDependencies = {
         // Example of task dependencies
-        0, 1,   // Structural Analysis depends on CAD Modeling
+        7, 1,   // Structural Analysis depends on CAD Modeling
         2, 1,   // Prototyping depends on CAD Modeling
         3, 2,   // Electrical Circuit Design depends on Prototyping
         4, 3,   // Software Development depends on Electrical Circuit Design
@@ -248,28 +249,29 @@ public static class Initialization
     "alexander.white@example.com",
     "sophia.harris@example.com"
 };
-    private static double [] costs = new double[10];
+    private static double[] costs = new double[10];
 
     // Method to create tasks with predefined data
     private static void CreateTask()
     {
-        int index = 0;
+        int linkIndex = 0;
+        int linkIndexOptional = 0;
         int randomIndexId = s_rand.Next(0, 9);
         foreach (var _taskName in tasksAlias)
         {
             // Retrieve data from predefined arrays
             string _Alias = _taskName;
-            string _Description = taskDescription[index];
-            DateTime _CreatedAtDate = DateTime.Now.AddDays(index).AddHours(index * 2);
+            string _Description = taskDescription[linkIndex];
+            DateTime _CreatedAtDate = DateTime.Now.AddDays(linkIndex).AddHours(linkIndex * 2);
             TimeSpan _RequierdEffortTime = TimeSpan.FromDays(s_rand.Next(1, 15));
             bool _IsMileStone = (_ids[randomIndexId] % 2 == 0) ? true : false;
-            EngineerExperience _Complexity = (EngineerExperience)taskLevelsArray[index];
+            EngineerExperience _Complexity = (EngineerExperience)taskLevelsArray[linkIndex];
             DateTime _StartDate = _CreatedAtDate.Add(_RequierdEffortTime).AddDays(s_rand.Next(0, 5));
             DateTime _ScheduledDate = _StartDate.Add(_RequierdEffortTime);
             DateTime _DeadLineDate = _ScheduledDate.AddDays(s_rand.Next(7, 14));
             DateTime _CompleteDate = _StartDate.AddDays(s_rand.Next(0, 40));
-            string _Remarks = (_ids[randomIndexId] % 4 == 0) ? additionalRemarks[index] : string.Empty;//Error
-            string _deliverables = (_ids[randomIndexId] % 2 == 0) ? deliverablesDescription[index] : string.Empty;
+            string _Remarks = (_ids[randomIndexId] % 4 == 0) ? additionalRemarks[linkIndexOptional] : string.Empty;
+            string _deliverables = (_ids[randomIndexId] % 2 == 0) ? deliverablesDescription[linkIndexOptional] : string.Empty;
 
             // Create a new task using the Task constructor
             Task newTask = new Task(0, _Alias, _Description, _CreatedAtDate, _RequierdEffortTime,
@@ -278,20 +280,21 @@ public static class Initialization
 
             // Call the DAL to create the task
             s_dalTask!.Create(newTask);
-            index++;
+            linkIndex++;
+            linkIndexOptional = s_rand.Next(0, 19);
         }
     }
 
     // Method to create dependencies based on predefined data
     private static void createDependency()
     {
-        for (int i = 0; i < 59; i += 2)
+        for (int i = 0; i < tasksDependencies.Length - 1; i += 2)
         {
             int _dependentTask = tasksDependencies[i];
             int _dependsOnTask = tasksDependencies[i + 1];
 
             // Create a new dependency using the Dependency constructor
-            Dependency newDependency = new Dependency(_dependentTask, _dependsOnTask);
+            Dependency newDependency = new Dependency(Id: 0, DependentTask: _dependentTask, DependsOnTask: _dependsOnTask);
 
             // Call the DAL to create the dependency
             s_dalDependency!.Create(newDependency);
@@ -318,6 +321,7 @@ public static class Initialization
 
             // Call the DAL to create the engineer
             s_dalEngineer!.Create(newEnginner);
+            //
             index++;
         }
     }
@@ -331,10 +335,9 @@ public static class Initialization
         s_dalDependency = dalDependency ?? throw new NullReferenceException("DAL can not be null!");
 
         // Create tasks, engineers, and dependencies
-        setIds();//Set the Engineer's ID
+        setIds();//initialize the Engineers IDs
         CreateEngineer();
         CreateTask();
-       
         createDependency();
     }
 }
