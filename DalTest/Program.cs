@@ -390,19 +390,43 @@ internal static class Program
         Console.WriteLine("Enter the task dead line date (e.g., 2024-01-10):");
         userInput = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
         DateTime _deadLineDate = CheckDateTimeFormat(userInput);
-        Console.WriteLine("If the task was completed, enter the completed date (e.g., 2024-01-10):");
-        userInput = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
-        DateTime _completeDatte = CheckDateTimeFormat(userInput);
-        Console.WriteLine("Enter the deliverables associated with the task: ");
-        string? _deliverables = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
-        Console.WriteLine("Enter the remarks associated with the task: ");
-        string? _remarks = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
+        Console.WriteLine("Was the task completed? (Y/N)");
+        DateTime _completeDatte;
+        if (yesOrNo())
+        {
+            Console.WriteLine("Enter the compition date (e.g., 2024-01-10)");
+            userInput = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
+            _completeDatte = CheckDateTimeFormat(userInput);
+        }
+        else
+            _completeDatte = DateTime.MinValue;
+
+        Console.WriteLine("Enter the deliverables associated with the task if there are any: (Enter Y/N)");
+        string? _deliverables;
+        if (yesOrNo())
+        {
+            _deliverables = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
+        }
+        else 
+            _deliverables = null;
+
+        Console.WriteLine("Enter the remarks associated with the task if there are any: (Enter Y/N)");
+        string? _remarks;
+        if (yesOrNo()) 
+        {
+            _remarks = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
+        }
+        else _remarks = null;
+
         Console.WriteLine("Enter the Engineer ID for the task");
         userInput = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
         int _engineerid = getInt(userInput);
-        Task inputTak = new Task(0, _Alias, _Description, _CreatedAtDate, _requiredEffortTimeI,
+
+        Task inputTask = new Task(0, _Alias, _Description, _CreatedAtDate, _requiredEffortTimeI,
             _IsMilestone, (EngineerExperience)complexity, _startDate, _scheduleDate, _deadLineDate,
             _completeDatte, _deliverables, _remarks, _engineerid);
+
+        s_dalTask!.Create(inputTask);
     }
     private static void updateTask()
     {
