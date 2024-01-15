@@ -8,6 +8,7 @@ public interface ITask
     List<Task> ReadAll(); //stage 1 only, Reads all entity objects
     void Update(Task item); //Updates entity object
     void Delete(int id); //Deletes an object by its Id
-    Task? FindId(Task item);
+    Task? FindId(Task item);//HelpFunction for finding the ID's item.
+    void DeleteAll();//Help function for removing all the items.
 }
 

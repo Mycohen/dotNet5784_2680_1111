@@ -119,4 +119,7 @@ public class TaskImplementation : ITask
         // Add the updated task
         DataSource.Tasks.Add(item);
     }
+   public void DeleteAll()
+    { DataSource.Tasks.Clear(); }
+
 }
