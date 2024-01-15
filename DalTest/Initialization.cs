@@ -28,20 +28,24 @@ public static class Initialization
     private static void setIds()
     {
         bool alredyExist;
+        int temp = 0;
         for (int i = 0; i < 10; i++)
         {
             alredyExist = false;
             do
             {
-                _ids[i] = s_rand.Next(MIN_ID, MAX_ID);
+                 temp = s_rand.Next(MIN_ID, MAX_ID);
                 foreach (var element in _ids)
                 {
-                    if (_ids[i] == element)
+                    if (temp == element)
                     {
                         alredyExist = true;
                     }
+
                 }
+                
             } while (alredyExist);
+            _ids[i] = temp;
         }
     }
 
@@ -244,7 +248,7 @@ public static class Initialization
     "alexander.white@example.com",
     "sophia.harris@example.com"
 };
-    private static int[] costs = new int[10];
+    private static double [] costs = new double[10];
 
     // Method to create tasks with predefined data
     private static void CreateTask()
@@ -264,7 +268,7 @@ public static class Initialization
             DateTime _ScheduledDate = _StartDate.Add(_RequierdEffortTime);
             DateTime _DeadLineDate = _ScheduledDate.AddDays(s_rand.Next(7, 14));
             DateTime _CompleteDate = _StartDate.AddDays(s_rand.Next(0, 40));
-            string _Remarks = (_ids[randomIndexId] % 4 == 0) ? additionalRemarks[index] : string.Empty;
+            string _Remarks = (_ids[randomIndexId] % 4 == 0) ? additionalRemarks[index] : string.Empty;//Error
             string _deliverables = (_ids[randomIndexId] % 2 == 0) ? deliverablesDescription[index] : string.Empty;
 
             // Create a new task using the Task constructor
@@ -327,8 +331,10 @@ public static class Initialization
         s_dalDependency = dalDependency ?? throw new NullReferenceException("DAL can not be null!");
 
         // Create tasks, engineers, and dependencies
-        CreateTask();
+        setIds();//Set the Engineer's ID
         CreateEngineer();
+        CreateTask();
+       
         createDependency();
     }
 }

@@ -20,7 +20,8 @@ public class DependencyImplementation : IDependency
 
     // Method to create a new dependency
     public int Create(Dependency item)
-    {Dependency? res=FindId(item);
+    {
+        Dependency? res=FindId(item);
         if (res != null)
             throw new Exception($"Dependency with ID={res.Id} already exist");
 
