@@ -204,25 +204,62 @@ internal static class Program
     }
     private static void updateEngineer()
     {
-        Console.WriteLine("what Engineer do you want to update: (enter an ID)\n");
+        Console.WriteLine("What Engineer do you want to update: (enter an ID)\n");
         int id = isValidIntInput();
         Engineer correntEngineerData = s_dalEngineer!.Read(id) ?? throw new Exception("Engineer with such ID does not exist");
-
+        bool flag;
         updateEngineer_PrintText("Email");
-        string email = (yesOrNo()) ? emailCheck_update_createEngineer() : correntEngineerData!.Email!;
+        flag = yesOrNo();
+        string? email;
+        if (flag)
+        {
+            Console.WriteLine("Enter the Engineer's email:");
+            email = emailCheck_update_createEngineer();
+        }
+        else
+        {
+            email = correntEngineerData!.Email!;
+        }
 
         updateEngineer_PrintText("Cost");
-        double cost = yesOrNo() ?
-            (Double.TryParse(Console.ReadLine(), out cost) ? cost : throw new Exception("Error casting the input to cast ")) :
-            (double)correntEngineerData!.Cost!;
+         flag = yesOrNo();
+        double cost;
+        if(flag)
+        {
+            Console.WriteLine("Enter the Engineer's cost:");
+            cost = isValidIntInput();
+        }
+        else
+        {
+            cost= (double)correntEngineerData!.Cost!;
+        }
 
 
         updateEngineer_PrintText("Name");
-        string name = (yesOrNo()) ? (Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)")) :
-            correntEngineerData!.Name!;
+        flag = yesOrNo();
+        string ?name;
+        if (flag)
+        {
+            Console.WriteLine("Enter the Engineer's name:");
+            name = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
+        }
+        else
+        {
+            name = correntEngineerData!.Name!;
+        }
 
         updateEngineer_PrintText("Level");
-        EngineerExperience level = (yesOrNo()) ? (EngineerExperience)isValidIntInput() : correntEngineerData!.Level!;
+        flag = yesOrNo();
+        EngineerExperience level;
+        if (flag)
+        {
+            Console.WriteLine("Enter the Engineer's level");
+            level = (EngineerExperience)isValidIntInput();
+        }
+        else
+        {
+            level = correntEngineerData!.Level!;
+        }
 
         Engineer updatedEngineerData = new Engineer(Id: id, Email: email, Name: name, Cost: cost, Level: level);
         s_dalEngineer!.Update(updatedEngineerData);
@@ -235,7 +272,7 @@ internal static class Program
     }
     private static string emailCheck_update_createEngineer()
     {
-        updateEngineer_PrintText("Email");
+       
         string email = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
         if (!IsValidEmail(email))
         {
