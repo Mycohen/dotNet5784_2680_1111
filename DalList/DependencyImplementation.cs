@@ -20,10 +20,15 @@ public class DependencyImplementation : IDependency
 
     // Method to create a new dependency
     public int Create(Dependency item)
-    {Dependency? res=FindId(item);
-        if (res != null)
-            throw new Exception($"Dependency with ID={res.Id} already exist");
+    {
+        //do not check for the first dependency (all of the dependencis are initialize by ID of 0)
+        if (DataSource.Dependencies.Count != 0)
+        {
+            Dependency? res = FindId(item);
+            if (res != null)
+                throw new Exception($"Dependency with ID = {res.Id} already exist");
 
+        }
         if (item.DependentTask == item.DependsOnTask)
             throw new Exception("ERROR: The task cannot depend on itself");
 

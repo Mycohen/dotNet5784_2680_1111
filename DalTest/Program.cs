@@ -41,7 +41,7 @@ internal static class Program
                 throw new Exception("ERROR: Invalid choice input Please try again");
             }
         }
-        catch (global::System.Exception errorMasseege)
+        catch (Exception errorMasseege)
         {
             Console.WriteLine(errorMasseege);
         }
