@@ -475,6 +475,10 @@ internal static class Program
         Task correntEngineerData = s_dalTask!.Read(id) ?? throw new Exception("Task with such ID does not exist");
         s_dalTask!.Delete(id);
     }
+    private static void removeAllTasks()
+    {
+        s_dalTask!.DeleteAll();
+    }
 
 
     // help functions
