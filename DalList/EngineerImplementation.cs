@@ -78,4 +78,9 @@ public class EngineerImplementation : IEngineer
         // Add the updated engineer
         DataSource.Engineers.Add(item);
     }
+
+    public void DeleteAll()
+    {
+        DataSource.Engineers.Clear();
+    }
 }

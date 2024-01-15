@@ -29,7 +29,6 @@ public static class Initialization
     {
         int temp = 0;
         bool alredyExist;
-        int temp = 0;
         for (int i = 0; i < 10; i++)
         {
             alredyExist = false;

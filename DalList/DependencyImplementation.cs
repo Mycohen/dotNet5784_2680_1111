@@ -73,4 +73,9 @@ public class DependencyImplementation : IDependency
         DataSource.Dependencies.Remove(deletedItem); // Remove the existing dependency
         DataSource.Dependencies.Add(item); // Add the updated dependency
     }
+
+    public void DeleteAll()
+    {
+        DataSource.Dependencies.Clear();
+    }
 }

@@ -70,6 +70,9 @@ internal static class Program
                 case CrudMenuOption.DeleteOp:
                     removeTask();
                     break;
+                case CrudMenuOption.DeleteAllOp:
+                    removeAllTasks();
+                    break;
                 default: throw new Exception("ERROR: Invalid choice input Please try again");
             }
         }
@@ -102,6 +105,9 @@ internal static class Program
                 case CrudMenuOption.DeleteOp:
                     removeEngineer();
                     break;
+                case CrudMenuOption.DeleteAllOp:
+                    removeAllEngineers();
+                    break;
                 default: throw new Exception("ERROR: Invalid choice input Please try again");
             }
         }
@@ -126,14 +132,18 @@ internal static class Program
                     updateDependency();
                     break;
                 case CrudMenuOption.PrintSingleOp:
-                    readEngineer();
+                    readDependency();
                     break;
                 case CrudMenuOption.PrintAllOp:
-                    readAllEngineers();
+                    readAllDependency();
                     break;
                 case CrudMenuOption.DeleteOp:
-                    removeEngineer();
+                    removeDependency();
                     break;
+                case CrudMenuOption.DeleteAllOp:
+                    readAllDependency();
+                    break;
+
                 default: throw new Exception("ERROR: Invalid choice input Please try again");
             }
         }
@@ -256,7 +266,10 @@ internal static class Program
 
         s_dalEngineer.Delete(id);
     }
-
+    private static void removeAllEngineers()
+    {
+        s_dalEngineer!.DeleteAll();
+    }
 
     //Dependency 
     private static void createDependency()
@@ -323,7 +336,10 @@ internal static class Program
         Console.WriteLine("Engineer Email: " + engineer.Email);
         Console.WriteLine("Engineer Cost: " + engineer.Cost);
     }
-
+    private static void removeAllDependency()
+    {
+        s_dalDependency!.DeleteAll();
+    }
 
     //Task 
     private static void createTask()
