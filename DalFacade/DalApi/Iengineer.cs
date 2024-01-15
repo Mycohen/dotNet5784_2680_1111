@@ -9,4 +9,5 @@ public interface IEngineer
     void Update(Engineer item); //Updates entity object
     void Delete(int id); //Deletes an object by its Id
 
+    void DeleteAll();
 }
