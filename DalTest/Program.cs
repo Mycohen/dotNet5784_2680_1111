@@ -932,6 +932,7 @@ namespace DalTest
             Console.WriteLine("Task remarks:" + taskToPrint.Remarks);
             Console.WriteLine("Task Engineer ID:" + taskToPrint.EngineerId);
             Console.WriteLine("\n");
+
         }
 
         // Method to read and print details of all tasks
