@@ -434,7 +434,7 @@ namespace DalTest
             // Display the details of the Engineer
             Console.WriteLine("Engineer ID: " + engineer.Id);
             Console.WriteLine("Engineer Name: " + engineer.Name);
-            Console.WriteLine("Engineer Level: " + engineer.Level);
+            Console.WriteLine("Engineer Level: " + (EngineerExperience)engineer.Level);
             Console.WriteLine("Engineer Email: " + engineer.Email);
             Console.WriteLine("Engineer Cost: " + engineer.Cost);
             Console.WriteLine("\n");
@@ -649,7 +649,7 @@ namespace DalTest
             Console.WriteLine("Enter the complexity of the task? (0-5)");
             userInput = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
             int complexity = getInt(userInput);
-            EngineerExperience? _complexity = (EngineerExperience)complexity;
+            EngineerExperience _complexity = (EngineerExperience)complexity;
 
             // Prompt user for planned start date
             Console.WriteLine("Enter the planned start date for the task (e.g., 2024-01-10): ");
@@ -781,11 +781,11 @@ namespace DalTest
             // Prompt user to update the Complexity field
             updateEngineer_PrintText("Complexity");
             flag = yesOrNo();
-            EngineerExperience? complexity;
+            EngineerExperience complexity;
             if (flag)
             {
                 printFieldForYes("Complexity");
-                complexity = (EngineerExperience?)getInt(Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)"));
+                complexity = (EngineerExperience)getInt(Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)"));
             }
             else
             {
@@ -888,7 +888,7 @@ namespace DalTest
             }
             // Create a new Task instance with the updated details
             Task taskToUpdate = new Task(Id: id, Alias: alias, Description: description, CreatedAtDate: createdAtDate, RequiredEffortTime: requiredEffortTime,
-                IsMilestone: isMilestone, Complexity: (EngineerExperience)complexity, StartDate: startDate, ScheduledDate: scheduleDate,
+                IsMilestone: isMilestone, Complexity: complexity, StartDate: startDate, ScheduledDate: scheduleDate,
                 DeadlineDate: deadLineDate, CompleteDate: completeDate, Deliverables: deliverables,
                 Remarks: remarks, EngineerId: engineerId);
 
@@ -923,7 +923,7 @@ namespace DalTest
             Console.WriteLine("Task Created at:" + taskToPrint.CreatedAtDate);
             Console.WriteLine("Required time for the task:" + taskToPrint.RequiredEffortTime);
             Console.WriteLine("Does the task have a milestone?:" + taskToPrint.IsMilestone);
-            Console.WriteLine("Complexity's task:" + taskToPrint.Complexity);
+            Console.WriteLine("Complexity's task:" + (EngineerExperience)taskToPrint.Complexity);
             Console.WriteLine("The task started at:" + taskToPrint.StartDate);
             Console.WriteLine("Task schedule date:" + taskToPrint.ScheduledDate);
             Console.WriteLine("Dead line task:" + taskToPrint.DeadlineDate);
