@@ -545,7 +545,7 @@ namespace DalTest
             }
 
             // Create a new Dependency instance with the updated information
-            Dependency updatedDependencyData = new Dependency(dependentTask, dependsOnTask);
+            Dependency updatedDependencyData = new Dependency(currentDependencyData.Id,dependentTask, dependsOnTask);
 
             // Update the Dependency in the data access layer
             s_dalDependency!.Update(updatedDependencyData);
@@ -561,7 +561,7 @@ namespace DalTest
             // Prompt the user to enter the ID of the Dependency they want to read
             Console.WriteLine("Enter the ID of dependency you want to read");
             int id = isValidIntInput();
-
+            
             // Retrieve the current Dependency data based on the provided ID
             Dependency currentDependencyData = s_dalDependency!.Read(id) ?? throw new Exception("Dependency with such ID does not exist");
 
@@ -608,8 +608,8 @@ namespace DalTest
             // Display the ID of the task that is necessary for the current task
             Console.WriteLine($"The task that is necessary for the current task: {dependency.DependsOnTask}");
 
-            // Uncomment the following line if you want an empty line between Dependency details
-            // Console.WriteLine("\n");
+            // An empty line between Dependency details
+            Console.WriteLine("\n");
         }
 
         // Method to remove all Dependencies
