@@ -303,13 +303,13 @@ namespace DalTest
             Engineer currentEngineerData = s_dalEngineer!.Read(id) ?? throw new Exception("Engineer with such ID does not exist");
 
             // Flag to determine whether to update each attribute, initially set to false
-            bool flag;
+         
 
             // Update the Engineer's Email
             updateEngineer_PrintText("Email");
-            flag = yesOrNo();
+           
             string? email;
-            if (flag)
+            if (yesOrNo())
             {
                 Console.WriteLine("Enter the Engineer's email:");
                 email = emailCheck_update_createEngineer();
@@ -321,9 +321,9 @@ namespace DalTest
 
             // Update the Engineer's Name
             updateEngineer_PrintText("Name");
-            flag = yesOrNo();
+           
             string? name;
-            if (flag)
+            if (yesOrNo())
             {
                 Console.WriteLine("Enter the Engineer's name:");
                 name = Console.ReadLine() ?? throw new Exception("ERROR: Enter a valid input (not null)");
@@ -335,9 +335,9 @@ namespace DalTest
 
             // Update the Engineer's Cost
             updateEngineer_PrintText("Cost");
-            flag = yesOrNo();
+       
             double cost;
-            if (flag)
+            if (yesOrNo())
             {
                 Console.WriteLine("Enter the Engineer's cost:");
                 cost = isValidIntInput();
@@ -349,9 +349,9 @@ namespace DalTest
 
             // Update the Engineer's Level
             updateEngineer_PrintText("Level");
-            flag = yesOrNo();
+           
             EngineerExperience level;
-            if (flag)
+            if (yesOrNo())
             {
                 Console.WriteLine("Enter the Engineer's level");
                 level = (EngineerExperience)isValidIntInput();
@@ -491,7 +491,9 @@ namespace DalTest
             int dependsOnTask = isValidIntInput();
 
             // Create a new Dependency instance with the provided information
-            Dependency dependencyInstance = new Dependency(0, dependentTask, dependsOnTask);
+            Dependency dependencyInstance = new Dependency(Id:0,
+                DependentTask: dependentTask,
+                DependsOnTask:dependsOnTask);
 
             // Save the Dependency instance using the data access layer
             s_dalDependency!.Create(dependencyInstance);
@@ -514,9 +516,9 @@ namespace DalTest
 
             // Prompt the user if they want to update the dependent task
             Console.WriteLine("Do you want to update the dependent task? (y/n)");
-            bool flag = yesOrNo();
+            
             int dependentTask;
-            if (flag)
+            if (yesOrNo())
             {
                 // If yes, prompt the user to enter the new dependent task
                 Console.WriteLine("Enter the new dependent task");
@@ -530,9 +532,9 @@ namespace DalTest
 
             // Prompt the user if they want to update the dependency task
             Console.WriteLine("Do you want to update the dependency task? (y/n)");
-            flag = yesOrNo();
+            
             int dependsOnTask;
-            if (flag)
+            if (yesOrNo())
             {
                 // If yes, prompt the user to enter the new dependency task
                 Console.WriteLine("Enter the new dependency task");
@@ -545,7 +547,9 @@ namespace DalTest
             }
 
             // Create a new Dependency instance with the updated information
-            Dependency updatedDependencyData = new Dependency(currentDependencyData.Id,dependentTask, dependsOnTask);
+            Dependency updatedDependencyData = new Dependency(Id:currentDependencyData.Id,
+                DependentTask:dependentTask,
+                DependsOnTask: dependsOnTask);
 
             // Update the Dependency in the data access layer
             s_dalDependency!.Update(updatedDependencyData);
@@ -648,8 +652,7 @@ namespace DalTest
             // Prompt user for the complexity of the task in the range 0-5
             Console.WriteLine("Enter the complexity of the task? (0-5)");
             userInput = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
-            int complexity = getInt(userInput);
-            EngineerExperience _complexity = (EngineerExperience)complexity;
+            EngineerExperience complexity = (EngineerExperience)getInt(userInput);
 
             // Prompt user for planned start date
             Console.WriteLine("Enter the planned start date for the task (e.g., 2024-01-10): ");
@@ -706,9 +709,23 @@ namespace DalTest
             int _engineerid = getInt(userInput);
 
             // Create a new Task instance with the provided details
-            Task inputTask = new Task(0, _Alias, _Description, _CreatedAtDate, _requiredEffortTimeI,
-                _IsMilestone, (EngineerExperience)complexity, _startDate, _scheduleDate, _deadLineDate,
-                _completeDatte, _deliverables, _remarks, _engineerid);
+            Task inputTask = new Task
+                (
+                Id:0,
+                Alias: _Alias,
+                Description: _Description,
+                CreatedAtDate: _CreatedAtDate, 
+                RequiredEffortTime: _requiredEffortTimeI,
+                IsMilestone: _IsMilestone, 
+                Complexity: complexity,
+                StartDate: _startDate, 
+               ScheduledDate: _scheduleDate,
+                DeadlineDate:_deadLineDate,
+                CompleteDate:_completeDatte,
+               Deliverables: _deliverables,
+               Remarks: _remarks,
+               EngineerId: _engineerid
+                );
 
             // Call the Create method in the data access layer to store the new task
             s_dalTask!.Create(inputTask);
@@ -731,9 +748,9 @@ namespace DalTest
 
             // Prompt user to update the Alias field
             updateEngineer_PrintText("Alias");
-            bool flag = yesOrNo();
+           
             string alias;
-            if (flag)
+            if (yesOrNo())
             {
                 printFieldForYes("Alias");
                 alias = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
@@ -745,9 +762,9 @@ namespace DalTest
 
             // Prompt user to update the Description field
             updateEngineer_PrintText("Description");
-            flag = yesOrNo();
+           
             string description;
-            if (flag)
+            if (yesOrNo())
             {
                 printFieldForYes("Description");
                 description = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
@@ -762,9 +779,9 @@ namespace DalTest
 
             // Prompt user to update the Required Effort Time field
             updateEngineer_PrintText("Required effort time");
-            flag = yesOrNo();
+            
             TimeSpan? requiredEffortTime;
-            if (flag)
+            if (yesOrNo())
             {
                 printFieldForYes("Required effort time");
                 requiredEffortTime = checkTimeSpanFormat(Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)"));
@@ -780,9 +797,9 @@ namespace DalTest
 
             // Prompt user to update the Complexity field
             updateEngineer_PrintText("Complexity");
-            flag = yesOrNo();
+          
             EngineerExperience complexity;
-            if (flag)
+            if (yesOrNo())
             {
                 printFieldForYes("Complexity");
                 complexity = (EngineerExperience)getInt(Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)"));
@@ -795,8 +812,8 @@ namespace DalTest
             // Prompt user to update the Start Date field
             updateEngineer_PrintText("Start Date");
             DateTime? startDate;
-            flag = yesOrNo();
-            if (flag)
+            
+            if (yesOrNo())
             {
                 printFieldForYes("Start Date");
                 startDate = CheckDateTimeFormat(Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)"));
@@ -805,9 +822,9 @@ namespace DalTest
 
             // Prompt user to update the Schedule Date field
             updateEngineer_PrintText("Schedule Date");
-            flag = yesOrNo();
+           
             DateTime? scheduleDate;
-            if (flag)
+            if (yesOrNo())
             {
                 printFieldForYes("Schedule Date");
                 scheduleDate = CheckDateTimeFormat(Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)"));
@@ -820,8 +837,8 @@ namespace DalTest
             // Prompt user to update the Deadline Date field
             updateEngineer_PrintText("Dead Line Date");
             DateTime? deadLineDate;
-            flag = yesOrNo();
-            if (flag)
+           
+            if (yesOrNo())
             {
                 printFieldForYes("Dead Line Date");
                 deadLineDate = CheckDateTimeFormat(Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)"));
@@ -833,9 +850,9 @@ namespace DalTest
 
             // Prompt user to update the Complete Date field
             updateEngineer_PrintText("Complete Date");
-            flag = yesOrNo();
+          
             DateTime? completeDate;
-            if (flag)
+            if (yesOrNo())
             {
                 printFieldForYes("Complete Date");
                 completeDate = CheckDateTimeFormat(Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)"));
@@ -847,9 +864,9 @@ namespace DalTest
 
             // Prompt user to update the Deliverables field
             updateEngineer_PrintText("Deliverables");
-            flag = yesOrNo();
+            
             string deliverables;
-            if (flag)
+            if (yesOrNo())
             {
                 printFieldForYes("Deliverables");
                 deliverables = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
@@ -861,9 +878,9 @@ namespace DalTest
 
             // Prompt user to update the Remarks field
             updateEngineer_PrintText("Remarks");
-            flag = yesOrNo();
+           
             string remarks;
-            if (flag)
+            if (yesOrNo())
             {
                 printFieldForYes("Remarks");
                 remarks = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
@@ -876,8 +893,8 @@ namespace DalTest
             // Prompt user to update the Engineer ID field
             updateEngineer_PrintText("Engineer ID");
             int engineerId;
-            flag = yesOrNo();
-            if (flag)
+           
+            if (yesOrNo())
             {
                 printFieldForYes("Engineer ID");
                 engineerId = isValidIntInput();
@@ -887,10 +904,20 @@ namespace DalTest
                 engineerId = taskT!.EngineerId;
             }
             // Create a new Task instance with the updated details
-            Task taskToUpdate = new Task(Id: id, Alias: alias, Description: description, CreatedAtDate: createdAtDate, RequiredEffortTime: requiredEffortTime,
-                IsMilestone: isMilestone, Complexity: complexity, StartDate: startDate, ScheduledDate: scheduleDate,
-                DeadlineDate: deadLineDate, CompleteDate: completeDate, Deliverables: deliverables,
-                Remarks: remarks, EngineerId: engineerId);
+            Task taskToUpdate = new Task(Id: id, 
+                Alias: alias, 
+                Description: description,
+                CreatedAtDate: createdAtDate,
+                RequiredEffortTime: requiredEffortTime,
+                IsMilestone: isMilestone, 
+                Complexity: complexity, 
+                StartDate: startDate, 
+                ScheduledDate: scheduleDate,
+                DeadlineDate: deadLineDate, 
+                CompleteDate: completeDate, 
+                Deliverables: deliverables,
+                Remarks: remarks, 
+                EngineerId: engineerId);
 
             // Call the Update method in the data access layer to apply the changes
             s_dalTask!.Update(taskToUpdate);
