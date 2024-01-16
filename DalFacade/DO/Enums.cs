@@ -30,10 +30,29 @@
         /// </summary>
         Expert
     }
-    public enum MainMenuOption { MainExit, TaskMenu, EngineerMenu, DependencyMenu};
-    public enum CrudMenuOption { SubExit, CreateOp, UpdateOp, PrintSingleOp, PrintAllOp, DeleteOp, DeleteAllOp};
 
+    /// <summary>
+    /// Represents the main menu options for the application.
+    /// </summary>
+    public enum MainMenuOption
+    {
+        MainExit,      // Option to exit the main menu
+        TaskMenu,      // Option to navigate to the task menu
+        EngineerMenu,  // Option to navigate to the engineer menu
+        DependencyMenu // Option to navigate to the dependency menu
+    };
 
+    /// <summary>
+    /// Represents the CRUD (Create, Read, Update, Delete) menu options for data entities.
+    /// </summary>
+    public enum CrudMenuOption
+    {
+        SubExit,       // Option to exit the CRUD sub-menu
+        CreateOp,      // Option to create a new entity
+        UpdateOp,      // Option to update an existing entity
+        PrintSingleOp, // Option to print details of a single entity
+        PrintAllOp,    // Option to print details of all entities
+        DeleteOp,      // Option to delete a single entity
+        DeleteAllOp    // Option to delete all entities
+    };
 }
-
-
