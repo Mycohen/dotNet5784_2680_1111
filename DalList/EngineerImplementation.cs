@@ -56,10 +56,14 @@ internal class EngineerImplementation : IEngineer
     }
 
     // Method to read all engineers
-    public List<Engineer> ReadAll()
+    public IEnumerable <Engineer> ReadAll(Func<Engineer, bool>? filter = null)
     {
-        // Return a copy of the engineers collection
-        return new List<Engineer>(DataSource.Engineers);
+        //if there is no parameter of a point to a function
+        if (filter == null)
+            return DataSource.Engineers.Select(item => item); 
+        //filter based on the boolian function
+        else 
+            return DataSource.Engineers.Where(filter);
     }
 
     // Method to update an engineer

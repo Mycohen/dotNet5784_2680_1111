@@ -5,4 +5,5 @@ public interface IEngineer : ICrud<Engineer>
 {
    
     void DeleteAll();
+
 }

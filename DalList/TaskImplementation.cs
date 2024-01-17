@@ -9,7 +9,7 @@ internal class TaskImplementation : ITask
     // Method to find a task based on its properties
     public Task? FindId(Task item)
     {
-        foreach (var _task in DataSource.Tasks)
+        foreach (var _task in DataSource.Tasks)//
         {
             // Check if the properties match
             if (_task.Alias == item.Alias
@@ -57,11 +57,11 @@ internal class TaskImplementation : ITask
             item.Remarks,
             item.EngineerId
         );
-        if (item.Alias ==null || item.Alias.Length ==0
+        if (item.Alias == null || item.Alias.Length == 0
            || item.Description == null || item.Description.Length == 0
-          ||  item.CreatedAtDate ==null || item.RequiredEffortTime ==null || item.StartDate == null
-            || item.ScheduledDate==null|| item.DeadlineDate==null || item.CompleteDate==null
-           || item.EngineerId<0)
+          || item.CreatedAtDate == null || item.RequiredEffortTime == null || item.StartDate == null
+            || item.ScheduledDate == null || item.DeadlineDate == null || item.CompleteDate == null
+           || item.EngineerId < 0)
             throw new Exception("The Task properties are invalid");
 
         // Add the new task to the collection
@@ -98,11 +98,14 @@ internal class TaskImplementation : ITask
     }
 
     // Method to read all tasks
-    public List<Task> ReadAll()
+    public IEnumerable<Task?> ReadAll(Func<Task?, bool>? filter = null) //stage 2
     {
-        // Return a copy of the tasks collection
-        return new List<Task>(DataSource.Tasks);
+        if (filter == null)
+            return DataSource.Tasks.Select(item => item);
+        else
+            return DataSource.Tasks.Where(filter);
     }
+
 
     // Method to update a task
     public void Update(Task item)
@@ -120,7 +123,7 @@ internal class TaskImplementation : ITask
         DataSource.Tasks.Add(item);
     }
     //Method to delete all the Tasks
-   public void DeleteAll()
+    public void DeleteAll()
     { DataSource.Tasks.Clear(); }
 
 }

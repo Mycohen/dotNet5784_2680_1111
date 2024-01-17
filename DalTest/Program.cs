@@ -446,7 +446,7 @@ namespace DalTest
         private static void readAllEngineers()
         {
             // Retrieve a list of all Engineers from the data access layer
-            List<Engineer> engineers = s_dal!.Engineer!.ReadAll();
+            IEnumerable<Engineer> engineers = s_dal!.Engineer!.ReadAll();
 
             // Iterate through each Engineer and print their details
             foreach (Engineer engineer in engineers)
@@ -581,7 +581,7 @@ namespace DalTest
         {
             // Retrieve a list of all Dependencies from the data access layer
             //List<Dependency> dependencies = s_dalDependency!.ReadAll(); (stage1)
-            List<Dependency> dependencies = s_dal!.Dependency.ReadAll();
+            IEnumerable<Dependency> dependencies = s_dal!.Dependency.ReadAll();
 
             // Iterate through each Dependency and print its details
             foreach (Dependency dependency in dependencies)
@@ -971,7 +971,7 @@ namespace DalTest
         private static void readAllTask()
         {
             // Retrieve a list of all tasks from the data access layer
-            List<Task> tasks = s_dal!.Task.ReadAll();
+            IEnumerable<Task> tasks = s_dal!.Task.ReadAll();
 
             // Iterate through each task and call the PrintTask method to display details
             foreach (Task task in tasks)

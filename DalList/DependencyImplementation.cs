@@ -1,23 +1,23 @@
 ﻿namespace Dal;
 using DalApi;
 using DO;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 // Class implementing IDependency interface
 internal class DependencyImplementation : IDependency
 {
-    // Method to find a dependency based on its properties
-    public Dependency? FindId(Dependency item)
-    {
-        foreach (var depItem in DataSource.Dependencies)
-        {
-            // Check if the properties match
-            if (depItem.DependentTask == item.DependentTask && depItem.DependsOnTask == item.DependsOnTask)
-                return depItem; // Return the found dependency
-        }
 
-        return null; // Return null if no match is found
+
+    // Method to find a dependency based on its properties
+    static public Dependency? FindId(Dependency item)
+    {
+        return DataSource.Dependencies
+            .FirstOrDefault(depItem =>
+                depItem.DependentTask == item.DependentTask && depItem.DependsOnTask == item.DependsOnTask);
     }
+
 
     // Method to create a new dependency
     public int Create(Dependency item)
@@ -37,7 +37,8 @@ internal class DependencyImplementation : IDependency
         // Create a new dependency with a new ID
         Dependency newItem = new Dependency(DataSource.Config.NextDepID, item.DependentTask, item.DependsOnTask);
         DataSource.Dependencies.Add(newItem); // Add the new dependency to the collection
-        return newItem.Id; // Return the ID of the newly created dependency
+
+        return newItem.Id;
     }
 
     // Method to delete a dependency by ID
@@ -49,23 +50,23 @@ internal class DependencyImplementation : IDependency
     }
 
     // Method to read a dependency by ID
-    public Dependency? Read(int id)
+    Dependency? Read(Func<Dependency, bool> filter); // stage 2
     {
-        foreach (var depElement in DataSource.Dependencies)
-        {
-            if (depElement.Id == id) return depElement; // Return the dependency if ID matches
-        }
-        return null; // Return null if no match is found
+        // Return the Dependency element if found. Else, return null
+        return DataSource.Dependencies.Where(filter);
     }
 
-    // Method to read all dependencies
-    public List<Dependency> ReadAll()
-    {
-        return new List<Dependency>(DataSource.Dependencies); // Return a copy of the dependencies collection
-    }
+// Method to read all tasks
+public IEnumerable<Dependency?> ReadAll(Func<Dependency?, bool>? filter = null) //stage 2
+{
+    if (filter == null)
+        return DataSource.Dependencies.Select(item => item);
+    else
+        return DataSource.Dependencies.Where(filter);
+}
 
-    // Method to update a dependency
-    public void Update(Dependency item)
+// Method to update a dependency
+public void Update(Dependency item)
     {
         Dependency? deletedItem = Read(item.Id);
         if (deletedItem == null) throw new Exception($"Dependency with ID={item.Id} doesn't exist");
@@ -79,4 +80,10 @@ internal class DependencyImplementation : IDependency
     {
         DataSource.Dependencies.Clear();
     }
+
+    static bool copereObject<T>(T parameter)
+    {
+        
+    }
+   
 }
