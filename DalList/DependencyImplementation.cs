@@ -15,6 +15,7 @@ public class DependencyImplementation : IDependency
             if (depItem.DependentTask == item.DependentTask && depItem.DependsOnTask == item.DependsOnTask)
                 return depItem; // Return the found dependency
         }
+
         return null; // Return null if no match is found
     }
 
