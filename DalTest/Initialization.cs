@@ -2,9 +2,6 @@
 using DalApi;
 using DO;
 using System;
-using System.Data.Common;
-using System.Reflection.Metadata;
-using System.Runtime.CompilerServices;
 
 // Static class responsible for initializing test data
 public static class Initialization
@@ -13,10 +10,13 @@ public static class Initialization
     private static int MIN_ID = (int)2e8;
     private static int MAX_ID = (int)4e8;
 
-    // DAL interfaces for dependencies, engineers, and tasks
-    private static IDependency? s_dalDependency;
-    private static IEngineer? s_dalEngineer;
-    private static ITask? s_dalTask;
+    // DAL interfaces for dependencies, engineers, and tasks (stage 1)
+    /* private static IDependency? s_dalDependency;(stage 1)
+     private static IEngineer? s_dalEngineer(stage 1)
+     private static ITask? s_dalTask;*/
+   
+
+    private static IDal? s_dal;//Stage 2
 
     // Random number generator for creating random data
     private static readonly Random s_rand = new();
@@ -277,8 +277,11 @@ public static class Initialization
                _IsMileStone, _Complexity, _StartDate, _ScheduledDate, _DeadLineDate, _CompleteDate,
                _deliverables, _Remarks, _ids[randomIndexId]);
 
+            //s_dalTask!.Create(newTask); (Stage 1)
+
             // Call the DAL to create the task
-            s_dalTask!.Create(newTask);
+            s_dal!.Task.Create(newTask);
+
             linkIndex++;
             linkIndexOptional = s_rand.Next(0, 19);
         }
@@ -296,7 +299,7 @@ public static class Initialization
             Dependency newDependency = new Dependency(Id: 0, DependentTask: _dependentTask, DependsOnTask: _dependsOnTask);
 
             // Call the DAL to create the dependency
-            s_dalDependency!.Create(newDependency);
+            s_dal!.Dependency.Create(newDependency);
         }
     }
 
@@ -319,24 +322,29 @@ public static class Initialization
             Engineer newEnginner = new Engineer(_Id, _Email, _Cost, _Name, _Level);
 
             // Call the DAL to create the engineer
-            s_dalEngineer!.Create(newEnginner);
+            s_dal!.Engineer.Create(newEnginner);
             //
             index++;
         }
     }
 
     // Main method to initiate the data creation process
-    public static void Do(IDependency? dalDependency, IEngineer? dalEngineer, ITask? dalTask)
+    //public static void Do(IDependency? dalDependency, IEngineer? dalEngineer, ITask? dalTask) (stage 1)
+    public static void Do(IDal? dal)
     {
-        // Assign DAL instances to local variables
-        s_dalTask = dalTask ?? throw new NullReferenceException("DAL can not be null!");
+        // Assign DAL instances to local variables (Stage 1)
+        /*s_dalTask = dalTask ?? throw new NullReferenceException("DAL can not be null!"); 
         s_dalEngineer = dalEngineer ?? throw new NullReferenceException("DAL can not be null!");
-        s_dalDependency = dalDependency ?? throw new NullReferenceException("DAL can not be null!");
+        s_dalDependency = dalDependency ?? throw new NullReferenceException("DAL can not be null!");*/
+
+        s_dal = dal ?? throw new NullReferenceException("DAL can not be a null!");
 
         // Create tasks, engineers, and dependencies
-        setIds();//initialize the Engineers IDs
-        CreateEngineer();
-        CreateTask();
-        createDependency();
+        setIds();//initialize the Engineers array IDs
+        CreateEngineer();//Initialize the IEngineer from the datas that we gave them
+        CreateTask();//Initialize the ITask from the datas that we gave them
+        createDependency();//Initialize the ITask from the datas that we gave them
+
+        
     }
 }

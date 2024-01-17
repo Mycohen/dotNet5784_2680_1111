@@ -3,6 +3,5 @@ using DO;
 
 public interface IDependency : ICrud<Dependency>
 {
-    
     void DeleteAll();
 }

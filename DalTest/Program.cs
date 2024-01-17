@@ -11,11 +11,12 @@ namespace DalTest
     // A static class that serves as the entry point for the program
     internal static class Program
     {
-        // Dependency, Engineer, and Task instances for Data Access Layer
-        public static IDependency? s_dalDependency = new DependencyImplementation();
+        // Dependency, Engineer, and Task instances for Data Access Layer (Stage 1)
+        /*public static IDependency? s_dalDependency = new DependencyImplementation();
         public static IEngineer? s_dalEngineer = new EngineerImplementation();
-        public static ITask? s_dalTask = new TaskImplementation();
+        public static ITask? s_dalTask = new TaskImplementation();*/
 
+        static readonly IDal s_dal = new DalList();
 
         // Main method, the starting point of the program
         public static void Main()
@@ -23,7 +24,7 @@ namespace DalTest
             try
             {
                 // Initialize Data Access Layer dependencies
-                Initialization.Do(s_dalDependency, s_dalEngineer, s_dalTask);
+                Initialization.Do(s_dal);
 
                 // Main program loop
                 do
@@ -229,7 +230,7 @@ namespace DalTest
         private static void printMainMenu()
         {
             // Display the main menu options
-            Console.WriteLine(@"Enter 0 for quitting the program:");
+            Console.WriteLine("Enter 0 for quitting the program:");
             Console.WriteLine("Enter 1 for Tasks menu:");
             Console.WriteLine("Enter 2 for Engineers menu:");
             Console.WriteLine("Enter 3 for Dependencies menu");
@@ -283,7 +284,8 @@ namespace DalTest
             Engineer engineerInstance = new Engineer(Id: id, Email: email, Cost: cost, Name: name, Level: level);
 
             // Call the Create method on the data access layer to store the Engineer instance
-            s_dalEngineer!.Create(engineerInstance);
+            //s_dalEngineer!.Create(engineerInstance); //(stage 1)
+            s_dal!.Engineer!.Create(engineerInstance);
 
             // Inform the user that the data has been received successfully
             Console.WriteLine("The data received successfully. Here is the Data:");
@@ -300,10 +302,10 @@ namespace DalTest
             int id = isValidIntInput(); // Call a method to validate and retrieve an integer input
 
             // Retrieve the current data of the Engineer to be updated from the data access layer
-            Engineer currentEngineerData = s_dalEngineer!.Read(id) ?? throw new Exception("Engineer with such ID does not exist");
+            //Engineer currentEngineerData = s_dalEngineer!.Read(id) ?? throw new Exception("Engineer with such ID does not exist"); //(satge1)
+            Engineer currentEngineerData = s_dal!.Engineer!.Read(id) ?? throw new Exception("Engineer with such ID does not exist");
+            
 
-            // Flag to determine whether to update each attribute, initially set to false
-         
 
             // Update the Engineer's Email
             updateEngineer_PrintText("Email");
@@ -365,7 +367,7 @@ namespace DalTest
             Engineer updatedEngineerData = new Engineer(Id: id, Email: email, Name: name, Cost: cost, Level: level);
 
             // Call the Update method on the data access layer to apply the changes
-            s_dalEngineer!.Update(updatedEngineerData);
+            s_dal!.Engineer!.Update(updatedEngineerData);
 
             // Inform the user that the data has been received successfully
             Console.WriteLine("The data received successfully. Here is the Data:");
@@ -422,7 +424,7 @@ namespace DalTest
             int id = isValidIntInput();
 
             // Retrieve the current Engineer data using the data access layer
-            Engineer correntEngineerData = s_dalEngineer!.Read(id) ?? throw new Exception("Engineer with such ID does not exist");
+            Engineer correntEngineerData = s_dal!.Engineer!.Read(id) ?? throw new Exception("Engineer with such ID does not exist");
 
             // Call the printEngineer method to display details of the current Engineer
             printEngineer(correntEngineerData);
@@ -444,7 +446,7 @@ namespace DalTest
         private static void readAllEngineers()
         {
             // Retrieve a list of all Engineers from the data access layer
-            List<Engineer> engineers = s_dalEngineer!.ReadAll();
+            List<Engineer> engineers = s_dal!.Engineer!.ReadAll();
 
             // Iterate through each Engineer and print their details
             foreach (Engineer engineer in engineers)
@@ -464,17 +466,17 @@ namespace DalTest
             int id = isValidIntInput();
 
             // Retrieve the current Engineer data using the data access layer
-            Engineer correntEngineerData = s_dalEngineer!.Read(id) ?? throw new Exception("Engineer with such ID does not exist");
+            Engineer correntEngineerData = s_dal!.Engineer!.Read(id) ?? throw new Exception("Engineer with such ID does not exist");
 
             // Delete the Engineer using the data access layer
-            s_dalEngineer.Delete(id);
+            s_dal!.Engineer.Delete(id);
         }
 
         // Method to remove all Engineers
         private static void removeAllEngineers()
         {
             // Delete all Engineers using the data access layer
-            s_dalEngineer!.DeleteAll();
+            s_dal!.Engineer!.DeleteAll();
         }
 
 
@@ -496,7 +498,7 @@ namespace DalTest
                 DependsOnTask:dependsOnTask);
 
             // Save the Dependency instance using the data access layer
-            s_dalDependency!.Create(dependencyInstance);
+            s_dal!.Dependency!.Create(dependencyInstance);
 
             // Display a success message and print the created Dependency data
             Console.WriteLine("The data received successfully. Here is the Data:\n");
@@ -512,7 +514,7 @@ namespace DalTest
             int id = isValidIntInput();
 
             // Retrieve the current Dependency data based on the provided ID
-            Dependency currentDependencyData = s_dalDependency!.Read(id) ?? throw new Exception("Dependency with such ID does not exist");
+            Dependency currentDependencyData = s_dal!.Dependency!.Read(id) ?? throw new Exception("Dependency with such ID does not exist");
 
             // Prompt the user if they want to update the dependent task
             Console.WriteLine("Do you want to update the dependent task? (y/n)");
@@ -552,7 +554,7 @@ namespace DalTest
                 DependsOnTask: dependsOnTask);
 
             // Update the Dependency in the data access layer
-            s_dalDependency!.Update(updatedDependencyData);
+            s_dal!.Dependency!.Update(updatedDependencyData);
 
             // Display a success message and print the updated Dependency data
             Console.WriteLine("The data received successfully. Here is the Data:\n");
@@ -565,9 +567,10 @@ namespace DalTest
             // Prompt the user to enter the ID of the Dependency they want to read
             Console.WriteLine("Enter the ID of dependency you want to read");
             int id = isValidIntInput();
-            
+
             // Retrieve the current Dependency data based on the provided ID
-            Dependency currentDependencyData = s_dalDependency!.Read(id) ?? throw new Exception("Dependency with such ID does not exist");
+            //Dependency currentDependencyData = s_dalDependency!.Read(id) ?? throw new Exception("Dependency with such ID does not exist"); (stage 1)
+            Dependency currentDependencyData = s_dal!.Dependency.Read(id) ?? throw new Exception("Dependency with such ID does not exist");
 
             // Call the printDependency method to display details of the current Dependency
             printDependency(currentDependencyData);
@@ -577,7 +580,8 @@ namespace DalTest
         private static void readAllDependency()
         {
             // Retrieve a list of all Dependencies from the data access layer
-            List<Dependency> dependencies = s_dalDependency!.ReadAll();
+            //List<Dependency> dependencies = s_dalDependency!.ReadAll(); (stage1)
+            List<Dependency> dependencies = s_dal!.Dependency.ReadAll();
 
             // Iterate through each Dependency and print its details
             foreach (Dependency dependency in dependencies)
@@ -597,7 +601,8 @@ namespace DalTest
             int id = isValidIntInput();
 
             // Call the Delete method in the data access layer to remove the Dependency
-            s_dalDependency!.Delete(id);
+            //s_dalDependency!.Delete(id);(stage1)
+            s_dal!.Dependency.Delete(id);
         }
 
         // Method to print details of a Dependency
@@ -620,7 +625,7 @@ namespace DalTest
         private static void removeAllDependency()
         {
             // Call the DeleteAll method in the data access layer to remove all Dependencies
-            s_dalDependency!.DeleteAll();
+            s_dal!.Dependency!.DeleteAll();
         }
 
 
@@ -728,7 +733,7 @@ namespace DalTest
                 );
 
             // Call the Create method in the data access layer to store the new task
-            s_dalTask!.Create(inputTask);
+            s_dal!.Task!.Create(inputTask);
 
             // Display the received data
             Console.WriteLine("The data received successfully, here is the Data:");
@@ -744,7 +749,7 @@ namespace DalTest
             int id = isValidIntInput();
 
             // Read the existing task data from the data access layer
-            Task taskT = s_dalTask!.Read(id) ?? throw new Exception("Task with such ID does not exist");
+            Task taskT = s_dal!.Task!.Read(id) ?? throw new Exception("Task with such ID does not exist");
 
             // Prompt user to update the Alias field
             updateEngineer_PrintText("Alias");
@@ -920,7 +925,7 @@ namespace DalTest
                 EngineerId: engineerId);
 
             // Call the Update method in the data access layer to apply the changes
-            s_dalTask!.Update(taskToUpdate);
+            s_dal!.Task!.Update(taskToUpdate);
 
             // Display the updated data
             Console.WriteLine("The data received successfully, here is the updated Data:");
@@ -935,7 +940,7 @@ namespace DalTest
             int id = getInt(userInput);
 
             // Retrieve the task data from the data access layer based on the entered ID
-            Task currentTaskData = s_dalTask!.Read(id) ?? throw new Exception("Task with such ID does not exist");
+            Task currentTaskData = s_dal!.Task!.Read(id) ?? throw new Exception("Task with such ID does not exist");
 
             // Call the PrintTask method to display details of the current task
             PrintTask(currentTaskData);
@@ -966,7 +971,7 @@ namespace DalTest
         private static void readAllTask()
         {
             // Retrieve a list of all tasks from the data access layer
-            List<Task> tasks = s_dalTask!.ReadAll();
+            List<Task> tasks = s_dal!.Task.ReadAll();
 
             // Iterate through each task and call the PrintTask method to display details
             foreach (Task task in tasks)
@@ -982,17 +987,17 @@ namespace DalTest
             int id = isValidIntInput();
 
             // Retrieve the task data from the data access layer based on the entered ID
-            Task currentTaskData = s_dalTask!.Read(id) ?? throw new Exception("Task with such ID does not exist");
+            Task currentTaskData = s_dal!.Task!.Read(id) ?? throw new Exception("Task with such ID does not exist");
 
             // Call the Delete method in the data access layer to remove the task
-            s_dalTask!.Delete(id);
+            s_dal!.Task!.Delete(id);
         }
 
         // Method to remove all tasks
         private static void removeAllTasks()
         {
             // Call the DeleteAll method in the data access layer to remove all tasks
-            s_dalTask!.DeleteAll();
+            s_dal!.Task.DeleteAll();
         }
 
 

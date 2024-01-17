@@ -4,7 +4,7 @@ using DO;
 using System.Collections.Generic;
 
 // Class implementing IDependency interface
-public class DependencyImplementation : IDependency
+internal class DependencyImplementation : IDependency
 {
     // Method to find a dependency based on its properties
     public Dependency? FindId(Dependency item)
