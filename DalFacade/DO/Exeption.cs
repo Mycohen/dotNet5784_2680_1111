@@ -1,11 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace DO;
+using System;
 
-namespace DO
+
+[Serializable]
+public class DalDoesNotExistExeption : Exception
 {
-    
+    public DalDoesNotExistExeption(string? message) : base(message) {}
+}
+
+[Serializable]
+public class DalAlreadyExistsException : Exception
+{
+    public DalAlreadyExistsException(string? message) : base(message) { }
+}
+
+[Serializable]
+public class DalDeletionImpossible : Exception
+{
+    public DalDeletionImpossible() :
+
+    base("This entity can not be deleted - please deactivate instead")
+    { }
 
 }
+
+
+
+
+

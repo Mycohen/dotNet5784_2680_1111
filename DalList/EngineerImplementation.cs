@@ -17,7 +17,7 @@ internal class EngineerImplementation : IEngineer
         {
 
             if (_engineer.Id == item.Id)
-                throw new Exception($"Engineer with ID={item.Id} already exist");
+                throw new DalAlreadyExistsException($"Engineer with ID={item.Id} already exist");
 
         }
         if (item.Id < 0 || item.Email == null || item.Email.Length == 0 || item.Cost <= 0 ||
@@ -39,7 +39,7 @@ internal class EngineerImplementation : IEngineer
 
         // Throw an exception if the engineer doesn't exist
         if (deletedEngineer == null)
-            throw new Exception($"Engineer with ID={id} doesn't exist");
+            throw new DalDoesNotExistExeption($"Engineer with ID={id} doesn't exist");
 
         // Remove the engineer from the collection
         DataSource.Engineers.Remove(deletedEngineer);
@@ -79,7 +79,7 @@ public IEnumerable<Engineer> ReadAll(Func<Engineer, bool>? filter = null)
 
         // Throw an exception if the engineer doesn't exist
         if (deletedEngineer == null)
-            throw new Exception($"Engineer with ID={item.Id} doesn't exist");
+            throw new DalDoesNotExistExeption($"Engineer with ID={item.Id} doesn't exist");
 
         // Remove the existing engineer
         DataSource.Engineers.Remove(deletedEngineer);

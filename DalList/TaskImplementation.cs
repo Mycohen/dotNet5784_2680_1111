@@ -38,7 +38,7 @@ internal class TaskImplementation : ITask
     {
         // Check if a task with the same properties already exists
         if (FindId(item) == null)
-            throw new Exception($"A task with ID={item.Id} already exist");
+            throw new DalAlreadyExistsException($"A task with ID={item.Id} already exist");
 
         // Create a new task with a new ID
         Task newTask = new Task(
@@ -80,7 +80,7 @@ internal class TaskImplementation : ITask
         // Throw an exception if the task doesn't exist
         if (ptrTask == null)
         {
-            throw new Exception("ERROR: this task with such ID doesn't exist");
+            throw new DalDoesNotExistExeption($"ERROR: this task with such ID={id} doesn't exist");
         }
 
         // Remove the task from the collection
@@ -119,7 +119,7 @@ internal class TaskImplementation : ITask
 
         // Throw an exception if the task doesn't exist
         if (deletedTask == null)
-            throw new Exception($"A task with ID={item.Id} doesn't exist");
+            throw new DalDoesNotExistExeption($"A task with ID={item.Id} doesn't exist");
         // Remove the existing task
         DataSource.Tasks.Remove(deletedTask);
 

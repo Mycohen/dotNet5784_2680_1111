@@ -21,14 +21,15 @@ namespace DalTest
         // Main method, the starting point of the program
         public static void Main()
         {
-            try
-            {
-                // Initialize Data Access Layer dependencies
-                Initialization.Do(s_dal);
-
-                // Main program loop
-                do
+            Initialization.Do(s_dal);
+            do { 
+                try
                 {
+                    // Initialize Data Access Layer dependencies
+                   
+
+                    // Main program loop
+
                     // Display the main menu
                     printMainMenu();
 
@@ -64,14 +65,27 @@ namespace DalTest
                         // Invalid input format, throw an exception
                         throw new Exception("ERROR: Invalid choice input. Please try again");
                     }
-                } while (true); // Infinite loop for continuous user interaction
-            }
-            catch (Exception errorMessage)
-            {
-                // Catch and display any exceptions that occur during program execution
-                Console.WriteLine(errorMessage);
-            }
-        }
+
+                }
+                catch (DalDoesNotExistExeption ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                catch (DalAlreadyExistsException ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                catch (DalDeletionImpossible ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+
+        } while (true);  // Infinite loop for continuous user interaction
+    }
 
         //Sub menu for task options
         private static void taskOptions()
