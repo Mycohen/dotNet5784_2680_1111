@@ -96,6 +96,10 @@ internal class TaskImplementation : ITask
         // Return the task if found, otherwise return null
         return temp;
     }
+    public Task? Read(Func<Task, bool> filter)
+    {
+        return DataSource.Tasks.FirstOrDefault(filter);
+    }
 
     // Method to read all tasks
     public IEnumerable<Task?> ReadAll(Func<Task?, bool>? filter = null) //stage 2
@@ -126,4 +130,5 @@ internal class TaskImplementation : ITask
     public void DeleteAll()
     { DataSource.Tasks.Clear(); }
 
+    
 }

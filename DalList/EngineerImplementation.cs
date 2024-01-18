@@ -18,10 +18,10 @@ internal class EngineerImplementation : IEngineer
 
             if (_engineer.Id == item.Id)
                 throw new Exception($"Engineer with ID={item.Id} already exist");
-            
+
         }
-        if (item.Id<0|| item.Email==null ||item.Email.Length==0|| item.Cost<=0||
-            item.Name==null||item.Name.Length==0 )
+        if (item.Id < 0 || item.Email == null || item.Email.Length == 0 || item.Cost <= 0 ||
+            item.Name == null || item.Name.Length == 0)
             throw new Exception("The Engineer properties are invalid");
 
         // Add the new engineer to the collection
@@ -54,15 +54,20 @@ internal class EngineerImplementation : IEngineer
         // Return the engineer if found, otherwise return null
         return result;
     }
+    public Engineer? Read(Func<Engineer, bool> filter)
+    {
+        return DataSource.Engineers.FirstOrDefault(filter);
+    }
 
-    // Method to read all engineers
-    public IEnumerable <Engineer> ReadAll(Func<Engineer, bool>? filter = null)
+
+// Method to read all engineers
+public IEnumerable<Engineer> ReadAll(Func<Engineer, bool>? filter = null)
     {
         //if there is no parameter of a point to a function
         if (filter == null)
-            return DataSource.Engineers.Select(item => item); 
+            return DataSource.Engineers.Select(item => item);
         //filter based on the boolian function
-        else 
+        else
             return DataSource.Engineers.Where(filter);
     }
 
@@ -87,4 +92,5 @@ internal class EngineerImplementation : IEngineer
     {
         DataSource.Engineers.Clear();
     }
+
 }

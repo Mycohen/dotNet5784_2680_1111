@@ -3,6 +3,7 @@ using DalApi;
 using DO;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 
 // Class implementing IDependency interface
@@ -50,23 +51,28 @@ internal class DependencyImplementation : IDependency
     }
 
     // Method to read a dependency by ID
-    Dependency? Read(Func<Dependency, bool> filter); // stage 2
+    public Dependency? Read(int id)
+    {
+        return DataSource.Dependencies.FirstOrDefault(d => d.Id == id);
+    }
+    // Method to read a dependency by soem Boolian function
+    public Dependency? Read(Func<Dependency, bool> filter) // stage 2
     {
         // Return the Dependency element if found. Else, return null
-        return DataSource.Dependencies.Where(filter);
+        return DataSource.Dependencies.FirstOrDefault(filter);
     }
 
-// Method to read all tasks
-public IEnumerable<Dependency?> ReadAll(Func<Dependency?, bool>? filter = null) //stage 2
-{
-    if (filter == null)
-        return DataSource.Dependencies.Select(item => item);
-    else
-        return DataSource.Dependencies.Where(filter);
-}
+    // Method to read all tasks
+    public IEnumerable<Dependency?> ReadAll(Func<Dependency?, bool>? filter = null) //stage 2
+    {
+        if (filter == null)
+            return DataSource.Dependencies.Select(item => item);
+        else
+            return DataSource.Dependencies.Where(filter);
+    }
 
-// Method to update a dependency
-public void Update(Dependency item)
+    // Method to update a dependency
+    public void Update(Dependency item)
     {
         Dependency? deletedItem = Read(item.Id);
         if (deletedItem == null) throw new Exception($"Dependency with ID={item.Id} doesn't exist");
@@ -81,9 +87,5 @@ public void Update(Dependency item)
         DataSource.Dependencies.Clear();
     }
 
-    static bool copereObject<T>(T parameter)
-    {
-        
-    }
    
 }
