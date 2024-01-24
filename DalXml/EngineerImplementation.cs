@@ -64,6 +64,7 @@ internal class EngineerImplementation : IEngineer
     // Reads an Engineer from the XML file based on a filter function
     public Engineer? Read(Func<Engineer, bool> filter)
     {
+
         // Load all Engineers from the XML file
         List<Engineer> engineers = XMLTools.LoadListFromXMLSerializer<Engineer>(s_engineer_xml);
 
