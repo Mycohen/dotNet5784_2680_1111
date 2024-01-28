@@ -1,6 +1,7 @@
 ﻿namespace Dal;
 
 using DO;
+using System.ComponentModel;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
@@ -17,12 +18,20 @@ static class XMLTools
     #region Extension Fuctions
     public static T? ToEnumNullable<T>(this XElement element, string name) where T : struct, Enum =>
         Enum.TryParse<T>((string?)element.Element(name), out var result) ? (T?)result : null;
+
     public static DateTime? ToDateTimeNullable(this XElement element, string name) =>
         DateTime.TryParse((string?)element.Element(name), out var result) ? (DateTime?)result : null;
+
     public static double? ToDoubleNullable(this XElement element, string name) =>
         double.TryParse((string?)element.Element(name), out var result) ? (double?)result : null;
+
     public static int? ToIntNullable(this XElement element, string name) =>
         int.TryParse((string?)element.Element(name), out var result) ? (int?)result : null;
+
+    public static bool ItemExists(this XElement elementArray, XElement otherElement, string name) =>
+        elementArray.Descendants(name).Any(existingItem => XElement.DeepEquals(existingItem, otherElement));
+
+
     #endregion
 
     #region XmlConfig
@@ -97,4 +106,22 @@ static class XMLTools
         }
     }
     #endregion
+
+    public static IEnumerable<Task> XElementToTask(this IEnumerable<XElement> element) =>
+            element.Elements("task").Select(taskElement => new Task(
+                                Id: (int)taskElement.ToIntNullable("Id")!,
+                                Alias: (string?)taskElement.Element("Alias"),
+                                Description: (string?)taskElement.Element("Description"),
+                                CreatedAtDate: taskElement.ToDateTimeNullable("CreatedAtDate"),
+                                RequiredEffortTime: (TimeSpan)taskElement.Element("RequiredEffortTime")!,
+                                IsMilestone: (bool)taskElement.Element("IsMilestone")!,
+                                Complexity: (EngineerExperience)taskElement.ToEnumNullable<EngineerExperience>("Complexity")!,
+                                StartDate: taskElement.ToDateTimeNullable("StartDate"),
+                                ScheduledDate: taskElement.ToDateTimeNullable("ScheduledDate"),
+                                DeadlineDate: taskElement.ToDateTimeNullable("DeadlineDate"),
+                                CompleteDate: taskElement.ToDateTimeNullable("CompleteDate"),
+                                Deliverables: (string?)taskElement.Element("Deliverables"),
+                                Remarks: (string?)taskElement.Element("Remarks"),
+                                EngineerId: (int)taskElement.ToIntNullable("EngineerId")!)
+                            );
 }
