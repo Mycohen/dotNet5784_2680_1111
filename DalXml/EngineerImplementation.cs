@@ -1,7 +1,6 @@
 ﻿namespace Dal;
 using DalApi;
 using DO;
-using System.Data.Common;
 using System.Linq;
 using System.Xml.Linq;
 

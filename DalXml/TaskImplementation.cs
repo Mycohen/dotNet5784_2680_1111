@@ -10,6 +10,7 @@ using DO;
 using DalApi;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
+using System.Data.Common;
 
 
 internal class TaskImplementation : ITask
@@ -86,8 +87,6 @@ internal class TaskImplementation : ITask
         throw new NotImplementedException();
     }
 
-   
-    
+
+
 }
-
-
