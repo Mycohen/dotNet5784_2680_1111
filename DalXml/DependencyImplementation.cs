@@ -17,20 +17,15 @@ internal class DependencyImplementation : IDependency
     // Creates a new Engineer in the XML file
     public int Create(Dependency item)
     {
-        // Check if Engineer with the same ID already exists
-        if (Read(item.Id) != null)
-            throw new DalAlreadyExistsException($"Dependency with ID={item.Id} already exists");
-
-        XElement xDep = new XElement("Dependency",
-                        new XElement("Id", item.Id),
-                        new XElement("DependentTask", item.DependentTask),
-                        new XElement("DependsOnTask", item.DependsOnTask));
-
-        // Save the XElement to the XML file
-        XMLTools.SaveListToXMLElement(xDep, s_dependency_xml);
-
-        // Return the ID of the created Engineer
-        return item.Id;
+        XElement dependencyArrayRoot = XMLTools.LoadListFromXMLElement(s_dependency_xml);
+        //create an instance of task (converted to XML)
+        XElement elementDependency = new XElement("Task",
+                new XElement("Id", Config.NextDepId,
+                new XElement("DependentTask", item.DependentTask),
+                new XElement("DependsOnTask", item.DependsOnTask)));
+        dependencyArrayRoot.Add(elementDependency);
+        XMLTools.SaveListToXMLElement(dependencyArrayRoot, s_dependency_xml);
+        return (int)XMLTools.ToIntNullable(elementDependency, "Id")!;
     }
 
     // Reads an Engineer from the XML file based on the ID
@@ -83,16 +78,20 @@ internal class DependencyImplementation : IDependency
     }
 
     // Updates an Engineer in the XML file
-    public void Update(Dependency item)///Logical error here!!!!!!!!!!!!!!!!!
+    public void Update(Dependency item)
     {
-        // Check if the Engineer exists
-        chechIfDependencyExist(item);
+       chechIfDependencyExist(Read(item.Id)!);
 
-        // Delete the existing Engineer
-        Delete(item.Id);
-
-        // Create the updated Engineer
-        Create(item);
+        XElement dependencyArrayRoot = XMLTools.LoadListFromXMLElement(s_dependency_xml);
+        //create an instance of task (converted to XML)
+        XElement elementDependency = new XElement("Task",
+                new XElement("Id", item.Id,
+                new XElement("DependentTask", item.DependentTask),
+                new XElement("DependsOnTask", item.DependsOnTask)));
+       Delete(item.Id);
+        dependencyArrayRoot.Add(elementDependency);
+      
+        XMLTools.SaveListToXMLElement(dependencyArrayRoot, s_dependency_xml);
     }
 
     // Deletes an Engineer from the XML file based on the ID
@@ -120,13 +119,13 @@ internal class DependencyImplementation : IDependency
     public void DeleteAll()
     {
         // Load the XElement containing all Engineers from the XML file
-        XElement engineers = XMLTools.LoadListFromXMLElement(s_dependency_xml);
+        XElement dependencies = XMLTools.LoadListFromXMLElement(s_dependency_xml);
 
         // Remove all Engineer XElements
-        engineers.RemoveAll();
+        dependencies.RemoveAll();
 
         // Save the modified XElement back to the XML file
-        XMLTools.SaveListToXMLElement(engineers, s_dependency_xml);
+        XMLTools.SaveListToXMLElement(dependencies, s_dependency_xml);
     }
 
     // Checks if an Engineer exists based on the ID and throws an exception if it doesn't
@@ -136,15 +135,7 @@ internal class DependencyImplementation : IDependency
             throw new DalDoesNotExistExeption($"Dependency with ID={item.Id} doesn't exist");
     }
 
-    static public Dependency? FindId(Dependency item)
-    {
-        // Load the XElement containing all Engineers from the XML file
-        XElement? dependencyRoot = XMLTools.LoadListFromXMLElement("dependency");
-
-        // Find the target Engineer XElement based on the ID
-        return dependencyRoot.Elements("Dependency")
-            .FirstOrDefault(depItem => (int)depItem.Element("DependentTask")! == item.DependentTask && (int)depItem.Element("DependsOnTask") == item.DependsOnTask);
-    }
+   
 
 }
 

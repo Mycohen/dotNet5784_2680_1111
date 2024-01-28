@@ -175,6 +175,7 @@ internal class TaskImplementation : ITask
                 (item.Remarks != null) ? new XElement("Remarks", item.Remarks) : null,
                 new XElement("EngineerId", item.EngineerId)
                 ));
+        Delete(item.Id);
         taskArrayRoot.Add(elementTask);
         XMLTools.SaveListToXMLElement(taskArrayRoot, s_task_xml);
     }
