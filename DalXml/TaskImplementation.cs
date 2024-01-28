@@ -44,12 +44,35 @@ internal class TaskImplementation : ITask
 
     public void Delete(int id)
     {
-        
+        // Check if the Engineer exists
+        chechIfTaskExist(Read(id)!);
+
+        // Load the XElement containing all Tasks from the XML file
+        XElement rootTaskElement = XMLTools.LoadListFromXMLElement(s_task_xml);
+
+        // Find the target Tasks XElement based on the ID
+        XElement? targetTaskElement = rootTaskElement
+                .Elements("Task")
+                .FirstOrDefault(elem => (int)elem.Element("Id")! == id);
+
+        // Remove the target Engineer XElement
+        targetTaskElement!.Remove();
+
+        // Save the modified XElement back to the XML file
+        XMLTools.SaveListToXMLElement(rootTaskElement, s_task_xml);
     }
 
+    // Deletes all Task from the XML file
     public void DeleteAll()
     {
-        throw new NotImplementedException();
+        // Load the XElement containing all Engineers from the XML file
+        XElement xmlTask = XMLTools.LoadListFromXMLElement(s_task_xml);
+
+        // Remove all Engineer XElements
+        xmlTask.RemoveAll();
+
+        // Save the modified XElement back to the XML file
+        XMLTools.SaveListToXMLElement(xmlTask, s_task_xml);
     }
 
     public Task? Read(Func<Task, bool> filter)
@@ -156,6 +179,12 @@ internal class TaskImplementation : ITask
         XMLTools.SaveListToXMLElement(taskArrayRoot, s_task_xml);
     }
 
+    // Checks if an Engineer exists based on the ID and throws an exception if it doesn't
+    void chechIfTaskExist(Task item)
+    {
+        if (Read(item.Id) == null)
+            throw new DalDoesNotExistExeption($"Engineer with ID={item.Id} doesn't exist");
+    }
 
 }
 
