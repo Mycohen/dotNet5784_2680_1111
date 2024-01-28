@@ -1,4 +1,10 @@
-﻿namespace Dal;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Dal;
 
 // Nested static class containing configuration constants for the data source
 internal static class Config
