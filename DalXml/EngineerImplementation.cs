@@ -5,7 +5,6 @@ using System.Data.Common;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace Dal;
 
 internal class EngineerImplementation : IEngineer
 {
