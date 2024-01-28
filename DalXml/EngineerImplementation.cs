@@ -5,6 +5,8 @@ using System.Data.Common;
 using System.Linq;
 using System.Xml.Linq;
 
+namespace Dal;
+
 internal class EngineerImplementation : IEngineer
 {
     readonly string s_engineer_xml = "engineer";
