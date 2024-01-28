@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Dal;
+﻿namespace Dal;
 using DalApi;
 using DO;
-using System.Data.Common;
 using System.Xml.Linq;
 
 internal class DependencyImplementation : IDependency
@@ -80,7 +73,7 @@ internal class DependencyImplementation : IDependency
     // Updates an Engineer in the XML file
     public void Update(Dependency item)
     {
-       chechIfDependencyExist(Read(item.Id)!);
+        chechIfDependencyExist(Read(item.Id)!);
 
         XElement dependencyArrayRoot = XMLTools.LoadListFromXMLElement(s_dependency_xml);
         //create an instance of task (converted to XML)
@@ -88,9 +81,9 @@ internal class DependencyImplementation : IDependency
                 new XElement("Id", item.Id,
                 new XElement("DependentTask", item.DependentTask),
                 new XElement("DependsOnTask", item.DependsOnTask)));
-       Delete(item.Id);
+        Delete(item.Id);
         dependencyArrayRoot.Add(elementDependency);
-      
+
         XMLTools.SaveListToXMLElement(dependencyArrayRoot, s_dependency_xml);
     }
 
@@ -112,7 +105,7 @@ internal class DependencyImplementation : IDependency
         targetDependencyElement!.Remove();
 
         // Save the modified XElement back to the XML file
-        XMLTools.SaveListToXMLElement(dependencyRoot,s_dependency_xml);
+        XMLTools.SaveListToXMLElement(dependencyRoot, s_dependency_xml);
     }
 
     // Deletes all Engineers from the XML file
@@ -134,9 +127,6 @@ internal class DependencyImplementation : IDependency
         if (Read(item.Id) == null)
             throw new DalDoesNotExistExeption($"Dependency with ID={item.Id} doesn't exist");
     }
-
-   
-
 }
 
 
