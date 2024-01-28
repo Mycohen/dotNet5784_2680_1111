@@ -1,11 +1,9 @@
 ﻿namespace Dal;
 using DalApi;
 using DO;
-using System.Data.Common;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace Dal;
 
 internal class EngineerImplementation : IEngineer
 {
@@ -17,7 +15,7 @@ internal class EngineerImplementation : IEngineer
         // Check if Engineer with the same ID already exists
         if (Read(item.Id) != null)
             throw new DalAlreadyExistsException($"Engineer with ID={item.Id} already exists");
-
+        XElement rootXml= XMLTools.LoadListFromXMLElement(s_engineer_xml);
         // Create a new XElement for the Engineer and populate it with the item's properties
         XElement elemEngineer = new XElement("Engineer",
             new XElement("Id", item.Id),
@@ -25,9 +23,9 @@ internal class EngineerImplementation : IEngineer
             new XElement("Email", item.Email),
             new XElement("Cost", item.Cost),
             new XElement("Level", item.Level));
-
+        rootXml.Add(elemEngineer);
         // Save the XElement to the XML file
-        XMLTools.SaveListToXMLElement(elemEngineer, s_engineer_xml);
+        XMLTools.SaveListToXMLElement(rootXml, s_engineer_xml);
 
         // Return the ID of the created Engineer
         return item.Id;
@@ -66,10 +64,8 @@ internal class EngineerImplementation : IEngineer
     // Reads an Engineer from the XML file based on a filter function
     public Engineer? Read(Func<Engineer, bool> filter)
     {
-        throw new NotImplementedException();
-    }
-
-        // Load all Engineers from the XML file
+        
+        // Load all Engineers from the XML file 
         List<Engineer> engineers = XMLTools.LoadListFromXMLSerializer<Engineer>(s_engineer_xml);
 
         // Find the first Engineer that matches the filter function
@@ -88,16 +84,16 @@ internal class EngineerImplementation : IEngineer
     }
 
     // Updates an Engineer in the XML file
-    public void Update(Engineer item)
+    public void Update(Engineer updated)
     {
         // Check if the Engineer exists
-        chechIfEngineerExist(item);
+        chechIfEngineerExist(updated);
 
-        // Delete the existing Engineer
-        Delete(item.Id);
+        // Delete the existing Engineer from the XElement
+        Delete(updated.Id);
 
-        // Create the updated Engineer
-        Create(item);
+        // Create the updated Engineer in the XElement
+        Create(updated);
     }
 
     // Deletes an Engineer from the XML file based on the ID
@@ -107,10 +103,10 @@ internal class EngineerImplementation : IEngineer
         chechIfEngineerExist(Read(id)!);
 
         // Load the XElement containing all Engineers from the XML file
-        XElement engineerElement = XMLTools.LoadListFromXMLElement(s_engineer_xml);
+        XElement rootEngineerElement = XMLTools.LoadListFromXMLElement(s_engineer_xml);
 
         // Find the target Engineer XElement based on the ID
-        XElement? targetEngineerElement = engineerElement
+        XElement? targetEngineerElement = rootEngineerElement
                 .Elements("Engineer")
                 .FirstOrDefault(elem => (int)elem.Element("Id")! == id);
 
@@ -118,20 +114,20 @@ internal class EngineerImplementation : IEngineer
         targetEngineerElement!.Remove();
 
         // Save the modified XElement back to the XML file
-        XMLTools.SaveListToXMLElement(engineerElement, s_engineer_xml);
+        XMLTools.SaveListToXMLElement(rootEngineerElement, s_engineer_xml);
     }
 
     // Deletes all Engineers from the XML file
     public void DeleteAll()
     {
         // Load the XElement containing all Engineers from the XML file
-        XElement engineers = XMLTools.LoadListFromXMLElement(s_engineer_xml);
+        XElement xmlEngineers = XMLTools.LoadListFromXMLElement(s_engineer_xml);
 
         // Remove all Engineer XElements
-        engineers.RemoveAll();
+        xmlEngineers.RemoveAll();
 
         // Save the modified XElement back to the XML file
-        XMLTools.SaveListToXMLElement(engineers, s_engineer_xml);
+        XMLTools.SaveListToXMLElement(xmlEngineers, s_engineer_xml);
     }
 
     // Checks if an Engineer exists based on the ID and throws an exception if it doesn't
