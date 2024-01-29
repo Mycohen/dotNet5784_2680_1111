@@ -39,7 +39,7 @@ internal class TaskImplementation : ITask
                 ));
         taskArrayRoot.Add(elementTask);
         XMLTools.SaveListToXMLElement(taskArrayRoot, s_task_xml);
-        return (int)XMLTools.ToIntNullable(elementTask, "Id")!;
+        return item.Id;
     }
 
     public void Delete(int id)

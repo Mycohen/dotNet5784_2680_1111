@@ -49,6 +49,7 @@ namespace DalTest
                         {
                             case MainMenuOption.MainExit:
                                 // Exit the program
+                                removeAllFromXml();
                                 Environment.Exit(0);
                                 break;
                             case MainMenuOption.TaskMenu:
@@ -93,7 +94,8 @@ namespace DalTest
                 }
 
         } while (true);  // Infinite loop for continuous user interaction
-    }
+          
+        }
 
         //Sub menu for task options
         private static void taskOptions()
@@ -271,7 +273,21 @@ namespace DalTest
             Console.WriteLine($"Enter 6 to Remove all of the {entity} elements");
         }
 
+        private static void removeAllFromXml()
+        {
+            Console.WriteLine("Would you like to delete all the data from the XML file?");
+            if (yesOrNo())
+            {
+                s_dal.Dependency.DeleteAll();
+                s_dal.Engineer.DeleteAll();
+                s_dal.Task.DeleteAll();
+                Console.WriteLine("The data was deleted");
+            }
+            else
+                Console.WriteLine("The data was not deleted");
 
+
+        }
         //Engineer methods
         // Method to create a new Engineer instance
         private static void createEngineer()

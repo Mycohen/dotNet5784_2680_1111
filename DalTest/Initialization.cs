@@ -14,7 +14,7 @@ public static class Initialization
     /* private static IDependency? s_dalDependency;(stage 1)
      private static IEngineer? s_dalEngineer(stage 1)
      private static ITask? s_dalTask;*/
-   
+
 
     private static IDal? s_dal;//Stage 2
 
@@ -43,7 +43,7 @@ public static class Initialization
                     }
 
                 }
-                
+
             } while (alredyExist);
             _ids[i] = temp;
         }
@@ -340,11 +340,14 @@ public static class Initialization
         s_dal = dal ?? throw new NullReferenceException("DAL can not be a null!");
 
         // Create tasks, engineers, and dependencies
+        s_dal!.Task.DeleteAll();
+        s_dal!.Engineer.DeleteAll();
+        s_dal!.Dependency.DeleteAll();
         setIds();//initialize the Engineers array IDs
         CreateEngineer();//Initialize the IEngineer from the datas that we gave them
         CreateTask();//Initialize the ITask from the datas that we gave them
         createDependency();//Initialize the ITask from the datas that we gave them
 
-        
+
     }
 }
