@@ -4,7 +4,8 @@ using DO;
 using System.Collections.Generic;
 
 // Class implementing ITask interface
-internal class TaskImplementation : ITask
+internal class TaskImplementation
+    : ITask
 {
     // Method to find a task based on its properties
     public Task? FindId(Task item)

@@ -16,13 +16,21 @@ namespace DalTest
         public static IEngineer? s_dalEngineer = new EngineerImplementation();
         public static ITask? s_dalTask = new TaskImplementation();*/
 
-        static readonly IDal s_dal = new DalList();
+        //static readonly IDal s_dal = new DalList(); //stage 2
+        static readonly IDal s_dal = new DalXml(); //stage 3
+       
+
 
         // Main method, the starting point of the program
         public static void Main()
         {
-            Initialization.Do(s_dal);
-            do { 
+            Console.WriteLine("Would you like to create Initial data? (Y/N)"); //stage 3
+
+            if (yesOrNo()) //stage 3
+                Initialization.Do(s_dal); //stage 2
+
+            do
+            { 
                 try
                 {
                     // Initialize Data Access Layer dependencies
@@ -1073,7 +1081,7 @@ namespace DalTest
         private static bool yesOrNo()
         {
             // Read input and convert to uppercase
-            string message = Console.ReadLine()?.Trim().ToUpper() ?? throw new Exception("Can't enter a null");
+            string message = Console.ReadLine()?.Trim().ToUpper() ?? throw new FormatException ("Can't enter a null");
             bool _answer = message!.StartsWith('Y');
             return _answer;
         }

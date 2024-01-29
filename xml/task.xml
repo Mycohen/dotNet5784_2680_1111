@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<task>
+  <Task>
+    <Id>0<Alias>Structural Analysis</Alias><Description>Evaluate the integrity and stability of structures through mathematical modeling and analysis.</Description><CreatedAtDate>2024-01-29T16:39:11.5375981+02:00</CreatedAtDate><IsMilestone>true</IsMilestone><Complexity>Expert</Complexity><StartDate>2024-02-07T16:39:11.5375981+02:00</StartDate><ScheduledDate>2024-02-13T16:39:11.5375981+02:00</ScheduledDate><DeadlineDate>2024-02-22T16:39:11.5375981+02:00</DeadlineDate><CompleteDate>2024-03-17T16:39:11.5375981+02:00</CompleteDate><Deliverables>Consider collaboration with other teams.</Deliverables><Remarks></Remarks><EngineerId>209733866</EngineerId></Id>
+  </Task>
+  <Task>
+    <Id>1<Alias>Structural Analysis</Alias><Description>Evaluate the integrity and stability of structures through mathematical modeling and analysis.</Description><CreatedAtDate>2024-01-29T16:42:27.5486158+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>Expert</Complexity><StartDate>2024-02-04T16:42:27.5486158+02:00</StartDate><ScheduledDate>2024-02-09T16:42:27.5486158+02:00</ScheduledDate><DeadlineDate>2024-02-17T16:42:27.5486158+02:00</DeadlineDate><CompleteDate>2024-03-08T16:42:27.5486158+02:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>261489687</EngineerId></Id>
+  </Task>
+  <Task>
+    <Id>3<Alias>Structural Analysis</Alias><Description>Evaluate the integrity and stability of structures through mathematical modeling and analysis.</Description><CreatedAtDate>2024-01-29T16:43:55.3134238+02:00</CreatedAtDate><IsMilestone>true</IsMilestone><Complexity>Expert</Complexity><StartDate>2024-02-01T16:43:55.3134238+02:00</StartDate><ScheduledDate>2024-02-02T16:43:55.3134238+02:00</ScheduledDate><DeadlineDate>2024-02-15T16:43:55.3134238+02:00</DeadlineDate><CompleteDate>2024-02-25T16:43:55.3134238+02:00</CompleteDate><Deliverables>Consider collaboration with other teams.</Deliverables><Remarks>Task completed successfully.</Remarks><EngineerId>359722792</EngineerId></Id>
+  </Task>
+</task>
