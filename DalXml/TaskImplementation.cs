@@ -107,50 +107,14 @@ internal class TaskImplementation : ITask
     ///</summary>
     public IEnumerable<Task?> ReadAll(Func<Task, bool>? filter = null)
     {
+        // If no filter function is provided, return all Engineers
         if (filter == null)
-        {
-            List<Task> tasks = taskArrayRoot.Elements(s_task_xml).Select(taskElement => new Task(
-                                Id: (int)taskElement.ToIntNullable("Id")!,
-                                Alias: (string?)taskElement.Element("Alias"),
-                                Description: (string?)taskElement.Element("Description"),
-                                CreatedAtDate: taskElement.ToDateTimeNullable("CreatedAtDate"),
-                                RequiredEffortTime: (TimeSpan)taskElement.Element("RequiredEffortTime")!,
-                                IsMilestone: (bool)taskElement.Element("IsMilestone")!,
-                                Complexity: (EngineerExperience)taskElement.ToEnumNullable<EngineerExperience>("Complexity")!,
-                                StartDate: taskElement.ToDateTimeNullable("StartDate"),
-                                ScheduledDate: taskElement.ToDateTimeNullable("ScheduledDate"),
-                                DeadlineDate: taskElement.ToDateTimeNullable("DeadlineDate"),
-                                CompleteDate: taskElement.ToDateTimeNullable("CompleteDate"),
-                                Deliverables: (string?)taskElement.Element("Deliverables"),
-                                Remarks: (string?)taskElement.Element("Remarks"),
-                                EngineerId: (int)taskElement.ToIntNullable("EngineerId")!)
-                            ).ToList();
-
-            return tasks;
-        }
+            return XMLTools.LoadListFromXMLSerializer<Task>(s_task_xml).Select(item => item);
+        // If a filter function is provided, return the Engineers that match the filter
         else
-        {
-           
-            List<Task> filteredTasks = taskArrayRoot.Elements(s_task_xml).Select(taskElement => new Task(
-                                Id: (int)taskElement.ToIntNullable("Id")!,
-                                Alias: (string?)taskElement.Element("Alias"),
-                                Description: (string?)taskElement.Element("Description"),
-                                CreatedAtDate: taskElement.ToDateTimeNullable("CreatedAtDate"),
-                                RequiredEffortTime: (TimeSpan)taskElement.Element("RequiredEffortTime")!,
-                                IsMilestone: (bool)taskElement.Element("IsMilestone")!,
-                                Complexity: (EngineerExperience)taskElement.ToEnumNullable<EngineerExperience>("Complexity")!,
-                                StartDate: taskElement.ToDateTimeNullable("StartDate"),
-                                ScheduledDate: taskElement.ToDateTimeNullable("ScheduledDate"),
-                                DeadlineDate: taskElement.ToDateTimeNullable("DeadlineDate"),
-                                CompleteDate: taskElement.ToDateTimeNullable("CompleteDate"),
-                                Deliverables: (string?)taskElement.Element("Deliverables"),
-                                Remarks: (string?)taskElement.Element("Remarks"),
-                                EngineerId: (int)taskElement.ToIntNullable("EngineerId")!)
-                            ).Where(filter).ToList();
-
-            return filteredTasks;
-        }
+            return XMLTools.LoadListFromXMLSerializer<Task>(s_task_xml).Where(filter);
     }
+    
 
     public void Update(Task item)
     {
