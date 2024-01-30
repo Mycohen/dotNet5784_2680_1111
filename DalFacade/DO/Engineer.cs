@@ -28,7 +28,7 @@ public record Engineer(
     /// Gets or sets the experience level of the Engineer.
     /// Default is set to Beginner.
     /// </summary>
-    DO.EngineerExperience Level = EngineerExperience.Beginner
+    DO.EngineerExperience? Level = EngineerExperience.Beginner
 )
 {
     /// <summary>

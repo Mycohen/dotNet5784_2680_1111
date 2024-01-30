@@ -50,7 +50,7 @@ internal class EngineerImplementation : IEngineer
                 Name = (string)targetEngineerElement.Element("Name")!,
                 Email = (string)targetEngineerElement.Element("Email")!,
                 Cost = (double)targetEngineerElement.Element("Cost")!,
-                Level = (DO.EngineerExperience)(int)targetEngineerElement.Element("Level")!
+                Level = targetEngineerElement.ToEnumNullable<EngineerExperience>("Level")
             };
 
             // Return the created Engineer object
