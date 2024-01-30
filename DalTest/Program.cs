@@ -7,6 +7,7 @@ namespace DalTest
     using System.Net.Mail;
     using DO;
     using System.Runtime.InteropServices.Marshalling;
+    using System.Reflection.Emit;
 
     // A static class that serves as the entry point for the program
     internal static class Program
@@ -320,7 +321,7 @@ namespace DalTest
             EngineerExperience level = (EngineerExperience)isValidIntInput(); // Assuming EngineerExperience is an enum
 
             // Create a new Engineer instance with the collected information
-            Engineer engineerInstance = new Engineer(Id: id, Email: email, Cost: cost, Name: name, Level: level);
+            Engineer engineerInstance = new Engineer(Id: id, Email: email, Cost: cost, Name: name, Level: (DO.EngineerExperience)level);
 
             // Call the Create method on the data access layer to store the Engineer instance
             //s_dalEngineer!.Create(engineerInstance); //(stage 1)
@@ -475,7 +476,7 @@ namespace DalTest
             // Display the details of the Engineer
             Console.WriteLine("Engineer ID: " + engineer.Id);
             Console.WriteLine("Engineer Name: " + engineer.Name);
-            Console.WriteLine("Engineer Level: " + (EngineerExperience)engineer.Level);
+            Console.WriteLine("Engineer Level: " + engineer.Level);
             Console.WriteLine("Engineer Email: " + engineer.Email);
             Console.WriteLine("Engineer Cost: " + engineer.Cost);
             Console.WriteLine("\n");
