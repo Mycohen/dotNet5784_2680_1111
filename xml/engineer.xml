@@ -1,80 +1,80 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfEngineer>
   <Engineer>
-    <Id>244237397</Id>
+    <Id>351519134</Id>
     <Name>Yael Cohen</Name>
     <Email>yael.cohen@example.com</Email>
-    <Cost>7596</Cost>
-    <Level>AdvancedBeginner</Level>
+    <Cost>24120</Cost>
+    <Level>Beginner</Level>
   </Engineer>
   <Engineer>
-    <Id>241101751</Id>
+    <Id>298488118</Id>
     <Name>Eitan Levi</Name>
     <Email>eitan.levi@example.com</Email>
-    <Cost>28406</Cost>
+    <Cost>24885</Cost>
     <Level>AdvancedBeginner</Level>
   </Engineer>
   <Engineer>
-    <Id>372105384</Id>
+    <Id>372945444</Id>
     <Name>Maya Ben-David</Name>
     <Email>maya.ben-david@example.com</Email>
-    <Cost>14357</Cost>
-    <Level>Beginner</Level>
-  </Engineer>
-  <Engineer>
-    <Id>223060552</Id>
-    <Name>Itai Avraham</Name>
-    <Email>itai.avraham@example.com</Email>
-    <Cost>6601</Cost>
+    <Cost>26395</Cost>
     <Level>AdvancedBeginner</Level>
   </Engineer>
   <Engineer>
-    <Id>380622500</Id>
+    <Id>215491478</Id>
+    <Name>Itai Avraham</Name>
+    <Email>itai.avraham@example.com</Email>
+    <Cost>5577</Cost>
+    <Level>AdvancedBeginner</Level>
+  </Engineer>
+  <Engineer>
+    <Id>299777410</Id>
     <Name>Tamar Schwartz</Name>
     <Email>tamar.schwartz@example.com</Email>
-    <Cost>10274</Cost>
-    <Level>Advanced</Level>
+    <Cost>17042</Cost>
+    <Level>Intermediate</Level>
   </Engineer>
   <Engineer>
-    <Id>356473815</Id>
+    <Id>286976241</Id>
     <Name>Emma Wilson</Name>
     <Email>emma.wilson@example.com</Email>
-    <Cost>21364</Cost>
-    <Level>Beginner</Level>
+    <Cost>21067</Cost>
+    <Level>Advanced</Level>
   </Engineer>
   <Engineer>
-    <Id>315180128</Id>
+    <Id>311193132</Id>
     <Name>Daniel Taylor</Name>
     <Email>daniel.taylor@example.com</Email>
-    <Cost>14590</Cost>
-    <Level>Advanced</Level>
+    <Cost>28937</Cost>
+    <Level>Intermediate</Level>
   </Engineer>
   <Engineer>
-    <Id>260723838</Id>
+    <Id>355376168</Id>
     <Name>Ava Anderson</Name>
     <Email>ava.anderson@example.com</Email>
-    <Cost>23896</Cost>
-    <Level>Advanced</Level>
+    <Cost>18590</Cost>
+    <Level>AdvancedBeginner</Level>
   </Engineer>
   <Engineer>
-    <Id>308009606</Id>
+    <Id>261351507</Id>
     <Name>Alexander White</Name>
     <Email>alexander.white@example.com</Email>
-    <Cost>12493</Cost>
+    <Cost>32077</Cost>
     <Level>Intermediate</Level>
   </Engineer>
   <Engineer>
-    <Id>325822491</Id>
+    <Id>312343209</Id>
     <Name>Sophia Harris</Name>
     <Email>sophia.harris@example.com</Email>
-    <Cost>28105</Cost>
-    <Level>Advanced</Level>
+    <Cost>33204</Cost>
+    <Level>AdvancedBeginner</Level>
   </Engineer>
   <Engineer>
-    <Id>209781112</Id>
-    <Name>s2</Name>
-    <Email>s2@g.c</Email>
-    <Cost>10000</Cost>
-    <Level>Intermediate</Level>
+    <Id>234567890</Id>
+    <Name>John Smith</Name>
+    <Email>john.smith@email.com</Email>
+    <Cost>3</Cost>
+    <Level>1200</Level>
   </Engineer>
 </ArrayOfEngineer>

@@ -392,7 +392,7 @@ namespace DalTest
             // Update the Engineer's Level
             updateEngineer_PrintText("Level");
            
-            EngineerExperience level;
+            EngineerExperience? level;
             if (yesOrNo())
             {
                 Console.WriteLine("Enter the Engineer's level");
@@ -400,7 +400,7 @@ namespace DalTest
             }
             else
             {
-                level = currentEngineerData!.Level!;
+                level = currentEngineerData.Level;
             }
 
             // Create a new Engineer instance with the updated information
