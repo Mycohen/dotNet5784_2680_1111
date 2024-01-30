@@ -13,7 +13,7 @@ using System.Xml.Serialization;
 using System.Data;
 
 internal class TaskImplementation : ITask
-{
+{//Do you see this comment?
     static readonly string s_task_xml = "task";
     internal XElement taskArrayRoot = XMLTools.LoadListFromXMLElement(s_task_xml);
 
