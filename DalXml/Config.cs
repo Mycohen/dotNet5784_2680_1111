@@ -14,7 +14,6 @@ internal static class Config
 
     internal static int NextTaskId { get => XMLTools.GetAndIncreaseNextId(s_data_config_xml, "NextTaskId"); }
     internal static int NextDepId { get => XMLTools.GetAndIncreaseNextId(s_data_config_xml, "NextDepId"); }
-
 }
 
 

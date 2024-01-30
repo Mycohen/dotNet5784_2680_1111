@@ -282,6 +282,7 @@ namespace DalTest
                 s_dal.Engineer.DeleteAll();
                 s_dal.Task.DeleteAll();
                 Console.WriteLine("The data was deleted");
+                
             }
             else
                 Console.WriteLine("The data was not deleted");

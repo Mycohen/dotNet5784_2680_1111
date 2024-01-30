@@ -2,6 +2,8 @@
 using DalApi;
 using DO;
 using System;
+using System.Xml.Linq;
+
 
 // Static class responsible for initializing test data
 public static class Initialization
@@ -18,6 +20,7 @@ public static class Initialization
 
     private static IDal? s_dal;//Stage 2
 
+    
     // Random number generator for creating random data
     private static readonly Random s_rand = new();
 
@@ -343,6 +346,7 @@ public static class Initialization
         s_dal!.Task.DeleteAll();
         s_dal!.Engineer.DeleteAll();
         s_dal!.Dependency.DeleteAll();
+        
         setIds();//initialize the Engineers array IDs
         CreateEngineer();//Initialize the IEngineer from the datas that we gave them
         CreateTask();//Initialize the ITask from the datas that we gave them

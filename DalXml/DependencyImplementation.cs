@@ -119,6 +119,7 @@ internal class DependencyImplementation : IDependency
 
         // Save the modified XElement back to the XML file
         XMLTools.SaveListToXMLElement(dependencies, s_dependency_xml);
+        XMLTools.ResetID("NextDepId");
     }
 
     // Checks if an Engineer exists based on the ID and throws an exception if it doesn't

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Dal;
+﻿namespace Dal;
 using System.Xml.Linq;
 using DO;
 using DalApi;
@@ -13,7 +7,7 @@ using System.Xml.Serialization;
 using System.Data;
 
 internal class TaskImplementation : ITask
-{//Do you see this comment?
+{
     static readonly string s_task_xml = "task";
     internal XElement taskArrayRoot = XMLTools.LoadListFromXMLElement(s_task_xml);
 
@@ -21,9 +15,11 @@ internal class TaskImplementation : ITask
     public int Create(Task item)
     {
         XElement taskArrayRoot = XMLTools.LoadListFromXMLElement(s_task_xml);
+        //
+        int taskId = Config.NextTaskId;
         //create an instance of task (converted to XML)
         XElement elementTask = new XElement("Task", 
-                new XElement("Id", Config.NextTaskId,
+                new XElement("Id", taskId,
                 new XElement("Alias", item.Alias),
                 new XElement("Description", item.Description),
                 new XElement("CreatedAtDate", item.CreatedAtDate),
@@ -39,7 +35,8 @@ internal class TaskImplementation : ITask
                 ));
         taskArrayRoot.Add(elementTask);
         XMLTools.SaveListToXMLElement(taskArrayRoot, s_task_xml);
-        return item.Id;
+
+        return taskId;
     }
 
     public void Delete(int id)
@@ -73,6 +70,7 @@ internal class TaskImplementation : ITask
 
         // Save the modified XElement back to the XML file
         XMLTools.SaveListToXMLElement(xmlTask, s_task_xml);
+        XMLTools.ResetID("NextTaskId");
     }
 
     public Task? Read(Func<Task, bool> filter)
