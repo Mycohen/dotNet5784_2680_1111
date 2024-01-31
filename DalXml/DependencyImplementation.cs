@@ -11,15 +11,20 @@ internal class DependencyImplementation : IDependency
     public int Create(Dependency item)
     {
         XElement dependencyArrayRoot = XMLTools.LoadListFromXMLElement(s_dependency_xml);
-        //create an instance of task (converted to XML)
-        XElement elementDependency = new XElement("Task",
-                new XElement("Id", Config.NextDepId,
-                new XElement("DependentTask", item.DependentTask),
-                new XElement("DependsOnTask", item.DependsOnTask)));
+
+        // Create an instance of dependency (converted to XML)
+        XElement elementDependency = new XElement("Dependency",
+            new XElement("Id", Config.NextDepId),
+            new XElement("DependentTask", item.DependentTask),
+            new XElement("DependsOnTask", item.DependsOnTask)
+        );
+
         dependencyArrayRoot.Add(elementDependency);
         XMLTools.SaveListToXMLElement(dependencyArrayRoot, s_dependency_xml);
+
         return (int)XMLTools.ToIntNullable(elementDependency, "Id")!;
     }
+
 
     // Reads an Engineer from the XML file based on the ID
     public Dependency? Read(int id)

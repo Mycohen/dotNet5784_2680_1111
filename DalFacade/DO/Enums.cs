@@ -8,7 +8,7 @@
         /// <summary>
         /// Represents a beginner level of experience for an engineer.
         /// </summary>
-        Beginner = 0,
+        Beginner = 1,
 
         /// <summary>
         /// Represents an advanced beginner level of experience for an engineer.
@@ -39,7 +39,9 @@
         MainExit,      // Option to exit the main menu
         TaskMenu,      // Option to navigate to the task menu
         EngineerMenu,  // Option to navigate to the engineer menu
-        DependencyMenu // Option to navigate to the dependency menu
+        DependencyMenu, // Option to navigate to the dependency menu
+        InitData,      // Option to initialize the data
+
     };
 
     /// <summary>

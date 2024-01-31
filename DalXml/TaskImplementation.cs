@@ -11,33 +11,35 @@ internal class TaskImplementation : ITask
     static readonly string s_task_xml = "task";
     internal XElement taskArrayRoot = XMLTools.LoadListFromXMLElement(s_task_xml);
 
-    
+
     public int Create(Task item)
     {
-        XElement taskArrayRoot = XMLTools.LoadListFromXMLElement(s_task_xml);
-        //
         int taskId = Config.NextTaskId;
-        //create an instance of task (converted to XML)
-        XElement elementTask = new XElement("Task", 
-                new XElement("Id", taskId,
-                new XElement("Alias", item.Alias),
-                new XElement("Description", item.Description),
-                new XElement("CreatedAtDate", item.CreatedAtDate),
-                new XElement("IsMilestone", item.IsMilestone),
-                new XElement("Complexity", item.Complexity),
-                new XElement("StartDate", item.StartDate),
-                new XElement("ScheduledDate", item.ScheduledDate),
-                new XElement("DeadlineDate", item.DeadlineDate),
-                new XElement("CompleteDate", item.CompleteDate),
-                (item.Deliverables != null)? new XElement("Deliverables", item.Deliverables): null,
-                (item.Remarks != null)? new XElement("Remarks", item.Remarks) : null,
-                new XElement("EngineerId", item.EngineerId)
-                ));
+        XElement taskArrayRoot = XMLTools.LoadListFromXMLElement(s_task_xml);
+
+        // Create an instance of task (converted to XML)
+        XElement elementTask = new XElement("Task",
+            new XElement("Id", taskId), // Separate Id element with its own closing tag
+            new XElement("Alias", item.Alias),
+            new XElement("Description", item.Description),
+            new XElement("CreatedAtDate", item.CreatedAtDate),
+            new XElement("IsMilestone", item.IsMilestone),
+            new XElement("Complexity", item.Complexity),
+            new XElement("StartDate", item.StartDate),
+            new XElement("ScheduledDate", item.ScheduledDate),
+            new XElement("DeadlineDate", item.DeadlineDate),
+            new XElement("CompleteDate", item.CompleteDate),
+            (item.Deliverables != null) ? new XElement("Deliverables", item.Deliverables) : null,
+            (item.Remarks != null) ? new XElement("Remarks", item.Remarks) : null,
+            new XElement("EngineerId", item.EngineerId)
+        );
+
         taskArrayRoot.Add(elementTask);
         XMLTools.SaveListToXMLElement(taskArrayRoot, s_task_xml);
 
         return taskId;
     }
+
 
     public void Delete(int id)
     {

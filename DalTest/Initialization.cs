@@ -319,7 +319,7 @@ public static class Initialization
             string _Name = engineerNames[index];
 
             // Logical error: _Level variable is created but not used
-            EngineerExperience _Level = (EngineerExperience)s_rand.Next(0, 4);
+            EngineerExperience _Level = (EngineerExperience)s_rand.Next(1, 5);
 
             // Create a new engineer using the Engineer constructor
             Engineer newEnginner = new Engineer(_Id, _Email, _Cost, _Name, _Level);
