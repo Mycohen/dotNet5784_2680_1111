@@ -98,7 +98,40 @@ internal class TaskImplementation : ITask
 
     public Task? Read(int id)
     {
-        return Read(task => (task.Id == id));
+
+        // Load the XElement containing all Engineers from the XML file
+        XElement taskRoot = XMLTools.LoadListFromXMLElement(s_task_xml);
+
+        // Find the target Engineer XElement based on the ID
+        XElement? targetTaskElement = taskRoot.Elements("Task")
+            .FirstOrDefault(elem => (int)elem.Element("Id")! == id);
+
+        // If the target Engineer XElement exists, create a new Engineer object and populate it with the XElement's properties
+        if (targetTaskElement != null)
+        {
+            Task task = new Task
+            {
+                Id = (int)targetTaskElement.Element("Id")!,
+                Alias = (string)targetTaskElement.Element("Alias")!,
+                Description = (string)targetTaskElement.Element("Description")!,
+                CreatedAtDate = (DateTime)targetTaskElement.Element("CreatedAtDate")!,
+                IsMilestone = (bool)targetTaskElement.Element("IsMilestone")!,
+                Complexity = (EngineerExperience)targetTaskElement.ToEnumNullable<EngineerExperience>("Complexity")!,
+                StartDate = (DateTime)targetTaskElement.Element("StartDate")!,
+                ScheduledDate = (DateTime)targetTaskElement.Element("ScheduledDate")!,
+                DeadlineDate = (DateTime)targetTaskElement.Element("DeadlineDate")!,
+                CompleteDate = (DateTime)targetTaskElement.Element("CompleteDate")!,
+                Deliverables = (string?)targetTaskElement.Element("Deliverables"),
+                Remarks = (string?)targetTaskElement.Element("Remarks"),
+                EngineerId = (int)targetTaskElement.Element("EngineerId")!
+            };
+
+            // Return the created Task object
+            return task;
+        }
+
+        // If the target Task XElement doesn't exist, return null
+        return null;
     }
 
     ///<summary>
@@ -107,14 +140,14 @@ internal class TaskImplementation : ITask
     ///</summary>
     public IEnumerable<Task?> ReadAll(Func<Task, bool>? filter = null)
     {
-        // If no filter function is provided, return all Engineers
+        // If no filter function is provided, return all Tasks
         if (filter == null)
             return XMLTools.LoadListFromXMLSerializer<Task>(s_task_xml).Select(item => item);
-        // If a filter function is provided, return the Engineers that match the filter
+        // If a filter function is provided, return the Tasks that match the filter
         else
             return XMLTools.LoadListFromXMLSerializer<Task>(s_task_xml).Where(filter);
     }
-    
+
 
     public void Update(Task item)
     {
@@ -125,7 +158,7 @@ internal class TaskImplementation : ITask
 
         //create an instance of task (converted to XML)
         XElement elementTask = new XElement("Task",
-                new XElement("Id", item.Id,
+                new XElement("Id", item.Id),
                 new XElement("Alias", item.Alias),
                 new XElement("Description", item.Description),
                 new XElement("CreatedAtDate", item.CreatedAtDate),
@@ -138,17 +171,17 @@ internal class TaskImplementation : ITask
                 (item.Deliverables != null) ? new XElement("Deliverables", item.Deliverables) : null,
                 (item.Remarks != null) ? new XElement("Remarks", item.Remarks) : null,
                 new XElement("EngineerId", item.EngineerId)
-                ));
+        );
         Delete(item.Id);
         taskArrayRoot.Add(elementTask);
         XMLTools.SaveListToXMLElement(taskArrayRoot, s_task_xml);
     }
 
-    // Checks if an Engineer exists based on the ID and throws an exception if it doesn't
+    // Checks if a Task exists based on the ID and throws an exception if it doesn't
     void chechIfTaskExist(Task item)
     {
         if (Read(item.Id) == null)
-            throw new DalDoesNotExistExeption($"Engineer with ID={item.Id} doesn't exist");
+            throw new DalDoesNotExistExeption($"Task with ID={item.Id} doesn't exist");
     }
 
 }
