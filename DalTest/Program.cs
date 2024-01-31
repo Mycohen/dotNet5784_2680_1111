@@ -695,7 +695,7 @@ namespace DalTest
             bool _IsMilestone = userInput == "Y";
 
             // Prompt user for the complexity of the task in the range 0-5
-            Console.WriteLine("Enter the complexity of the task? (0-5)");
+            Console.WriteLine("Enter the complexity of the task? (1-5)");
             userInput = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
             EngineerExperience complexity = (EngineerExperience)getInt(userInput);
 

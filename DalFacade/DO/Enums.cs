@@ -8,7 +8,7 @@
         /// <summary>
         /// Represents a beginner level of experience for an engineer.
         /// </summary>
-        Beginner,
+        Beginner = 0,
 
         /// <summary>
         /// Represents an advanced beginner level of experience for an engineer.

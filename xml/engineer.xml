@@ -1,24 +1,2 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ArrayOfEngineer>
-  <Engineer>
-    <Id>234567890</Id>
-    <Name>John Smith</Name>
-    <Email>john.smith@email.com</Email>
-    <Cost>1200</Cost>
-    <Level>Advanced</Level>
-  </Engineer>
-  <Engineer>
-    <Id>245678901</Id>
-    <Name>Alice Johnson</Name>
-    <Email>alice.johnson@email.com</Email>
-    <Cost>950</Cost>
-    <Level>AdvancedBeginner</Level>
-  </Engineer>
-  <Engineer>
-    <Id>256789012</Id>
-    <Name>Michael Davis</Name>
-    <Email>michael.d@email.com</Email>
-    <Cost>1500</Cost>
-    <Level>Expert</Level>
-  </Engineer>
-</ArrayOfEngineer>
+<ArrayOfEngineer />

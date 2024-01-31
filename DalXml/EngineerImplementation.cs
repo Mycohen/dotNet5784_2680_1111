@@ -21,8 +21,8 @@ internal class EngineerImplementation : IEngineer
             new XElement("Id", item.Id),
             new XElement("Name", item.Name),
             new XElement("Email", item.Email),
-            new XElement("Cost",item.Cost),
-            new XElement("Level", item.Level));
+            new XElement("Cost", item.Cost),
+            new XElement("Level", (EngineerExperience?)item.Level));
         rootXml.Add(elemEngineer);
         // Save the XElement to the XML file
         XMLTools.SaveListToXMLElement(rootXml, s_engineer_xml);
