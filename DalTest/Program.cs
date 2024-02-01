@@ -25,10 +25,7 @@ namespace DalTest
         // Main method, the starting point of the program
         public static void Main()
         {
-            Console.WriteLine("Would you like to create Initial data? (Y/N)"); //stage 3
-
-            if (yesOrNo()) //stage 3
-                Initialization.Do(s_dal); //stage 2
+           
 
             do
             { 
@@ -65,6 +62,10 @@ namespace DalTest
                                 // Handle user choice for Dependency operations
                                 dependencyOptions();
                                 break;
+                                case MainMenuOption.InitData: //stage 3
+                                    initOp();
+                                break;
+
                             default:
                                 // Invalid choice, throw an exception
                                 throw new Exception("ERROR: Invalid choice input. Please try again");
@@ -259,6 +260,7 @@ namespace DalTest
             Console.WriteLine("Enter 1 for Tasks menu:");
             Console.WriteLine("Enter 2 for Engineers menu:");
             Console.WriteLine("Enter 3 for Dependencies menu");
+            Console.WriteLine("Enter 4 for initalize Option:");
         }
 
         //printing the sub menu for the switch
@@ -289,6 +291,13 @@ namespace DalTest
                 Console.WriteLine("The data was not deleted");
 
 
+        }
+        private static void initOp()
+        {
+            Console.WriteLine("Would you like to create Initial data? (Y/N)"); //stage 3
+
+            if (yesOrNo()) //stage 3
+                Initialization.Do(s_dal); //stage 2
         }
         //Engineer methods
         // Method to create a new Engineer instance

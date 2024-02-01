@@ -1,93 +1,453 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfTask>
   <Task>
-    <Id>0<Alias>Structural Analysis</Alias><Description>Evaluate the integrity and stability of structures through mathematical modeling and analysis.</Description><CreatedAtDate>2024-01-31T09:38:43.1865919+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>Expert</Complexity><StartDate>2024-02-06T09:38:43.1865919+02:00</StartDate><ScheduledDate>2024-02-10T09:38:43.1865919+02:00</ScheduledDate><DeadlineDate>2024-02-17T09:38:43.1865919+02:00</DeadlineDate><CompleteDate>2024-02-12T09:38:43.1865919+02:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>0</Id>
+    <Alias>Structural Analysis</Alias>
+    <Description>Evaluate the integrity and stability of structures through mathematical modeling and analysis.</Description>
+    <CreatedAtDate>2024-01-31T18:56:20.6865496+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Advanced</Complexity>
+    <StartDate>2024-02-09T18:56:20.6865496+02:00</StartDate>
+    <ScheduledDate>2024-02-14T18:56:20.6865496+02:00</ScheduledDate>
+    <DeadlineDate>2024-02-21T18:56:20.6865496+02:00</DeadlineDate>
+    <CompleteDate>2024-02-21T18:56:20.6865496+02:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>1<Alias>CAD Modeling</Alias><Description>Create detailed computer-aided design (CAD) models for various engineering projects.</Description><CreatedAtDate>2024-02-01T11:38:43.1962895+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>Advanced</Complexity><StartDate>2024-02-10T11:38:43.1962895+02:00</StartDate><ScheduledDate>2024-02-15T11:38:43.1962895+02:00</ScheduledDate><DeadlineDate>2024-02-27T11:38:43.1962895+02:00</DeadlineDate><CompleteDate>2024-02-26T11:38:43.1962895+02:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>1</Id>
+    <Alias>CAD Modeling</Alias>
+    <Description>Create detailed computer-aided design (CAD) models for various engineering projects.</Description>
+    <CreatedAtDate>2024-02-01T20:56:20.7015947+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Intermediate</Complexity>
+    <StartDate>2024-02-17T20:56:20.7015947+02:00</StartDate>
+    <ScheduledDate>2024-02-29T20:56:20.7015947+02:00</ScheduledDate>
+    <DeadlineDate>2024-03-10T20:56:20.7015947+02:00</DeadlineDate>
+    <CompleteDate>2024-03-13T20:56:20.7015947+02:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>2<Alias>Prototyping</Alias><Description>Build physical prototypes to test and validate design concepts before full-scale production.</Description><CreatedAtDate>2024-02-02T13:38:43.198046+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>Intermediate</Complexity><StartDate>2024-02-11T13:38:43.198046+02:00</StartDate><ScheduledDate>2024-02-17T13:38:43.198046+02:00</ScheduledDate><DeadlineDate>2024-02-25T13:38:43.198046+02:00</DeadlineDate><CompleteDate>2024-03-18T13:38:43.198046+02:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>2</Id>
+    <Alias>Prototyping</Alias>
+    <Description>Build physical prototypes to test and validate design concepts before full-scale production.</Description>
+    <CreatedAtDate>2024-02-02T22:56:20.7126645+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>AdvancedBeginner</Complexity>
+    <StartDate>2024-02-18T22:56:20.7126645+02:00</StartDate>
+    <ScheduledDate>2024-03-01T22:56:20.7126645+02:00</ScheduledDate>
+    <DeadlineDate>2024-03-14T22:56:20.7126645+02:00</DeadlineDate>
+    <CompleteDate>2024-03-26T22:56:20.7126645+02:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>3<Alias>Electrical Circuit Design</Alias><Description>Develop schematics and layouts for electrical circuits, considering safety and efficiency.</Description><CreatedAtDate>2024-02-03T15:38:43.1999311+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>Expert</Complexity><StartDate>2024-02-09T15:38:43.1999311+02:00</StartDate><ScheduledDate>2024-02-14T15:38:43.1999311+02:00</ScheduledDate><DeadlineDate>2024-02-25T15:38:43.1999311+02:00</DeadlineDate><CompleteDate>2024-03-04T15:38:43.1999311+02:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>3</Id>
+    <Alias>Electrical Circuit Design</Alias>
+    <Description>Develop schematics and layouts for electrical circuits, considering safety and efficiency.</Description>
+    <CreatedAtDate>2024-02-04T00:56:20.7257076+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Advanced</Complexity>
+    <StartDate>2024-02-09T00:56:20.7257076+02:00</StartDate>
+    <ScheduledDate>2024-02-14T00:56:20.7257076+02:00</ScheduledDate>
+    <DeadlineDate>2024-02-27T00:56:20.7257076+02:00</DeadlineDate>
+    <CompleteDate>2024-02-14T00:56:20.7257076+02:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>4<Alias>Software Development</Alias><Description>Write, test, and maintain software code for controlling and monitoring engineering systems.</Description><CreatedAtDate>2024-02-04T17:38:43.2016543+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>5</Complexity><StartDate>2024-02-09T17:38:43.2016543+02:00</StartDate><ScheduledDate>2024-02-10T17:38:43.2016543+02:00</ScheduledDate><DeadlineDate>2024-02-19T17:38:43.2016543+02:00</DeadlineDate><CompleteDate>2024-02-28T17:38:43.2016543+02:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>4</Id>
+    <Alias>Software Development</Alias>
+    <Description>Write, test, and maintain software code for controlling and monitoring engineering systems.</Description>
+    <CreatedAtDate>2024-02-05T02:56:20.7387182+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Expert</Complexity>
+    <StartDate>2024-02-09T02:56:20.7387182+02:00</StartDate>
+    <ScheduledDate>2024-02-13T02:56:20.7387182+02:00</ScheduledDate>
+    <DeadlineDate>2024-02-22T02:56:20.7387182+02:00</DeadlineDate>
+    <CompleteDate>2024-03-11T02:56:20.7387182+02:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>5<Alias>Project Management</Alias><Description>Plan, execute, and oversee engineering projects, ensuring they meet deadlines and budget constraints.</Description><CreatedAtDate>2024-02-05T19:38:43.2034657+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>Expert</Complexity><StartDate>2024-02-16T19:38:43.2034657+02:00</StartDate><ScheduledDate>2024-02-26T19:38:43.2034657+02:00</ScheduledDate><DeadlineDate>2024-03-08T19:38:43.2034657+02:00</DeadlineDate><CompleteDate>2024-02-25T19:38:43.2034657+02:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>5</Id>
+    <Alias>Project Management</Alias>
+    <Description>Plan, execute, and oversee engineering projects, ensuring they meet deadlines and budget constraints.</Description>
+    <CreatedAtDate>2024-02-06T04:56:20.751898+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Advanced</Complexity>
+    <StartDate>2024-02-24T04:56:20.751898+02:00</StartDate>
+    <ScheduledDate>2024-03-09T04:56:20.751898+02:00</ScheduledDate>
+    <DeadlineDate>2024-03-17T04:56:20.751898+02:00</DeadlineDate>
+    <CompleteDate>2024-02-29T04:56:20.751898+02:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>6<Alias>Material Testing</Alias><Description>Conduct experiments to analyze the properties and behavior of materials under different conditions.</Description><CreatedAtDate>2024-02-06T21:38:43.2054549+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>Advanced</Complexity><StartDate>2024-02-11T21:38:43.2054549+02:00</StartDate><ScheduledDate>2024-02-14T21:38:43.2054549+02:00</ScheduledDate><DeadlineDate>2024-02-27T21:38:43.2054549+02:00</DeadlineDate><CompleteDate>2024-03-17T21:38:43.2054549+02:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>6</Id>
+    <Alias>Material Testing</Alias>
+    <Description>Conduct experiments to analyze the properties and behavior of materials under different conditions.</Description>
+    <CreatedAtDate>2024-02-07T06:56:20.7632829+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Intermediate</Complexity>
+    <StartDate>2024-02-21T06:56:20.7632829+02:00</StartDate>
+    <ScheduledDate>2024-03-02T06:56:20.7632829+02:00</ScheduledDate>
+    <DeadlineDate>2024-03-14T06:56:20.7632829+02:00</DeadlineDate>
+    <CompleteDate>2024-03-26T06:56:20.7632829+02:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>7<Alias>Quality Assurance</Alias><Description>Implement and maintain quality control processes to ensure products meet specified standards.</Description><CreatedAtDate>2024-02-07T23:38:43.2075152+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>Expert</Complexity><StartDate>2024-02-20T23:38:43.2075152+02:00</StartDate><ScheduledDate>2024-03-03T23:38:43.2075152+02:00</ScheduledDate><DeadlineDate>2024-03-10T23:38:43.2075152+02:00</DeadlineDate><CompleteDate>2024-03-13T23:38:43.2075152+02:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>7</Id>
+    <Alias>Quality Assurance</Alias>
+    <Description>Implement and maintain quality control processes to ensure products meet specified standards.</Description>
+    <CreatedAtDate>2024-02-08T08:56:20.7768193+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Advanced</Complexity>
+    <StartDate>2024-02-11T08:56:20.7768193+02:00</StartDate>
+    <ScheduledDate>2024-02-13T08:56:20.7768193+02:00</ScheduledDate>
+    <DeadlineDate>2024-02-22T08:56:20.7768193+02:00</DeadlineDate>
+    <CompleteDate>2024-03-11T08:56:20.7768193+02:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>8<Alias>Fluid Dynamics Analysis</Alias><Description>Study the flow and behavior of fluids to optimize systems such as pipelines and hydraulic systems.</Description><CreatedAtDate>2024-02-09T01:38:43.2093662+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>Expert</Complexity><StartDate>2024-02-21T01:38:43.2093662+02:00</StartDate><ScheduledDate>2024-03-03T01:38:43.2093662+02:00</ScheduledDate><DeadlineDate>2024-03-10T01:38:43.2093662+02:00</DeadlineDate><CompleteDate>2024-02-22T01:38:43.2093662+02:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>8</Id>
+    <Alias>Fluid Dynamics Analysis</Alias>
+    <Description>Study the flow and behavior of fluids to optimize systems such as pipelines and hydraulic systems.</Description>
+    <CreatedAtDate>2024-02-09T10:56:20.7911757+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Advanced</Complexity>
+    <StartDate>2024-02-14T10:56:20.7911757+02:00</StartDate>
+    <ScheduledDate>2024-02-15T10:56:20.7911757+02:00</ScheduledDate>
+    <DeadlineDate>2024-02-27T10:56:20.7911757+02:00</DeadlineDate>
+    <CompleteDate>2024-03-23T10:56:20.7911757+02:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>9<Alias>Environmental Impact Assessment</Alias><Description>Evaluate and minimize the environmental impact of engineering projects.</Description><CreatedAtDate>2024-02-10T03:38:43.2116362+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>Advanced</Complexity><StartDate>2024-02-20T03:38:43.2116362+02:00</StartDate><ScheduledDate>2024-02-28T03:38:43.2116362+02:00</ScheduledDate><DeadlineDate>2024-03-11T03:38:43.2116362+02:00</DeadlineDate><CompleteDate>2024-02-23T03:38:43.2116362+02:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>9</Id>
+    <Alias>Environmental Impact Assessment</Alias>
+    <Description>Evaluate and minimize the environmental impact of engineering projects.</Description>
+    <CreatedAtDate>2024-02-10T12:56:20.8034591+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Intermediate</Complexity>
+    <StartDate>2024-02-21T12:56:20.8034591+02:00</StartDate>
+    <ScheduledDate>2024-03-02T12:56:20.8034591+02:00</ScheduledDate>
+    <DeadlineDate>2024-03-09T12:56:20.8034591+02:00</DeadlineDate>
+    <CompleteDate>2024-03-23T12:56:20.8034591+02:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>10<Alias>Robotics Programming</Alias><Description>Develop and program algorithms for robotic systems to perform specific tasks.</Description><CreatedAtDate>2024-02-11T05:38:43.2133362+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>5</Complexity><StartDate>2024-02-20T05:38:43.2133362+02:00</StartDate><ScheduledDate>2024-02-29T05:38:43.2133362+02:00</ScheduledDate><DeadlineDate>2024-03-09T05:38:43.2133362+02:00</DeadlineDate><CompleteDate>2024-03-27T05:38:43.2133362+02:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>10</Id>
+    <Alias>Robotics Programming</Alias>
+    <Description>Develop and program algorithms for robotic systems to perform specific tasks.</Description>
+    <CreatedAtDate>2024-02-11T14:56:20.8231277+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Expert</Complexity>
+    <StartDate>2024-02-23T14:56:20.8231277+02:00</StartDate>
+    <ScheduledDate>2024-03-05T14:56:20.8231277+02:00</ScheduledDate>
+    <DeadlineDate>2024-03-12T14:56:20.8231277+02:00</DeadlineDate>
+    <CompleteDate>2024-02-23T14:56:20.8231277+02:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>11<Alias>Thermal Analysis</Alias><Description>Assess and optimize the thermal performance of devices and systems.</Description><CreatedAtDate>2024-02-12T07:38:43.2149236+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>Expert</Complexity><StartDate>2024-02-26T07:38:43.2149236+02:00</StartDate><ScheduledDate>2024-03-07T07:38:43.2149236+02:00</ScheduledDate><DeadlineDate>2024-03-14T07:38:43.2149236+02:00</DeadlineDate><CompleteDate>2024-03-23T07:38:43.2149236+02:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>11</Id>
+    <Alias>Thermal Analysis</Alias>
+    <Description>Assess and optimize the thermal performance of devices and systems.</Description>
+    <CreatedAtDate>2024-02-12T16:56:20.8387513+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Advanced</Complexity>
+    <StartDate>2024-02-21T16:56:20.8387513+02:00</StartDate>
+    <ScheduledDate>2024-02-26T16:56:20.8387513+02:00</ScheduledDate>
+    <DeadlineDate>2024-03-05T16:56:20.8387513+02:00</DeadlineDate>
+    <CompleteDate>2024-03-01T16:56:20.8387513+02:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>12<Alias>Network Design</Alias><Description>Plan and implement data communication networks for efficient information transfer.</Description><CreatedAtDate>2024-02-13T09:38:43.2167376+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>Expert</Complexity><StartDate>2024-02-17T09:38:43.2167376+02:00</StartDate><ScheduledDate>2024-02-21T09:38:43.2167376+02:00</ScheduledDate><DeadlineDate>2024-03-05T09:38:43.2167376+02:00</DeadlineDate><CompleteDate>2024-02-19T09:38:43.2167376+02:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>12</Id>
+    <Alias>Network Design</Alias>
+    <Description>Plan and implement data communication networks for efficient information transfer.</Description>
+    <CreatedAtDate>2024-02-13T18:56:20.8570604+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Advanced</Complexity>
+    <StartDate>2024-02-17T18:56:20.8570604+02:00</StartDate>
+    <ScheduledDate>2024-02-19T18:56:20.8570604+02:00</ScheduledDate>
+    <DeadlineDate>2024-02-28T18:56:20.8570604+02:00</DeadlineDate>
+    <CompleteDate>2024-03-11T18:56:20.8570604+02:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>13<Alias>Optimization Modeling</Alias><Description>Apply mathematical models to optimize processes and resource utilization.</Description><CreatedAtDate>2024-02-14T11:38:43.2187399+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>Advanced</Complexity><StartDate>2024-02-20T11:38:43.2187399+02:00</StartDate><ScheduledDate>2024-02-26T11:38:43.2187399+02:00</ScheduledDate><DeadlineDate>2024-03-04T11:38:43.2187399+02:00</DeadlineDate><CompleteDate>2024-02-28T11:38:43.2187399+02:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>13</Id>
+    <Alias>Optimization Modeling</Alias>
+    <Description>Apply mathematical models to optimize processes and resource utilization.</Description>
+    <CreatedAtDate>2024-02-14T20:56:20.8687351+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Intermediate</Complexity>
+    <StartDate>2024-02-20T20:56:20.8687351+02:00</StartDate>
+    <ScheduledDate>2024-02-22T20:56:20.8687351+02:00</ScheduledDate>
+    <DeadlineDate>2024-03-06T20:56:20.8687351+02:00</DeadlineDate>
+    <CompleteDate>2024-03-27T20:56:20.8687351+02:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>14<Alias>Instrumentation Calibration</Alias><Description>Calibrate and maintain measurement instruments for accurate data collection.</Description><CreatedAtDate>2024-02-15T13:38:43.2205495+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>Intermediate</Complexity><StartDate>2024-02-25T13:38:43.2205495+02:00</StartDate><ScheduledDate>2024-03-05T13:38:43.2205495+02:00</ScheduledDate><DeadlineDate>2024-03-18T13:38:43.2205495+02:00</DeadlineDate><CompleteDate>2024-03-03T13:38:43.2205495+02:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>14</Id>
+    <Alias>Instrumentation Calibration</Alias>
+    <Description>Calibrate and maintain measurement instruments for accurate data collection.</Description>
+    <CreatedAtDate>2024-02-15T22:56:20.8806543+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>AdvancedBeginner</Complexity>
+    <StartDate>2024-02-17T22:56:20.8806543+02:00</StartDate>
+    <ScheduledDate>2024-02-19T22:56:20.8806543+02:00</ScheduledDate>
+    <DeadlineDate>2024-03-01T22:56:20.8806543+02:00</DeadlineDate>
+    <CompleteDate>2024-03-21T22:56:20.8806543+02:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>15<Alias>Geotechnical Engineering</Alias><Description>Study soil and rock mechanics to provide recommendations for construction projects.</Description><CreatedAtDate>2024-02-16T15:38:43.2222723+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>Expert</Complexity><StartDate>2024-02-27T15:38:43.2222723+02:00</StartDate><ScheduledDate>2024-03-09T15:38:43.2222723+02:00</ScheduledDate><DeadlineDate>2024-03-20T15:38:43.2222723+02:00</DeadlineDate><CompleteDate>2024-03-16T15:38:43.2222723+02:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>15</Id>
+    <Alias>Geotechnical Engineering</Alias>
+    <Description>Study soil and rock mechanics to provide recommendations for construction projects.</Description>
+    <CreatedAtDate>2024-02-17T00:56:20.8947408+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Advanced</Complexity>
+    <StartDate>2024-02-29T00:56:20.8947408+02:00</StartDate>
+    <ScheduledDate>2024-03-11T00:56:20.8947408+02:00</ScheduledDate>
+    <DeadlineDate>2024-03-19T00:56:20.8947408+02:00</DeadlineDate>
+    <CompleteDate>2024-03-02T00:56:20.8947408+02:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>16<Alias>Energy Efficiency Analysis</Alias><Description>Evaluate and improve the energy efficiency of systems and processes.</Description><CreatedAtDate>2024-02-17T17:38:43.2240883+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>Advanced</Complexity><StartDate>2024-02-22T17:38:43.2240883+02:00</StartDate><ScheduledDate>2024-02-24T17:38:43.2240883+02:00</ScheduledDate><DeadlineDate>2024-03-03T17:38:43.2240883+02:00</DeadlineDate><CompleteDate>2024-02-23T17:38:43.2240883+02:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>16</Id>
+    <Alias>Energy Efficiency Analysis</Alias>
+    <Description>Evaluate and improve the energy efficiency of systems and processes.</Description>
+    <CreatedAtDate>2024-02-18T02:56:20.9078113+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Intermediate</Complexity>
+    <StartDate>2024-02-29T02:56:20.9078113+02:00</StartDate>
+    <ScheduledDate>2024-03-07T02:56:20.9078113+02:00</ScheduledDate>
+    <DeadlineDate>2024-03-19T02:56:20.9078113+02:00</DeadlineDate>
+    <CompleteDate>2024-03-03T02:56:20.9078113+02:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>17<Alias>Risk Assessment</Alias><Description>Identify and assess potential risks associated with engineering projects.</Description><CreatedAtDate>2024-02-18T19:38:43.2256847+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>Expert</Complexity><StartDate>2024-02-26T19:38:43.2256847+02:00</StartDate><ScheduledDate>2024-03-05T19:38:43.2256847+02:00</ScheduledDate><DeadlineDate>2024-03-14T19:38:43.2256847+02:00</DeadlineDate><CompleteDate>2024-03-19T19:38:43.2256847+02:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>17</Id>
+    <Alias>Risk Assessment</Alias>
+    <Description>Identify and assess potential risks associated with engineering projects.</Description>
+    <CreatedAtDate>2024-02-19T04:56:20.9214543+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Advanced</Complexity>
+    <StartDate>2024-03-04T04:56:20.9214543+02:00</StartDate>
+    <ScheduledDate>2024-03-17T04:56:20.9214543+02:00</ScheduledDate>
+    <DeadlineDate>2024-03-29T04:56:20.9214543+03:00</DeadlineDate>
+    <CompleteDate>2024-03-27T04:56:20.9214543+02:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>18<Alias>Finite Element Analysis (FEA)</Alias><Description>Use FEA software to simulate and analyze structural and mechanical behavior.</Description><CreatedAtDate>2024-02-19T21:38:43.2280203+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>Expert</Complexity><StartDate>2024-02-27T21:38:43.2280203+02:00</StartDate><ScheduledDate>2024-03-03T21:38:43.2280203+02:00</ScheduledDate><DeadlineDate>2024-03-12T21:38:43.2280203+02:00</DeadlineDate><CompleteDate>2024-04-02T21:38:43.2280203+03:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>18</Id>
+    <Alias>Finite Element Analysis (FEA)</Alias>
+    <Description>Use FEA software to simulate and analyze structural and mechanical behavior.</Description>
+    <CreatedAtDate>2024-02-20T06:56:20.938208+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Advanced</Complexity>
+    <StartDate>2024-03-03T06:56:20.938208+02:00</StartDate>
+    <ScheduledDate>2024-03-15T06:56:20.938208+02:00</ScheduledDate>
+    <DeadlineDate>2024-03-26T06:56:20.938208+02:00</DeadlineDate>
+    <CompleteDate>2024-04-10T06:56:20.938208+03:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>19<Alias>Aerospace Systems Design</Alias><Description>Design components and systems for aircraft and spacecraft.</Description><CreatedAtDate>2024-02-20T23:38:43.2301036+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>5</Complexity><StartDate>2024-03-03T23:38:43.2301036+02:00</StartDate><ScheduledDate>2024-03-14T23:38:43.2301036+02:00</ScheduledDate><DeadlineDate>2024-03-21T23:38:43.2301036+02:00</DeadlineDate><CompleteDate>2024-03-05T23:38:43.2301036+02:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>19</Id>
+    <Alias>Aerospace Systems Design</Alias>
+    <Description>Design components and systems for aircraft and spacecraft.</Description>
+    <CreatedAtDate>2024-02-21T08:56:20.9509802+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Expert</Complexity>
+    <StartDate>2024-03-04T08:56:20.9509802+02:00</StartDate>
+    <ScheduledDate>2024-03-13T08:56:20.9509802+02:00</ScheduledDate>
+    <DeadlineDate>2024-03-24T08:56:20.9509802+02:00</DeadlineDate>
+    <CompleteDate>2024-03-08T08:56:20.9509802+02:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>20<Alias>Machine Learning Integration</Alias><Description>Implement machine learning algorithms to enhance engineering processes and decision-making.</Description><CreatedAtDate>2024-02-22T01:38:43.2320094+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>5</Complexity><StartDate>2024-03-06T01:38:43.2320094+02:00</StartDate><ScheduledDate>2024-03-18T01:38:43.2320094+02:00</ScheduledDate><DeadlineDate>2024-03-31T01:38:43.2320094+03:00</DeadlineDate><CompleteDate>2024-04-10T01:38:43.2320094+03:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>20</Id>
+    <Alias>Machine Learning Integration</Alias>
+    <Description>Implement machine learning algorithms to enhance engineering processes and decision-making.</Description>
+    <CreatedAtDate>2024-02-22T10:56:20.9633878+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Expert</Complexity>
+    <StartDate>2024-03-05T10:56:20.9633878+02:00</StartDate>
+    <ScheduledDate>2024-03-13T10:56:20.9633878+02:00</ScheduledDate>
+    <DeadlineDate>2024-03-20T10:56:20.9633878+02:00</DeadlineDate>
+    <CompleteDate>2024-03-22T10:56:20.9633878+02:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>21<Alias>Automated Manufacturing</Alias><Description>Design and implement automated systems for manufacturing processes.</Description><CreatedAtDate>2024-02-23T03:38:43.2344638+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>Advanced</Complexity><StartDate>2024-02-28T03:38:43.2344638+02:00</StartDate><ScheduledDate>2024-03-03T03:38:43.2344638+02:00</ScheduledDate><DeadlineDate>2024-03-13T03:38:43.2344638+02:00</DeadlineDate><CompleteDate>2024-03-09T03:38:43.2344638+02:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>21</Id>
+    <Alias>Automated Manufacturing</Alias>
+    <Description>Design and implement automated systems for manufacturing processes.</Description>
+    <CreatedAtDate>2024-02-23T12:56:20.9765697+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Intermediate</Complexity>
+    <StartDate>2024-02-29T12:56:20.9765697+02:00</StartDate>
+    <ScheduledDate>2024-03-06T12:56:20.9765697+02:00</ScheduledDate>
+    <DeadlineDate>2024-03-19T12:56:20.9765697+02:00</DeadlineDate>
+    <CompleteDate>2024-03-09T12:56:20.9765697+02:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>22<Alias>Telecommunication System Design</Alias><Description>Plan and design communication systems for efficient data transfer.</Description><CreatedAtDate>2024-02-24T05:38:43.2362355+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>Expert</Complexity><StartDate>2024-03-06T05:38:43.2362355+02:00</StartDate><ScheduledDate>2024-03-13T05:38:43.2362355+02:00</ScheduledDate><DeadlineDate>2024-03-22T05:38:43.2362355+02:00</DeadlineDate><CompleteDate>2024-03-21T05:38:43.2362355+02:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>22</Id>
+    <Alias>Telecommunication System Design</Alias>
+    <Description>Plan and design communication systems for efficient data transfer.</Description>
+    <CreatedAtDate>2024-02-24T14:56:20.9887234+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Advanced</Complexity>
+    <StartDate>2024-02-29T14:56:20.9887234+02:00</StartDate>
+    <ScheduledDate>2024-03-04T14:56:20.9887234+02:00</ScheduledDate>
+    <DeadlineDate>2024-03-15T14:56:20.9887234+02:00</DeadlineDate>
+    <CompleteDate>2024-04-05T14:56:20.9887234+03:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>23<Alias>Hydraulic System Design</Alias><Description>Develop and optimize hydraulic systems for various applications.</Description><CreatedAtDate>2024-02-25T07:38:43.2382606+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>Advanced</Complexity><StartDate>2024-03-07T07:38:43.2382606+02:00</StartDate><ScheduledDate>2024-03-15T07:38:43.2382606+02:00</ScheduledDate><DeadlineDate>2024-03-22T07:38:43.2382606+02:00</DeadlineDate><CompleteDate>2024-03-18T07:38:43.2382606+02:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>23</Id>
+    <Alias>Hydraulic System Design</Alias>
+    <Description>Develop and optimize hydraulic systems for various applications.</Description>
+    <CreatedAtDate>2024-02-25T16:56:21.0017274+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Intermediate</Complexity>
+    <StartDate>2024-03-06T16:56:21.0017274+02:00</StartDate>
+    <ScheduledDate>2024-03-13T16:56:21.0017274+02:00</ScheduledDate>
+    <DeadlineDate>2024-03-24T16:56:21.0017274+02:00</DeadlineDate>
+    <CompleteDate>2024-03-14T16:56:21.0017274+02:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>24<Alias>Fire Protection Engineering</Alias><Description>Design systems to prevent and control fires in buildings and facilities.</Description><CreatedAtDate>2024-02-26T09:38:43.2402666+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>Expert</Complexity><StartDate>2024-03-01T09:38:43.2402666+02:00</StartDate><ScheduledDate>2024-03-03T09:38:43.2402666+02:00</ScheduledDate><DeadlineDate>2024-03-12T09:38:43.2402666+02:00</DeadlineDate><CompleteDate>2024-03-22T09:38:43.2402666+02:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>24</Id>
+    <Alias>Fire Protection Engineering</Alias>
+    <Description>Design systems to prevent and control fires in buildings and facilities.</Description>
+    <CreatedAtDate>2024-02-26T18:56:21.0158066+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Advanced</Complexity>
+    <StartDate>2024-03-08T18:56:21.0158066+02:00</StartDate>
+    <ScheduledDate>2024-03-18T18:56:21.0158066+02:00</ScheduledDate>
+    <DeadlineDate>2024-03-25T18:56:21.0158066+02:00</DeadlineDate>
+    <CompleteDate>2024-03-25T18:56:21.0158066+02:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>25<Alias>Renewable Energy System Optimization</Alias><Description>Optimize the efficiency of renewable energy systems such as solar and wind power.</Description><CreatedAtDate>2024-02-27T11:38:43.2419819+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>Expert</Complexity><StartDate>2024-03-03T11:38:43.2419819+02:00</StartDate><ScheduledDate>2024-03-06T11:38:43.2419819+02:00</ScheduledDate><DeadlineDate>2024-03-15T11:38:43.2419819+02:00</DeadlineDate><CompleteDate>2024-03-27T11:38:43.2419819+02:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>25</Id>
+    <Alias>Renewable Energy System Optimization</Alias>
+    <Description>Optimize the efficiency of renewable energy systems such as solar and wind power.</Description>
+    <CreatedAtDate>2024-02-27T20:56:21.0342908+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Advanced</Complexity>
+    <StartDate>2024-03-06T20:56:21.0342908+02:00</StartDate>
+    <ScheduledDate>2024-03-11T20:56:21.0342908+02:00</ScheduledDate>
+    <DeadlineDate>2024-03-18T20:56:21.0342908+02:00</DeadlineDate>
+    <CompleteDate>2024-04-02T20:56:21.0342908+03:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>26<Alias>Human Factors Engineering</Alias><Description>Consider human capabilities and limitations in the design of products and systems.</Description><CreatedAtDate>2024-02-28T13:38:43.2438519+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>Advanced</Complexity><StartDate>2024-03-14T13:38:43.2438519+02:00</StartDate><ScheduledDate>2024-03-27T13:38:43.2438519+02:00</ScheduledDate><DeadlineDate>2024-04-05T13:38:43.2438519+03:00</DeadlineDate><CompleteDate>2024-03-22T13:38:43.2438519+02:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>26</Id>
+    <Alias>Human Factors Engineering</Alias>
+    <Description>Consider human capabilities and limitations in the design of products and systems.</Description>
+    <CreatedAtDate>2024-02-28T22:56:21.0472772+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Intermediate</Complexity>
+    <StartDate>2024-03-09T22:56:21.0472772+02:00</StartDate>
+    <ScheduledDate>2024-03-16T22:56:21.0472772+02:00</ScheduledDate>
+    <DeadlineDate>2024-03-27T22:56:21.0472772+02:00</DeadlineDate>
+    <CompleteDate>2024-04-07T22:56:21.0472772+03:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>27<Alias>Structural Health Monitoring</Alias><Description>Implement systems to monitor and assess the health of structures over time.</Description><CreatedAtDate>2024-02-29T15:38:43.2460816+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>Expert</Complexity><StartDate>2024-03-05T15:38:43.2460816+02:00</StartDate><ScheduledDate>2024-03-06T15:38:43.2460816+02:00</ScheduledDate><DeadlineDate>2024-03-14T15:38:43.2460816+02:00</DeadlineDate><CompleteDate>2024-04-13T15:38:43.2460816+03:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>27</Id>
+    <Alias>Structural Health Monitoring</Alias>
+    <Description>Implement systems to monitor and assess the health of structures over time.</Description>
+    <CreatedAtDate>2024-03-01T00:56:21.0609348+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Advanced</Complexity>
+    <StartDate>2024-03-12T00:56:21.0609348+02:00</StartDate>
+    <ScheduledDate>2024-03-19T00:56:21.0609348+02:00</ScheduledDate>
+    <DeadlineDate>2024-03-29T00:56:21.0609348+02:00</DeadlineDate>
+    <CompleteDate>2024-04-02T00:56:21.0609348+03:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>28<Alias>Water Resource Management</Alias><Description>Plan and manage water resources for agricultural, industrial, and municipal use.</Description><CreatedAtDate>2024-03-01T17:38:43.2485102+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>Advanced</Complexity><StartDate>2024-03-07T17:38:43.2485102+02:00</StartDate><ScheduledDate>2024-03-10T17:38:43.2485102+02:00</ScheduledDate><DeadlineDate>2024-03-22T17:38:43.2485102+02:00</DeadlineDate><CompleteDate>2024-04-10T17:38:43.2485102+03:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>28</Id>
+    <Alias>Water Resource Management</Alias>
+    <Description>Plan and manage water resources for agricultural, industrial, and municipal use.</Description>
+    <CreatedAtDate>2024-03-02T02:56:21.0729443+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Intermediate</Complexity>
+    <StartDate>2024-03-11T02:56:21.0729443+02:00</StartDate>
+    <ScheduledDate>2024-03-16T02:56:21.0729443+02:00</ScheduledDate>
+    <DeadlineDate>2024-03-27T02:56:21.0729443+02:00</DeadlineDate>
+    <CompleteDate>2024-04-10T02:56:21.0729443+03:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
   <Task>
-    <Id>29<Alias>Simulations and Modeling</Alias><Description>Create computer simulations to model and analyze complex engineering systems and scenarios.</Description><CreatedAtDate>2024-03-02T19:38:43.2511587+02:00</CreatedAtDate><IsMilestone>false</IsMilestone><Complexity>Expert</Complexity><StartDate>2024-03-10T19:38:43.2511587+02:00</StartDate><ScheduledDate>2024-03-17T19:38:43.2511587+02:00</ScheduledDate><DeadlineDate>2024-03-30T19:38:43.2511587+03:00</DeadlineDate><CompleteDate>2024-04-14T19:38:43.2511587+03:00</CompleteDate><Deliverables></Deliverables><Remarks></Remarks><EngineerId>381150667</EngineerId></Id>
+    <Id>29</Id>
+    <Alias>Simulations and Modeling</Alias>
+    <Description>Create computer simulations to model and analyze complex engineering systems and scenarios.</Description>
+    <CreatedAtDate>2024-03-03T04:56:21.0871232+02:00</CreatedAtDate>
+    <IsMilestone>false</IsMilestone>
+    <Complexity>Advanced</Complexity>
+    <StartDate>2024-03-08T04:56:21.0871232+02:00</StartDate>
+    <ScheduledDate>2024-03-10T04:56:21.0871232+02:00</ScheduledDate>
+    <DeadlineDate>2024-03-19T04:56:21.0871232+02:00</DeadlineDate>
+    <CompleteDate>2024-04-14T04:56:21.0871232+03:00</CompleteDate>
+    <Deliverables></Deliverables>
+    <Remarks></Remarks>
+    <EngineerId>232078553</EngineerId>
   </Task>
 </ArrayOfTask>
