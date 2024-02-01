@@ -1,2 +1,73 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ArrayOfEngineer />
+<ArrayOfEngineer>
+  <Engineer>
+    <Id>381150667</Id>
+    <Name>Yael Cohen</Name>
+    <Email>yael.cohen@example.com</Email>
+    <Cost>21724</Cost>
+    <Level>Beginner</Level>
+  </Engineer>
+  <Engineer>
+    <Id>280728105</Id>
+    <Name>Eitan Levi</Name>
+    <Email>eitan.levi@example.com</Email>
+    <Cost>12787</Cost>
+    <Level>Beginner</Level>
+  </Engineer>
+  <Engineer>
+    <Id>343596425</Id>
+    <Name>Maya Ben-David</Name>
+    <Email>maya.ben-david@example.com</Email>
+    <Cost>10149</Cost>
+    <Level>Intermediate</Level>
+  </Engineer>
+  <Engineer>
+    <Id>349209008</Id>
+    <Name>Itai Avraham</Name>
+    <Email>itai.avraham@example.com</Email>
+    <Cost>27632</Cost>
+    <Level>AdvancedBeginner</Level>
+  </Engineer>
+  <Engineer>
+    <Id>328800481</Id>
+    <Name>Tamar Schwartz</Name>
+    <Email>tamar.schwartz@example.com</Email>
+    <Cost>25370</Cost>
+    <Level>Advanced</Level>
+  </Engineer>
+  <Engineer>
+    <Id>277410089</Id>
+    <Name>Emma Wilson</Name>
+    <Email>emma.wilson@example.com</Email>
+    <Cost>23222</Cost>
+    <Level>AdvancedBeginner</Level>
+  </Engineer>
+  <Engineer>
+    <Id>345822083</Id>
+    <Name>Daniel Taylor</Name>
+    <Email>daniel.taylor@example.com</Email>
+    <Cost>28479</Cost>
+    <Level>Intermediate</Level>
+  </Engineer>
+  <Engineer>
+    <Id>201820358</Id>
+    <Name>Ava Anderson</Name>
+    <Email>ava.anderson@example.com</Email>
+    <Cost>33030</Cost>
+    <Level>AdvancedBeginner</Level>
+  </Engineer>
+  <Engineer>
+    <Id>356668474</Id>
+    <Name>Alexander White</Name>
+    <Email>alexander.white@example.com</Email>
+    <Cost>10579</Cost>
+    <Level>AdvancedBeginner</Level>
+  </Engineer>
+  <Engineer>
+    <Id>336389727</Id>
+    <Name>Sophia Harris</Name>
+    <Email>sophia.harris@example.com</Email>
+    <Cost>6931</Cost>
+    <Level>AdvancedBeginner</Level>
+  </Engineer>
+</ArrayOfEngineer>
