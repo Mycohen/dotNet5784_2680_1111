@@ -333,25 +333,40 @@ public static class Initialization
 
     // Main method to initiate the data creation process
     //public static void Do(IDependency? dalDependency, IEngineer? dalEngineer, ITask? dalTask) (stage 1)
-    public static void Do(IDal? dal)
+    //public static void Do(IDal? dal)//Stage 2
+    //{
+    //    // Assign DAL instances to local variables (Stage 1)
+    //    /*s_dalTask = dalTask ?? throw new NullReferenceException("DAL can not be null!"); 
+    //    s_dalEngineer = dalEngineer ?? throw new NullReferenceException("DAL can not be null!");
+    //    s_dalDependency = dalDependency ?? throw new NullReferenceException("DAL can not be null!");*/
+
+    //    s_dal = dal ?? throw new NullReferenceException("DAL can not be a null!");
+
+    //    // Create tasks, engineers, and dependencies
+    //    s_dal!.Task.DeleteAll();
+    //    s_dal!.Engineer.DeleteAll();
+    //    s_dal!.Dependency.DeleteAll();
+        
+    //    setIds();//initialize the Engineers array IDs
+    //    CreateEngineer();//Initialize the IEngineer from the datas that we gave them
+    //    CreateTask();//Initialize the ITask from the datas that we gave them
+    //    createDependency();//Initialize the ITask from the datas that we gave them
+
+
+    //}
+    
+    public static void Do() //stage 4
     {
-        // Assign DAL instances to local variables (Stage 1)
-        /*s_dalTask = dalTask ?? throw new NullReferenceException("DAL can not be null!"); 
-        s_dalEngineer = dalEngineer ?? throw new NullReferenceException("DAL can not be null!");
-        s_dalDependency = dalDependency ?? throw new NullReferenceException("DAL can not be null!");*/
-
-        s_dal = dal ?? throw new NullReferenceException("DAL can not be a null!");
-
+       s_dal=DalApi.DalFactory.GetDal();
         // Create tasks, engineers, and dependencies
         s_dal!.Task.DeleteAll();
         s_dal!.Engineer.DeleteAll();
         s_dal!.Dependency.DeleteAll();
-        
+
         setIds();//initialize the Engineers array IDs
         CreateEngineer();//Initialize the IEngineer from the datas that we gave them
         CreateTask();//Initialize the ITask from the datas that we gave them
         createDependency();//Initialize the ITask from the datas that we gave them
-
-
     }
+
 }

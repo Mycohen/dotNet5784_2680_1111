@@ -18,21 +18,23 @@ namespace DalTest
         public static ITask? s_dalTask = new TaskImplementation();*/
 
         //static readonly IDal s_dal = new DalList(); //stage 2
-        static readonly IDal s_dal = new DalXml(); //stage 3
-       
+        //static readonly IDal s_dal = new DalXml(); //stage 3
+        static readonly IDal s_dal = Factory.Get; //stage 4
+
+
 
 
         // Main method, the starting point of the program
         public static void Main()
         {
-           
+
 
             do
-            { 
+            {
                 try
                 {
                     // Initialize Data Access Layer dependencies
-                   
+
 
                     // Main program loop
 
@@ -62,8 +64,8 @@ namespace DalTest
                                 // Handle user choice for Dependency operations
                                 dependencyOptions();
                                 break;
-                                case MainMenuOption.InitData: //stage 3
-                                    initOp();
+                            case MainMenuOption.InitData: //stage 3
+                                initOp();
                                 break;
 
                             default:
@@ -95,8 +97,8 @@ namespace DalTest
                     Console.WriteLine(ex);
                 }
 
-        } while (true);  // Infinite loop for continuous user interaction
-          
+            } while (true);  // Infinite loop for continuous user interaction
+
         }
 
         //Sub menu for task options
@@ -285,7 +287,7 @@ namespace DalTest
                 s_dal.Engineer.DeleteAll();
                 s_dal.Task.DeleteAll();
                 Console.WriteLine("The data was deleted");
-                
+
             }
             else
                 Console.WriteLine("The data was not deleted");
@@ -296,8 +298,9 @@ namespace DalTest
         {
             Console.WriteLine("Would you like to create Initial data? (Y/N)"); //stage 3
 
-            if (yesOrNo()) //stage 3
-                Initialization.Do(s_dal); //stage 2
+            if (yesOrNo()) 
+                 //Initialization.Do(s_dal); //stage 2
+                Initialization.Do(); //stage 4
         }
         //Engineer methods
         // Method to create a new Engineer instance
@@ -353,12 +356,12 @@ namespace DalTest
             // Retrieve the current data of the Engineer to be updated from the data access layer
             //Engineer currentEngineerData = s_dalEngineer!.Read(id) ?? throw new Exception("Engineer with such ID does not exist"); //(satge1)
             Engineer currentEngineerData = s_dal!.Engineer!.Read(id) ?? throw new Exception("Engineer with such ID does not exist");
-            
+
 
 
             // Update the Engineer's Email
             updateEngineer_PrintText("Email");
-           
+
             string? email;
             if (yesOrNo())
             {
@@ -372,7 +375,7 @@ namespace DalTest
 
             // Update the Engineer's Name
             updateEngineer_PrintText("Name");
-           
+
             string? name;
             if (yesOrNo())
             {
@@ -386,7 +389,7 @@ namespace DalTest
 
             // Update the Engineer's Cost
             updateEngineer_PrintText("Cost");
-       
+
             double cost;
             if (yesOrNo())
             {
@@ -400,7 +403,7 @@ namespace DalTest
 
             // Update the Engineer's Level
             updateEngineer_PrintText("Level");
-           
+
             EngineerExperience? level;
             if (yesOrNo())
             {
@@ -499,11 +502,11 @@ namespace DalTest
 
             // Iterate through each Engineer and print their details
             if (engineers.Any())
-            foreach (Engineer engineer in engineers)
-            {
-                // Call the printEngineer method to display details of the current Engineer
-                printEngineer(engineer!);
-            }
+                foreach (Engineer engineer in engineers)
+                {
+                    // Call the printEngineer method to display details of the current Engineer
+                    printEngineer(engineer!);
+                }
         }
 
         // Method to remove a specific Engineer by ID
@@ -543,9 +546,9 @@ namespace DalTest
             int dependsOnTask = isValidIntInput();
 
             // Create a new Dependency instance with the provided information
-            Dependency dependencyInstance = new Dependency(Id:0,
+            Dependency dependencyInstance = new Dependency(Id: 0,
                 DependentTask: dependentTask,
-                DependsOnTask:dependsOnTask);
+                DependsOnTask: dependsOnTask);
 
             // Save the Dependency instance using the data access layer
             s_dal!.Dependency!.Create(dependencyInstance);
@@ -568,7 +571,7 @@ namespace DalTest
 
             // Prompt the user if they want to update the dependent task
             Console.WriteLine("Do you want to update the dependent task? (y/n)");
-            
+
             int dependentTask;
             if (yesOrNo())
             {
@@ -584,7 +587,7 @@ namespace DalTest
 
             // Prompt the user if they want to update the dependency task
             Console.WriteLine("Do you want to update the dependency task? (y/n)");
-            
+
             int dependsOnTask;
             if (yesOrNo())
             {
@@ -599,8 +602,8 @@ namespace DalTest
             }
 
             // Create a new Dependency instance with the updated information
-            Dependency updatedDependencyData = new Dependency(Id:currentDependencyData.Id,
-                DependentTask:dependentTask,
+            Dependency updatedDependencyData = new Dependency(Id: currentDependencyData.Id,
+                DependentTask: dependentTask,
                 DependsOnTask: dependsOnTask);
 
             // Update the Dependency in the data access layer
@@ -635,11 +638,11 @@ namespace DalTest
 
             // Iterate through each Dependency and print its details
             if (dependencies.Any())
-            foreach (Dependency dependency in dependencies)
-            {
-                // Call the printDependency method to display details of the current Dependency
-                printDependency(dependency);
-            }
+                foreach (Dependency dependency in dependencies)
+                {
+                    // Call the printDependency method to display details of the current Dependency
+                    printDependency(dependency);
+                }
         }
 
         // Method to remove a Dependency based on the provided ID
@@ -767,17 +770,17 @@ namespace DalTest
             // Create a new Task instance with the provided details
             Task inputTask = new Task
                 (
-                Id:0,
+                Id: 0,
                 Alias: _Alias,
                 Description: _Description,
-                CreatedAtDate: _CreatedAtDate, 
+                CreatedAtDate: _CreatedAtDate,
                 RequiredEffortTime: _requiredEffortTimeI,
-                IsMilestone: _IsMilestone, 
+                IsMilestone: _IsMilestone,
                 Complexity: complexity,
-                StartDate: _startDate, 
+                StartDate: _startDate,
                ScheduledDate: _scheduleDate,
-                DeadlineDate:_deadLineDate,
-                CompleteDate:_completeDatte,
+                DeadlineDate: _deadLineDate,
+                CompleteDate: _completeDatte,
                Deliverables: _deliverables,
                Remarks: _remarks,
                EngineerId: _engineerid
@@ -804,7 +807,7 @@ namespace DalTest
 
             // Prompt user to update the Alias field
             updateEngineer_PrintText("Alias");
-           
+
             string alias;
             if (yesOrNo())
             {
@@ -818,7 +821,7 @@ namespace DalTest
 
             // Prompt user to update the Description field
             updateEngineer_PrintText("Description");
-           
+
             string description;
             if (yesOrNo())
             {
@@ -835,7 +838,7 @@ namespace DalTest
 
             // Prompt user to update the Required Effort Time field
             updateEngineer_PrintText("Required effort time");
-            
+
             TimeSpan? requiredEffortTime;
             if (yesOrNo())
             {
@@ -853,7 +856,7 @@ namespace DalTest
 
             // Prompt user to update the Complexity field
             updateEngineer_PrintText("Complexity");
-          
+
             EngineerExperience complexity;
             if (yesOrNo())
             {
@@ -868,7 +871,7 @@ namespace DalTest
             // Prompt user to update the Start Date field
             updateEngineer_PrintText("Start Date");
             DateTime? startDate;
-            
+
             if (yesOrNo())
             {
                 printFieldForYes("Start Date");
@@ -878,7 +881,7 @@ namespace DalTest
 
             // Prompt user to update the Schedule Date field
             updateEngineer_PrintText("Schedule Date");
-           
+
             DateTime? scheduleDate;
             if (yesOrNo())
             {
@@ -893,7 +896,7 @@ namespace DalTest
             // Prompt user to update the Deadline Date field
             updateEngineer_PrintText("Dead Line Date");
             DateTime? deadLineDate;
-           
+
             if (yesOrNo())
             {
                 printFieldForYes("Dead Line Date");
@@ -906,7 +909,7 @@ namespace DalTest
 
             // Prompt user to update the Complete Date field
             updateEngineer_PrintText("Complete Date");
-          
+
             DateTime? completeDate;
             if (yesOrNo())
             {
@@ -920,7 +923,7 @@ namespace DalTest
 
             // Prompt user to update the Deliverables field
             updateEngineer_PrintText("Deliverables");
-            
+
             string deliverables;
             if (yesOrNo())
             {
@@ -934,7 +937,7 @@ namespace DalTest
 
             // Prompt user to update the Remarks field
             updateEngineer_PrintText("Remarks");
-           
+
             string remarks;
             if (yesOrNo())
             {
@@ -949,7 +952,7 @@ namespace DalTest
             // Prompt user to update the Engineer ID field
             updateEngineer_PrintText("Engineer ID");
             int engineerId;
-           
+
             if (yesOrNo())
             {
                 printFieldForYes("Engineer ID");
@@ -960,19 +963,19 @@ namespace DalTest
                 engineerId = taskT!.EngineerId;
             }
             // Create a new Task instance with the updated details
-            Task taskToUpdate = new Task(Id: id, 
-                Alias: alias, 
+            Task taskToUpdate = new Task(Id: id,
+                Alias: alias,
                 Description: description,
                 CreatedAtDate: createdAtDate,
                 RequiredEffortTime: requiredEffortTime,
-                IsMilestone: isMilestone, 
-                Complexity: complexity, 
-                StartDate: startDate, 
+                IsMilestone: isMilestone,
+                Complexity: complexity,
+                StartDate: startDate,
                 ScheduledDate: scheduleDate,
-                DeadlineDate: deadLineDate, 
-                CompleteDate: completeDate, 
+                DeadlineDate: deadLineDate,
+                CompleteDate: completeDate,
                 Deliverables: deliverables,
-                Remarks: remarks, 
+                Remarks: remarks,
                 EngineerId: engineerId);
 
             // Call the Update method in the data access layer to apply the changes
@@ -1026,10 +1029,10 @@ namespace DalTest
 
             // Iterate through each task and call the PrintTask method to display details
             if (tasks.Any())
-            foreach (Task task in tasks)
-            {
-                PrintTask(task!);
-            }
+                foreach (Task task in tasks)
+                {
+                    PrintTask(task!);
+                }
         }
 
         // Method to remove a specific task based on user input
@@ -1111,7 +1114,7 @@ namespace DalTest
         private static bool yesOrNo()
         {
             // Read input and convert to uppercase
-            string message = Console.ReadLine()?.Trim().ToUpper() ?? throw new FormatException ("Can't enter a null");
+            string message = Console.ReadLine()?.Trim().ToUpper() ?? throw new FormatException("Can't enter a null");
             bool _answer = message!.StartsWith('Y');
             return _answer;
         }

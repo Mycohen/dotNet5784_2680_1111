@@ -5,7 +5,7 @@
     {
         // Nested static class containing configuration constants for the data source
         internal static class Config
-        {
+        {//welcome Shmuel kaplan
             // Constant representing the starting value for dependency IDs
             internal const int StartDepID = 0;
 
