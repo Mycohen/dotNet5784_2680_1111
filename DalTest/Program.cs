@@ -49,7 +49,7 @@ namespace DalTest
                         {
                             case MainMenuOption.MainExit:
                                 // Exit the program
-                                removeAllFromXml();
+                                //removeAllFromXml();
                                 Environment.Exit(0);
                                 break;
                             case MainMenuOption.TaskMenu:

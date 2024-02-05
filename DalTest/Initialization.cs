@@ -357,11 +357,8 @@ public static class Initialization
     
     public static void Do() //stage 4
     {
-       s_dal=DalApi.DalFactory.GetDal();
-        // Create tasks, engineers, and dependencies
-        s_dal!.Task.DeleteAll();
-        s_dal!.Engineer.DeleteAll();
-        s_dal!.Dependency.DeleteAll();
+        s_dal= Factory.Get;
+        
 
         setIds();//initialize the Engineers array IDs
         CreateEngineer();//Initialize the IEngineer from the datas that we gave them
