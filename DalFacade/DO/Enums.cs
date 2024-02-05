@@ -40,8 +40,7 @@
         TaskMenu,      // Option to navigate to the task menu
         EngineerMenu,  // Option to navigate to the engineer menu
         DependencyMenu, // Option to navigate to the dependency menu
-        InitData,      // Option to initialize the data
-
+        InitData      // Option to initialize the data
     };
 
     /// <summary>
