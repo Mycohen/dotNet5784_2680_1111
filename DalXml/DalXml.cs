@@ -4,6 +4,17 @@ namespace Dal;
 //stage 3
 sealed public class DalXml : IDal
 {
+    // Private static instance variable to hold the single instance of DalXml
+    private static readonly DalXml instance = new DalXml();
+
+    // Private constructor to prevent instantiation from outside the class
+    private DalXml() { }
+
+    // Public static method to provide access to the single instance of DalXml
+    public static DalXml Instance
+    {
+        get { return instance; }
+    }
     // Represents the implementation of the ITask interface.
     public ITask Task => new TaskImplementation();
 

@@ -357,9 +357,9 @@ public static class Initialization
     
     public static void Do() //stage 4
     {
-        s_dal= Factory.Get;
-        
-
+        s_dal = Factory.Get;
+       
+          
         setIds();//initialize the Engineers array IDs
         CreateEngineer();//Initialize the IEngineer from the datas that we gave them
         CreateTask();//Initialize the ITask from the datas that we gave them
