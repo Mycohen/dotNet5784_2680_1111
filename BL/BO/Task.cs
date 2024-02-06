@@ -5,31 +5,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BO
+
+namespace BO;
+
+public class Task
 {
-    public record Task(
+    // Properties
+    public int Id { get; init; }
+    public string? Description { get; set; }
+    public string? Alias { get; set; }
+    public DateTime? CreatedAtDate { get; init; }
+    public Enums.Status Status { get; set; }
+    public List<TaskInList>? Dependencies { get; set; }
+    public MilestoneInTask? Milestone { get; set; }
+    public TimeSpan? RequiredEffortTime { get; set; }
+    public DateTime? StartDate { get; set; }
+    public DateTime? ScheduledDate { get; set; }
+    public DateTime? ForecastDate { get; set; }
+    public DateTime? DeadlineDate { get; set; }
+    public DateTime? CompleteDate { get; set; }
+    public string? Deliverables { get; set; }
+    public string? Remarks { get; set; }
+    public EngineerInTask? Engineer { get; set; }
+    public EngineerExperience Complexity { get; set; }
 
-           int Id,
-           string? Description = null,
-           string? Alias = null,
-           DateTime? CreatedAtDate = null,
-           BO.Status Status = Status.Uncheduled,
-           List <TaskInList> ? Dependencies = null,
-           MilestoneInTask? Milestone = null,
-           TimeSpan? RequiredEffortTime = null,
-           DateTime? StartDate = null,
-           DateTime? ScheduledDate = null,
-           DateTime ? ForecastDate = null,
-           DateTime? DeadlineDate = null,
-           DateTime? CompleteDate = null,
-           string? Deliverables = null,
-           string? Remarks = null,
-           EngineerInTask? Engineer = null,
-           DO.EngineerExperience Complexity = EngineerExperience.Intermediate
-
-    
-       )
-    {
-        public Task() : this(0) { }
-    }
+   
 }

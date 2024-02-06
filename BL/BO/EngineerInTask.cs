@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BO
+
+namespace BO;
+
+public class EngineerInTask
 {
-    public record EngineerInTask
-    (int Id,
-        string? Name = null)
-    {
-        public EngineerInTask() : this(0) { }
-    }
+    // Properties
+    public int Id { get; init; }
+    public string? Name { get; set; }
+
 }
+

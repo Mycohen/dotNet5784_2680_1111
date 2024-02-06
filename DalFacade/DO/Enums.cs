@@ -1,4 +1,4 @@
-﻿namespace DO;
+﻿namespace DO
 {
     /// <summary>
     /// Represents a namespace for data objects related to the application.

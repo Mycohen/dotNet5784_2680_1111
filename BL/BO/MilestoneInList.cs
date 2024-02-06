@@ -4,17 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BO
+namespace BO;
+
+public class MilestoneInList
 {
-    public record MilestoneInList
-    (   
-        int Id,
-        string? Description = null,
-        string? Alias = null,
-        Status Status = Status.Uncheduled,
-        double CompletionPercentage = 0.0
-        )
-    {
-        public MilestoneInList() : this(0) { }
-    }
+    public int Id { get; init; }
+    public string? Description { get; set; }
+    public string? Alias { get; set; }
+    public Enums.Status Status { get; set; }
+    public double CompletionPercentage { get; set; }
+
+  
 }
+

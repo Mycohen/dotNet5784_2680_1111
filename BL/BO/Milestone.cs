@@ -1,27 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BO
+namespace BO;
+
+public class Milestone
 {
-    public record Milestone(
+    // Properties with public getters and setters
+    public int Id { get; init; }
+    public string? Description { get; set; }
+    public string? Alias { get; set; }
+    public DateTime? CreatedAtDate { get; init; }
+    public Enums.Status Status { get; set; }
+    public DateTime? ForecastDate { get; set; }
+    public DateTime? DeadlineDate { get; set; }
+    public DateTime? CompleteDate { get; set; }
+    public string? Remarks { get; set; }
+    public List<TaskInList>? Dependencies { get; set; }
 
-           int Id,
-           string? Description = null,
-           string? Alias = null,
-           DateTime? CreatedAtDate = null,
-           Status Status = Status.Uncheduled,
-           DateTime? ForecastDate = null,
-           DateTime? DeadlineDate = null,
-           DateTime? CompleteDate = null,
-           string? Remarks = null,
-          List <TaskInList> ? Dependencies = null
-
-       )
-
-    {
-        public Milestone() : this(0) { }
-    }
 }

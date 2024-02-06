@@ -4,14 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BO
+namespace BO;
+public class Enums
 {
     public enum Status
     {
-        Uncheduled=1,
+        Uncheduled = 1,
         Scheduled,
-        OnTrack, 
+        OnTrack,
         InJeopardy,
         Done
     }
 }
+

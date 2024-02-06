@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BO
+namespace BO;
+
+public class MilestoneInTask
 {
-   public record MilestoneInTask
-    (int Id,
-       string? Alias=null)
-    { 
-        
-        public MilestoneInTask() : this(0) { } }
+    // Properties with public getters and setters
+    public int Id { get; init; }
+    public string? Alias { get; set; }
+
+   
 }
