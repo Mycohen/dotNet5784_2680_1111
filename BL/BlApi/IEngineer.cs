@@ -9,8 +9,16 @@ namespace BlApi;
 public interface IEngineer
 {
     public int Create(BO.Engineer item);
-    public BO.Task? Read(int id);
+    public BO.Engineer? Read(int id);
+    public BO.Engineer? Read(Func<BO.Task, bool> filter);
     public IEnumerable<BO.TaskInEngineer> ReadAll();
     public void Update(BO.Engineer item);
+    public void Delete(int id);
+ 
+   
+    public BO.Task? Read(int id);
+    public IEnumerable<BO.TaskInList> ReadAll();
+    public IEnumerable<BO.Task?> ReadAll(Func<BO.Task, bool>? filter = null);
+    public void Update(BO.Task item);
     public void Delete(int id);
 }
