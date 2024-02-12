@@ -12,6 +12,9 @@ internal class EngineerImplementation : IEngineer
 {
     private DalApi.IDal _dal = Factory.Get;
 
+    // function for converting a DO.Engineer to BO.Engineer
+
+
     public int Create(Engineer item)
     {
         throw new NotImplementedException();
@@ -27,18 +30,63 @@ internal class EngineerImplementation : IEngineer
         throw new NotImplementedException();
     }
 
-    public Engineer? Read(Func<Task, bool> filter)
+
+    public IEnumerable<BO.Engineer?> ReadAll(Func<BO.Engineer, bool>? filter = null)
+    {
+        IEnumerable<BO.Engineer> filterdEngineers = (from DO.Engineer engineer in _dal.Engineer.ReadAll()
+          select new BO.Engineer
+             {
+              Id = engineer.Id,
+              Name = engineer.Name,
+              Email = engineer.Email,
+              Cost = engineer.Cost,
+              Level = engineer.Level,
+              Task = MapTask(engineer.Id)}).ToList<BO.Engineer>();
+
+        if (filter == null)
+        {
+            return filterdEngineers;
+
+        }
+        else
+        {
+            return filterdEngineers.Where(filter).ToList<BO.Engineer>();
+        }
+
+
+    }
+
+    public void Update(Task item)
     {
         throw new NotImplementedException();
     }
 
-    public IEnumerable<TaskInEngineer> ReadAll()
+
+    private BO.TaskInEngineer? MapTask(int? id)
     {
-        throw new NotImplementedException();
+        if (id == null)
+            return null;
+
+        // Find the Engineer task by Task ID using Task.ReadAll with a lambda expression
+        var engineerTask = _dal.Task.ReadAll(t => t.Id == id).FirstOrDefault();
+
+        if (engineerTask == null)
+            return null;
+
+        // Map properties
+        BO.TaskInEngineer mappedTask = new BO.TaskInEngineer
+        {
+            Id = engineerTask.Id,
+            Alias = engineerTask.Alias
+        };
+
+        return mappedTask;
     }
 
-    public void Update(Engineer item)
-    {
-        throw new NotImplementedException();
-    }
+
 }
+
+
+
+
+

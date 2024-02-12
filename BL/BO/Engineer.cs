@@ -16,7 +16,7 @@ public class Engineer
     public string? Email { get; set; }
     public double? Cost { get; set; }
     public EngineerExperience? Level { get; set; }
-    BO.TaskInEngineer? Task { get; set; }
+    public BO.TaskInEngineer? Task { get; set; }
 
    
 }
