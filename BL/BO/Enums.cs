@@ -12,7 +12,7 @@ public class Enums
         Uncheduled = 1,
         Scheduled,
         OnTrack,
-        InJeopardy,
+       /* InJeopardy,*/
         Done
     }
 }
