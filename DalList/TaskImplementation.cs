@@ -58,12 +58,12 @@ internal class TaskImplementation
             item.Remarks,
             item.EngineerId
         );
-        if (item.Alias == null || item.Alias.Length == 0
-           || item.Description == null || item.Description.Length == 0
-          || item.CreatedAtDate == null || item.RequiredEffortTime == null || item.StartDate == null
-            || item.ScheduledDate == null || item.DeadlineDate == null || item.CompleteDate == null
-           || item.EngineerId < 0)
-            throw new Exception("The Task properties are invalid");
+        //if (item.Alias == null || item.Alias.Length == 0
+        //   || item.Description == null || item.Description.Length == 0
+        //  || item.CreatedAtDate == null || item.RequiredEffortTime == null || item.StartDate == null
+        //    || item.ScheduledDate == null || item.DeadlineDate == null || item.CompleteDate == null
+        //   || item.EngineerId < 0)
+        //    throw new Exception("The Task properties are invalid");
 
         // Add the new task to the collection
         DataSource.Tasks.Add(newTask);
