@@ -46,7 +46,6 @@ internal class EngineerImplementation : IEngineer
         if (filter == null)
         {
             return filterdEngineers;
-
         }
         else
         {
