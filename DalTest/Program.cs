@@ -19,10 +19,7 @@ namespace DalTest
 
         //static readonly IDal s_dal = new DalList(); //stage 2
         //static readonly IDal s_dal = new DalXml(); //stage 3
-        static readonly IDal s_dal = Factory.Get; //stage 4
-
-
-
+        static readonly IDal s_dal = DalApi.Factory.Get; //stage 4
 
         // Main method, the starting point of the program
         public static void Main()
