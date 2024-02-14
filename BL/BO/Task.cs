@@ -16,6 +16,7 @@ public class Task
     public string? Alias { get; set; }
     public DateTime? CreatedAtDate { get; init; }
     public Enums.Status Status { get; set; }
+    // List of tasks that this task depends on
     public List<TaskInList>? Dependencies { get; set; }
     public MilestoneInTask? Milestone { get; set; }
     public TimeSpan? RequiredEffortTime { get; set; }
