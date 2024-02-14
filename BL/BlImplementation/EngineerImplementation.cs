@@ -17,7 +17,11 @@ internal class EngineerImplementation : IEngineer
 
     public int Create(Engineer item)
     {
-        throw new NotImplementedException();
+        try
+        {
+
+        }
+        catch 
     }
 
     public void Delete(int id)
