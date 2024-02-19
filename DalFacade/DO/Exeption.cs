@@ -6,6 +6,7 @@ using System;
 public class DalDoesNotExistExeption : Exception
 {
     public DalDoesNotExistExeption(string? message) : base(message) {}
+    
 }
 
 [Serializable]
