@@ -100,6 +100,7 @@ internal class TaskImplementation : BlApi.ITask
         {
             throw new BO.BlDoesNotExistExeption($"Task with ID={id} doesn't exist", ex);
         }
+
     }
 
     // Converts a business object task to a data object task
