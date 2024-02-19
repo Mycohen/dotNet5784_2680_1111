@@ -23,6 +23,9 @@ internal class EngineerImplementation : IEngineer
         {
             CheckIfValidEngineerData(boEngineer);
             //if the data are valid
+            //update the task that assigned to the engineer
+            updateTaskThatAssignedToEngineer(boEngineer);
+
             DO.Engineer doEngineer = convertFrom_BO_to_DO(boEngineer);
             //try to add the doEngineer to the DAL 
             _dal.Engineer.Create(doEngineer);
@@ -89,12 +92,8 @@ internal class EngineerImplementation : IEngineer
             {
                 throw new BlInvalidInputException($"The level of the updated Engineer should not be lower than the current level: current level is {doEngineer.Level} entered level was {boEngineer.Level}");
             }
-            //if there is a task assigne to the engineer 
-            if (boEngineer.Task != null)
-            {
-                BO.Task boTask = _taskImplementation.Read(task => task.EngineerId == boEngineer.Id);
-                
-            }
+            
+            updateTaskThatAssignedToEngineer(boEngineer);
 
         }
         catch (Exception ex)
@@ -181,20 +180,39 @@ internal class EngineerImplementation : IEngineer
         else
             return true;
     }
-    
-    private bool CheckTheProjectStatus()
-    {
-        if (_dal.Task.ReadAll() != null)
-            foreach (DO.Task task in _dal.Task.ReadAll().ToList()!)
-            {
-                if (task.StartDate == null)
-                    return false;
-            }
-        else
+
+   private void updateTaskThatAssignedToEngineer(BO.Engineer boEngineer)
+   {
+        //if the engineer has a task
+        if (boEngineer.Task != null)
         {
-            return false;
+
+            //if there is a chenge in the task assign to the engineer then
+            //1. chenge the task1.EngineerID to null 
+            //2. chenge the task2.EngineerID to the ID of engineer.
+
+            // the task that curently assign to the engineer 
+            DO.Task currentDoTask = _dal.Task.Read(boEngineer.Task.Id)!;
+            if (currentDoTask.Id != boEngineer.Task.Id)
+            {
+                //get the task that is currently assign to the engineer
+                DO.Task newDoTask = _dal.Task.Read(boEngineer.Task.Id)!;
+                //update the task that was assign to the engineer
+                DO.Task updatedCurrentTask = new DO.Task(EngineerId: 0, Id: currentDoTask.Id, Alias: currentDoTask.Alias,
+                    Description: currentDoTask.Description, CreatedAtDate: currentDoTask.CreatedAtDate, RequiredEffortTime: currentDoTask.RequiredEffortTime,
+                    IsMilestone: currentDoTask.IsMilestone, Complexity: currentDoTask.Complexity, StartDate: currentDoTask.StartDate, ScheduledDate: currentDoTask.ScheduledDate,
+                    DeadlineDate: currentDoTask.DeadlineDate, CompleteDate: currentDoTask.CompleteDate, Deliverables: currentDoTask.Deliverables,
+                    Remarks: currentDoTask.Remarks);
+                //update the task that will be assign to the engineer
+                DO.Task updatedNewTask = new DO.Task(EngineerId: boEngineer.Id, Id: newDoTask.Id, Alias: newDoTask.Alias, Remarks: newDoTask.Remarks,
+                        Description: newDoTask.Description, CreatedAtDate: newDoTask.CreatedAtDate, RequiredEffortTime: newDoTask.RequiredEffortTime,
+                        IsMilestone: newDoTask.IsMilestone, Complexity: newDoTask.Complexity, StartDate: newDoTask.StartDate, ScheduledDate: newDoTask.ScheduledDate,
+                        DeadlineDate: newDoTask.DeadlineDate, CompleteDate: newDoTask.CompleteDate, Deliverables: newDoTask.Deliverables);
+                _dal.Task.Update(updatedCurrentTask);
+                _dal.Task.Update(updatedNewTask);
+            }
+
         }
-        return true;
     }
 }
 
