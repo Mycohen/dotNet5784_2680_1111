@@ -57,7 +57,7 @@
         DateTime? DeadlineDate = null,
 
         /// <summary>
-        /// Gets or sets the date when the task was completed (optional).
+        /// Gets or sets the date when the task was completed.
         /// </summary>
         DateTime? CompleteDate = null,
 

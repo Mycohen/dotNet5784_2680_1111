@@ -181,7 +181,7 @@ internal class EngineerImplementation : IEngineer
         else
             return true;
     }
-
+    
     private bool CheckTheProjectStatus()
     {
         if (_dal.Task.ReadAll() != null)

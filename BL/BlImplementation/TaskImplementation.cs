@@ -9,6 +9,7 @@ internal class TaskImplementation : BlApi.ITask
 {
     private DalApi.IDal _dal = DalApi.Factory.Get;
 
+    // Creates a new task
     public int Create(BO.Task item)
     {
         DO.Task doTaskCreate = convertFromBoToDo(item);
@@ -16,6 +17,7 @@ internal class TaskImplementation : BlApi.ITask
         {
             checkValidDoInput(doTaskCreate);
             int taskId = _dal.Task.Create(doTaskCreate);
+
         }
         catch (DO.DalAlreadyExistsException ex)
         {
@@ -35,6 +37,7 @@ internal class TaskImplementation : BlApi.ITask
         return item.Id;
     }
 
+    // Updates an existing task
     public void Update(BO.Task item)
     {
         DO.Task doTaskToUpdate = convertFromBoToDo(item);
@@ -43,19 +46,33 @@ internal class TaskImplementation : BlApi.ITask
         {
             BO.Task originalTask = Read(item.Id) ?? throw new BO.BlDoesNotExistExeption($"Task with ID={item.Id} doesn't exist");
             checkValidDoInput(doTaskToUpdate);
+            _dal.Task.Update(doTaskToUpdate);
 
         }
-        catch (DO.DalDoesNotExistExeption ex)
+        catch (DO.DalAlreadyExistsException ex)
         {
-            throw new BO.BlDoesNotExistExeption($"Task with ID={item.Id} doesn't exist", ex);
+            throw new BO.BlAlreadyExistsException($"Task with ID={item.Id} already exists", ex);
+        }
+        catch (BO.BlNullException)
+        {
+
+            throw new BO.BlNullException("Null value encountered during creation operation");
+        }
+        catch (BO.BlInvalidInputException)
+        {
+
+            throw new BO.BlInvalidInputException("Invalid input encountered during creation operation");
         }
     }
+
+    // Reads a task by its ID
     public BO.Task? Read(int id)
     {
         DO.Task doTaskRead = _dal.Task.Read(id) ?? throw new BO.BlDoesNotExistExeption($"Task with Id= {id} doesn't exist");
         return convertFromDotoBo(doTaskRead);
-
     }
+
+    // Reads all tasks with an optional filter
     public IEnumerable<BO.Task?> ReadAll(Func<BO.Task, bool>? filter = null)
     {
         var allTasks = _dal.Task.ReadAll();
@@ -68,13 +85,15 @@ internal class TaskImplementation : BlApi.ITask
 
         return (from DO.Task doTask in allTasks
                 select convertFromDotoBo(doTask)).Where(filter);
-
-
     }
+
+    // Deletes a task by its ID
     public void Delete(int id)
     {
         try
         {
+            BO.Task taskToDelete = Read(id) ?? throw new BO.BlDoesNotExistExeption($"Task with ID={id} doesn't exist");
+
             _dal.Task.Delete(id);
         }
         catch (DO.DalDoesNotExistExeption ex)
@@ -82,6 +101,8 @@ internal class TaskImplementation : BlApi.ITask
             throw new BO.BlDoesNotExistExeption($"Task with ID={id} doesn't exist", ex);
         }
     }
+
+    // Converts a business object task to a data object task
     private DO.Task convertFromBoToDo(BO.Task? item)
     {
         return new DO.Task
@@ -101,6 +122,7 @@ internal class TaskImplementation : BlApi.ITask
         };
     }
 
+    // Converts a data object task to a business object task
     private BO.Task convertFromDotoBo(DO.Task doTask)
     {
         return new BO.Task
@@ -125,6 +147,7 @@ internal class TaskImplementation : BlApi.ITask
         };
     }
 
+    // Checks if the data object task has valid input
     private void checkValidDoInput(DO.Task? doTask)
     {
         if (string.IsNullOrEmpty(doTask.Alias))
@@ -143,17 +166,9 @@ internal class TaskImplementation : BlApi.ITask
         {
             throw new BO.BlNullException("Description cannot be null");
         }
-
-
-
-
     }
 
-
-
-
-
-
+    // Generates an engineer in task object based on the task ID
     private BO.EngineerInTask generateEngineerInTask(int id)
     {
         if (_dal.Task.Read(id).EngineerId == null)
@@ -169,43 +184,52 @@ internal class TaskImplementation : BlApi.ITask
         };
     }
 
+    // Generates a forecast date based on the task ID
     private DateTime? generateForecastDate(int id)
     {
         throw new NotImplementedException();
     }
 
+    // Generates a milestone in task object based on the task ID
     private BO.MilestoneInTask generateMilestone(int id)
     {
         return null;
     }
 
+    // Generates a list of task dependencies based on the task ID
     private List<BO.TaskInList> generateDependencies(int id)
     {
         throw new NotImplementedException();
     }
 
+    // Generates the status of a task based on the task ID
     private BO.Enums.Status generateStatus(int id)
     {
         BO.Enums.Status status;
         DO.Task doTaskForStatus = _dal.Task.Read(id)!;
+
         if (doTaskForStatus.StartDate == null)
         {
             status = BO.Enums.Status.Uncheduled;
         }
-        else if (doTaskForStatus.StartDate != null)
+        else if (doTaskForStatus.CompleteDate == null)
         {
-            status = BO.Enums.Status.Scheduled;
+            if (doTaskForStatus.EngineerId != 0)
+            {
+                status = BO.Enums.Status.OnTrack;
+            }
+            else
+            {
+                status = BO.Enums.Status.Scheduled;
+            }
         }
         else
         {
             status = BO.Enums.Status.Done;
         }
+
         return status;
-
-
     }
-
-
 }
 
 
