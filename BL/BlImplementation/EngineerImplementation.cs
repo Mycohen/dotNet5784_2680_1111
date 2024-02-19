@@ -94,7 +94,8 @@ internal class EngineerImplementation : IEngineer
             }
             
             updateTaskThatAssignedToEngineer(boEngineer);
-
+            
+            _dal.Engineer.Update(convertFrom_BO_to_DO(boEngineer));
         }
         catch (Exception ex)
         {
@@ -192,8 +193,19 @@ internal class EngineerImplementation : IEngineer
             //2. chenge the task2.EngineerID to the ID of engineer.
 
             // the task that curently assign to the engineer 
-            DO.Task currentDoTask = _dal.Task.Read(boEngineer.Task.Id)!;
-            if (currentDoTask.Id != boEngineer.Task.Id)
+            DO.Task currentDoTask = _dal.Task.Read(task => task.EngineerId == boEngineer.Id);
+           
+            if (currentDoTask == null)
+            {
+                DO.Task newTaskToUpdate = _dal.Task.Read(task => task.Id == boEngineer.Task.Id)!;
+                DO.Task updatedCurrentTask = new DO.Task(EngineerId: boEngineer.Id, Id: newTaskToUpdate.Id, Alias: newTaskToUpdate.Alias,
+                    Description: newTaskToUpdate.Description, CreatedAtDate: newTaskToUpdate.CreatedAtDate, RequiredEffortTime: newTaskToUpdate.RequiredEffortTime,
+                    IsMilestone: newTaskToUpdate.IsMilestone, Complexity: newTaskToUpdate.Complexity, StartDate: newTaskToUpdate.StartDate, ScheduledDate: newTaskToUpdate.ScheduledDate,
+                    DeadlineDate: newTaskToUpdate.DeadlineDate, CompleteDate: newTaskToUpdate.CompleteDate, Deliverables: newTaskToUpdate.Deliverables,
+                    Remarks: newTaskToUpdate.Remarks);
+                _dal.Task.Update(newTaskToUpdate);
+            }
+            else if (currentDoTask.Id != boEngineer.Task.Id)
             {
                 //get the task that is currently assign to the engineer
                 DO.Task newDoTask = _dal.Task.Read(boEngineer.Task.Id)!;
