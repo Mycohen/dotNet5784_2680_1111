@@ -1,9 +1,8 @@
 ﻿namespace BlImplementation;
 
-
+using BO;
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 
 internal class TaskImplementation : BlApi.ITask
 {
@@ -17,6 +16,7 @@ internal class TaskImplementation : BlApi.ITask
         {
             checkValidDoInput(doTaskCreate);
             int taskId = _dal.Task.Create(doTaskCreate);
+            addDependencyToDal(item, taskId);
 
         }
         catch (DO.DalAlreadyExistsException ex)
@@ -37,6 +37,31 @@ internal class TaskImplementation : BlApi.ITask
         return item.Id;
     }
 
+    private void addDependencyToDal(BO.Task item, int taskId)
+    {
+        if(item.Dependencies != null)
+        {
+            foreach (var boDependency in item.Dependencies)
+            {
+                DO.Dependency doDependency = new DO.Dependency
+                {
+                    DependentTask = taskId,
+                    DependsOnTask = boDependency.Id
+                };
+                try
+                {
+                    _dal.Dependency.Create(doDependency);
+                }
+                catch (DO.DalAlreadyExistsException ex)
+                {
+                    throw new BO.BlAlreadyExistsException($"Dependency with ID={boDependency.Id} already exists", ex);
+                }
+
+            }
+        }
+    }
+     
+
     // Updates an existing task
     public void Update(BO.Task item)
     {
@@ -47,6 +72,7 @@ internal class TaskImplementation : BlApi.ITask
             BO.Task originalTask = Read(item.Id) ?? throw new BO.BlDoesNotExistExeption($"Task with ID={item.Id} doesn't exist");
             checkValidDoInput(doTaskToUpdate);
             _dal.Task.Update(doTaskToUpdate);
+            updateDependencyInDal(item);
 
         }
         catch (DO.DalAlreadyExistsException ex)
@@ -63,6 +89,11 @@ internal class TaskImplementation : BlApi.ITask
 
             throw new BO.BlInvalidInputException("Invalid input encountered during creation operation");
         }
+    }
+
+    private void updateDependencyInDal(Task item)
+    {
+        throw new NotImplementedException();
     }
 
     // Reads a task by its ID
@@ -206,7 +237,7 @@ internal class TaskImplementation : BlApi.ITask
         {
             dependencies.Add(new BO.TaskInList
             {
-                Id = (int)dependency.DependentTask! ,
+                Id = (int)dependency.DependentTask!,
                 Alias = _dal.Task.Read((int)dependency.DependentTask)!.Alias
             });
         }
