@@ -100,6 +100,7 @@ internal class TaskImplementation : BlApi.ITask
         {
             throw new BO.BlDoesNotExistExeption($"Task with ID={id} doesn't exist", ex);
         }
+
     }
 
     // Converts a business object task to a data object task
@@ -197,9 +198,19 @@ internal class TaskImplementation : BlApi.ITask
     }
 
     // Generates a list of task dependencies based on the task ID
-    private List<BO.TaskInList> generateDependencies(int id)
+    private List<BO.TaskInList> generateDependencies(int taskId)
     {
-       DO
+        List<BO.TaskInList> dependencies = new List<BO.TaskInList>();
+        List<DO.Dependency> doDependency = _dal.Dependency.ReadAll().Where(dependency => dependency.DependentTask == taskId).ToList();
+        foreach (var dependency in doDependency)
+        {
+            dependencies.Add(new BO.TaskInList
+            {
+                Id = (int)dependency.DependentTask! ,
+                Alias = _dal.Task.Read((int)dependency.DependentTask)!.Alias
+            });
+        }
+        return dependencies;
     }
 
     // Generates the status of a task based on the task ID
