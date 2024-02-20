@@ -1,4 +1,6 @@
 ﻿namespace BlImplementation;
+
+using BO;
 using System;
 using System.Collections.Generic;
 
@@ -276,7 +278,7 @@ internal class TaskImplementation : BlApi.ITask
         else if (task.Status == BO.Enums.Status.Scheduled)
         {
             DateTime plannedStartDate = task.CreatedAtDate ?? DateTime.MinValue;
-            DateTime actualStartDate = task.StartDate?? DateTime.MinValue;
+            DateTime actualStartDate = task.StartDate ?? DateTime.MinValue;
             TimeSpan duration = task.RequiredEffortTime ?? TimeSpan.Zero;
             DateTime forecastDate = DateTime.MaxValue;
 
@@ -287,16 +289,15 @@ internal class TaskImplementation : BlApi.ITask
 
             if (actualStartDate != DateTime.MinValue)
             {
-                DateTime actualEndDate = actualStartDate + duration;
-                forecastDate = DateTime.Compare(actualEndDate, forecastDate) > 0 ? actualEndDate : forecastDate;
+                forecastDate = DateTime.Compare(plannedStartDate, actualStartDate) > 0 ?
+                    plannedStartDate + duration : actualStartDate + duration;
+
             }
 
             return forecastDate;
         }
-        else
-        {
-            return task.DeadlineDate;
-        }
+
+        return null;
     }
 
     // Generates a milestone in task object based on the task ID
@@ -341,7 +342,7 @@ internal class TaskImplementation : BlApi.ITask
             {
                 status = BO.Enums.Status.OnTrack;
             }
-            else
+            else 
             {
                 status = BO.Enums.Status.Scheduled;
             }
@@ -392,7 +393,22 @@ internal class TaskImplementation : BlApi.ITask
         }
     }
 
-    
+    private void updateStartDate(BO.Task boTask, DateTime date)
+    {
+        List<DO.Dependency?> dependencies = _dal.Dependency.ReadAll(dependency => dependency.DependentTask == boTask.Id).ToList();
+
+        if (dependencies != null)
+        {
+            foreach(var dependency in dependencies)
+            {
+                DO.Task task = _dal.Task.Read(task => task.Id == dependency!.DependsOnTask)!;
+                if(task.StartDate == null)
+                {
+                    throw new BlStartDateExeption($"Can't update Task {boTask.Id} becouse ")
+                }
+            }
+        }
+    }
 
 }
 
