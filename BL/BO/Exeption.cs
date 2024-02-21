@@ -52,6 +52,8 @@ public class BlUpdateImpossible : Exception
 
     base("This entity can not be updated - please deactivate instead")
     { }
+
+    public BlUpdateImpossible(string massege) : base(massege) { }
 }
 
 [Serializable]
@@ -59,6 +61,7 @@ public class BlEngineerHasTaskExeption : Exception
 {
     public BlEngineerHasTaskExeption(string? message) : base(message) { }
 }
+
 
 // generic error from DAL
 [Serializable]

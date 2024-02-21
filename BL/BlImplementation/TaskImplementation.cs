@@ -404,10 +404,18 @@ internal class TaskImplementation : BlApi.ITask
                 DO.Task task = _dal.Task.Read(task => task.Id == dependency!.DependsOnTask)!;
                 if(task.StartDate == null)
                 {
-                    throw new BlStartDateExeption($"Can't update Task {boTask.Id} becouse ")
+                    throw new BlUpdateImpossible($"Can't update Task {boTask.Id} becouse at least one of its dependent on previous tasks (found task {task.Id}) was not assign with its start date. please make sure to update the start dates of all the privious tasks");
+                }
+                else if (task.StartDate < boTask.StartDate)
+                {
+                    throw new BlUpdateImpossible($"Can't update Task {boTask.Id} becouse at least one of its dependent on previous tasks (found task {task.Id}) has a start date that is smaller than the start date of {boTask.Id}");
                 }
             }
         }
+
+        // if there was no problem with the date of boTask 
+        DO.Task taskToUpdate = convertFromBoToDo(boTask);
+        _dal.Task.Update(taskToUpdate);
     }
 
 }
