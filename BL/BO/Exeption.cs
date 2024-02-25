@@ -26,6 +26,11 @@ public class BlNullException : Exception
     public BlNullException(string? message) : base(message) { }
 }
 
+public class BlDateException : Exception
+{
+    public BlDateException(string? message) : base(message) { }
+}
+
 [Serializable]
 public class BlAlreadyExistsException : Exception
 {
@@ -53,6 +58,8 @@ public class BlUpdateImpossible : Exception
     base("This entity can not be updated - please deactivate instead")
     { }
 }
+
+
 
 [Serializable]
 public class BlEngineerHasTaskExeption : Exception

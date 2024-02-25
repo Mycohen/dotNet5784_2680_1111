@@ -404,9 +404,11 @@ internal class TaskImplementation : BlApi.ITask
                 DO.Task task = _dal.Task.Read(task => task.Id == dependency!.DependsOnTask)!;
                 if(task.StartDate == null)
                 {
-                    throw new BlStartDateExeption($"Can't update Task {boTask.Id} becouse ")
+                    throw new 
+                    BlDateException($"Can't update Task {boTask.Id} start date because not all the dependencies have start date");
                 }
             }
+          boTask.StartDate=date;  
         }
     }
 
