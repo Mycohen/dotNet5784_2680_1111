@@ -194,7 +194,7 @@ internal class EngineerImplementation : IEngineer
             //2. chenge the task2.EngineerID to the ID of engineer.
 
             // the task that curently assign to the engineer 
-            DO.Task currentDoTask = _dal.Task.Read(task => task.EngineerId == boUpdateEngineer.Id);
+            DO.Task? currentDoTask = _dal.Task.Read(task => task.EngineerId == boUpdateEngineer.Id);
 
             if (currentDoTask == null)
             {
@@ -258,7 +258,7 @@ internal class EngineerImplementation : IEngineer
         }
         else if (boUpdateEngineer.Task == null)
         {
-            DO.Task currentDoTask = _dal.Task.Read(task => task.EngineerId == boUpdateEngineer.Id);
+            DO.Task? currentDoTask = _dal.Task.Read(task => task.EngineerId == boUpdateEngineer.Id);
             if (currentDoTask != null)
             {
                 DO.Task updatedCurrentTask = new DO.Task(
