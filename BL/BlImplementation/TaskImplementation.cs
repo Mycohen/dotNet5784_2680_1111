@@ -1,6 +1,4 @@
 ﻿namespace BlImplementation;
-
-using BO;
 using System;
 using System.Collections.Generic;
 
@@ -271,26 +269,27 @@ internal class TaskImplementation : BlApi.ITask
     private DateTime? generateForecastDate(int taskId)
     {
         BO.Task task = Read(taskId);
-        if (task.Status == BO.Enums.Status.Uncheduled)
+        if (task.Status == BO.Enums.Status.Unscheduled)
         {
             return null;
         }
         else if (task.Status == BO.Enums.Status.Scheduled)
         {
-            DateTime plannedStartDate = task.CreatedAtDate ?? DateTime.MinValue;
-            DateTime actualStartDate = task.StartDate ?? DateTime.MinValue;
+            DateTime actualStartDate = task.StartDate?? DateTime.MinValue;
+            DateTime plannedStartDate = task.ScheduledDate ?? DateTime.MinValue;
             TimeSpan duration = task.RequiredEffortTime ?? TimeSpan.Zero;
             DateTime forecastDate = DateTime.MaxValue;
+            
+            if (actualStartDate != DateTime.MinValue)
+            {
+                forecastDate = actualStartDate;
+                //throw new BO.BlInvalidOperation("Can't update the start date of a task that already started");
+            }
 
             if (plannedStartDate != DateTime.MinValue)
             {
-                forecastDate = plannedStartDate;
-            }
-
-            if (actualStartDate != DateTime.MinValue)
-            {
-                forecastDate = DateTime.Compare(plannedStartDate, actualStartDate) > 0 ?
-                    plannedStartDate + duration : actualStartDate + duration;
+                forecastDate = DateTime.Compare(actualStartDate, plannedStartDate) > 0 ?
+                    actualStartDate + duration : plannedStartDate + duration;
 
             }
 
@@ -332,9 +331,9 @@ internal class TaskImplementation : BlApi.ITask
         // Read the task from the DAL based on the ID
         DO.Task doTaskForStatus = _dal.Task.Read(id)!;
 
-        if (doTaskForStatus.StartDate == null)
+        if (doTaskForStatus.ScheduledDate == null)
         {
-            status = BO.Enums.Status.Uncheduled;
+            status = BO.Enums.Status.Unscheduled;
         }
         else if (doTaskForStatus.CompleteDate == null)
         {
@@ -393,7 +392,7 @@ internal class TaskImplementation : BlApi.ITask
         }
     }
 
-    private void updateStartDate(BO.Task boTask, DateTime date)
+    private void updateScheduleDate(BO.Task boTask, DateTime date)
     {
         List<DO.Dependency?> dependencies = _dal.Dependency.ReadAll(dependency => dependency.DependentTask == boTask.Id).ToList();
 
@@ -402,16 +401,16 @@ internal class TaskImplementation : BlApi.ITask
             foreach(var dependency in dependencies)
             {
                 DO.Task task = _dal.Task.Read(task => task.Id == dependency!.DependsOnTask)!;
-                if(task.StartDate == null)
+                if(task.ScheduledDate == null)
                 {
-                    throw new BlUpdateImpossible($"Can't update Task {boTask.Id} becouse at least one of its dependent on previous tasks (found task {task.Id}) was not assign with its start date. please make sure to update the start dates of all the privious tasks");
+                    throw new BO.BlUpdateImpossible($"Can't update Task {boTask.Id} becouse at least one of its dependent on previous tasks (found task {task.Id}) was not assign with its start date. please make sure to update the start dates of all the privious tasks");
                 }
-                else if (task.StartDate < boTask.StartDate)
+                else if (task.ScheduledDate < boTask.ScheduledDate)
                 {
-                    throw new BlUpdateImpossible($"Can't update Task {boTask.Id} becouse at least one of its dependent on previous tasks (found task {task.Id}) has a start date that is smaller than the start date of {boTask.Id}");
+                    throw new BO.BlUpdateImpossible($"Can't update Task {boTask.Id} becouse at least one of its dependent on previous tasks (found task {task.Id}) has a start date that is smaller than the start date of {boTask.Id}");
                 }
             }
-          boTask.StartDate=date;  
+          boTask.ScheduledDate = date;  
         }
 
         // if there was no problem with the date of boTask 
@@ -419,6 +418,20 @@ internal class TaskImplementation : BlApi.ITask
         _dal.Task.Update(taskToUpdate);
     }
 
+
+    public static DateTime FirstAvilableDateOfScheduleDate(this BO.Task task,  DateTime projectStartDate)
+    {
+        // if there is no preliminary tasks return the project start date
+        if (task.Dependencies == null)
+        {
+            return projectStartDate;
+        }
+        else 
+        {
+
+        }
+        return DateTime.MinValue;
+    }
 }
 
 

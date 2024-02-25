@@ -9,7 +9,7 @@ public class Enums
 {
     public enum Status
     {
-        Uncheduled = 1,
+        Unscheduled = 1,
         Scheduled,
         OnTrack,
        /* InJeopardy,*/

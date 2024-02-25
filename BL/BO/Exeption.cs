@@ -1,5 +1,4 @@
 ﻿namespace BO;
-
 using DO;
 using System;
 
@@ -75,5 +74,12 @@ public class BlEngineerHasTaskExeption : Exception
 public class BlDalError : Exception
 { 
     public BlDalError(string? errorMassag, Exception innerMassage) : base(errorMassag, innerMassage)
+    { }
+}
+
+[Serializable]
+public class BlInvalidOperation : Exception
+{
+    public BlInvalidOperation(string? errorMassag) : base(errorMassag)
     { }
 }

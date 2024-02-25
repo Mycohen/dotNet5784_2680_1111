@@ -8,11 +8,9 @@ namespace BlImplementation;
 using BlApi;
 internal class Bl : IBl
 {
-    public ITask Student => new TaskImplementation();
-    public IEngineer Engineer => new EngineerImplementation();
-    public IMilestone Milestone => new MilestoneImplementation();
-
-   
+    public ITask Tasks => new TaskImplementation();
+    public IEngineer Engineers => new EngineerImplementation();
+    public IMilestone Milestones => new MilestoneImplementation();
 }
 
    

@@ -1,15 +1,16 @@
-﻿using BO;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
-using BlApi;
+
+
 namespace BlImplementation;
 
 
-internal class EngineerImplementation : IEngineer
+internal class EngineerImplementation :BlApi.IEngineer
 {
     private DalApi.IDal _dal = DalApi.Factory.Get;
     public readonly BlApi.ITask _taskImplementation = new TaskImplementation();
@@ -32,7 +33,7 @@ internal class EngineerImplementation : IEngineer
         }
         catch (Exception ex)
         {
-            throw new BlDalError($"unrecognized exception from DAL {ex}", ex);
+            throw new BO.BlDalError($"unrecognized exception from DAL {ex}", ex);
         }
         finally
         {
@@ -91,20 +92,48 @@ internal class EngineerImplementation : IEngineer
             CheckIfValidEngineerData(boEngineer);
             if (doEngineer.Level > boEngineer.Level)
             {
-                throw new BlInvalidInputException($"The level of the updated Engineer should not be lower than the current level: current level is {doEngineer.Level} entered level was {boEngineer.Level}");
+                throw new BO.BlInvalidInputException($"The level of the updated Engineer should not be lower than the current level: current level is {doEngineer.Level} entered level was {boEngineer.Level}");
             }
 
             updateTaskThatAssignedToEngineer(boEngineer);
+            updateStartDate(boEngineer);
 
             _dal.Engineer.Update(convertFrom_BO_to_DO(boEngineer));
         }
         catch (Exception ex)
         {
-            throw new BlDalError($"unrecognized exception from DAL {ex}", ex);
+            throw new BO.BlDalError($"unrecognized exception from DAL {ex}", ex);
         }
         finally
         {
             Console.WriteLine("Data from the BAL was successfully saved in DAL");
+        }
+    }
+
+    private void updateStartDate(BO.Engineer boEngineer)
+    {
+       if (boEngineer.Task!=null)
+        {
+            DO.Task? originalTask = _dal.Task.Read(boEngineer.Task.Id);
+            if (originalTask != null)
+            {
+                DO.Task updatedExsitingTask = new DO.Task(
+                                    EngineerId: boEngineer.Id,
+                                    Id: originalTask.Id,
+                                    Alias: originalTask.Alias,
+                                    Description: originalTask.Description,
+                                    CreatedAtDate: originalTask.CreatedAtDate,
+                                    RequiredEffortTime: originalTask.RequiredEffortTime,
+                                    IsMilestone: originalTask.IsMilestone,
+                                    Complexity: originalTask.Complexity,
+                                    StartDate: DateTime.Now,
+                                    ScheduledDate: originalTask.ScheduledDate,
+                                    DeadlineDate: originalTask.DeadlineDate,
+                                    CompleteDate: originalTask.CompleteDate,
+                                    Deliverables: originalTask.Deliverables,
+                                    Remarks: originalTask.Remarks);
+                _dal.Task.Update(updatedExsitingTask);
+            }
         }
     }
 
@@ -169,16 +198,16 @@ internal class EngineerImplementation : IEngineer
     private bool CheckIfValidEngineerData(BO.Engineer boEngineer)
     {
         if (boEngineer.Id <= 0)
-            throw new BlInvalidInputException($"Invalid Input of Engineer ID value. The value must be greater than 0. Entered value is {boEngineer.Id}");
+            throw new BO.BlInvalidInputException($"Invalid Input of Engineer ID value. The value must be greater than 0. Entered value is {boEngineer.Id}");
         if (boEngineer.Name == null || boEngineer.Name == "")
-            throw new BlInvalidInputException($"Invalid input of Engineer Name value. The value must be a non empty string");
+            throw new BO.BlInvalidInputException($"Invalid input of Engineer Name value. The value must be a non empty string");
         if (boEngineer.Cost <= 0)
-            throw new BlInvalidInputException($"Invalid Input of Engineer Cost value. The value must be greater than 0. Entered value is {boEngineer.Cost}");
+            throw new BO.BlInvalidInputException($"Invalid Input of Engineer Cost value. The value must be greater than 0. Entered value is {boEngineer.Cost}");
         if (boEngineer.Email == null)
-            throw new BlNullException("The value of Engineer Email address must be entered (can not be null).");
+            throw new BO.BlNullException("The value of Engineer Email address must be entered (can not be null).");
         else
         if (!IsValidEmail(boEngineer.Email))
-            throw new BlInvalidInputException("The value of Engineer Email address must be entered.");
+            throw new BO.BlInvalidInputException("The value of Engineer Email address must be entered.");
         else
             return true;
     }
@@ -188,99 +217,83 @@ internal class EngineerImplementation : IEngineer
         //if the engineer has a task
         if (boUpdateEngineer.Task != null)
         {
+            DO.Task? existingDoTaskWithBoEngineerId = _dal.Task.Read(task => task.EngineerId == boUpdateEngineer.Id);
+            if (existingDoTaskWithBoEngineerId != null)
+            if (existingDoTaskWithBoEngineerId!.EngineerId == boUpdateEngineer.Id) throw new BO.BlAlreadyExistsException($"The Engineer with ID = {boUpdateEngineer.Id} alredy assigned to the Task with ID = {existingDoTaskWithBoEngineerId.Id}");
 
-            //if there is a chenge in the task assign to the engineer then
-            //1. chenge the task1.EngineerID to null 
-            //2. chenge the task2.EngineerID to the ID of engineer.
-
-            // the task that curently assign to the engineer 
-            DO.Task? currentDoTask = _dal.Task.Read(task => task.EngineerId == boUpdateEngineer.Id);
-
-            if (currentDoTask == null)
-            {
-                DO.Task newTaskToUpdate = _dal.Task.Read(task => task.Id == boUpdateEngineer.Task.Id)!;
-                DO.Task updatedCurrentTask = new DO.Task(
-                    EngineerId: boUpdateEngineer.Id,
-                    Id: newTaskToUpdate.Id,
-                    Alias: newTaskToUpdate.Alias,
-                    Description: newTaskToUpdate.Description,
-                    CreatedAtDate: newTaskToUpdate.CreatedAtDate,
-                    RequiredEffortTime: newTaskToUpdate.RequiredEffortTime,
-                    IsMilestone: newTaskToUpdate.IsMilestone,
-                    Complexity: newTaskToUpdate.Complexity,
-                    StartDate: newTaskToUpdate.StartDate,
-                    ScheduledDate: newTaskToUpdate.ScheduledDate,
-                    DeadlineDate: newTaskToUpdate.DeadlineDate,
-                    CompleteDate: newTaskToUpdate.CompleteDate,
-                    Deliverables: newTaskToUpdate.Deliverables,
-                    Remarks: newTaskToUpdate.Remarks);
-                _dal.Task.Update(newTaskToUpdate);
-            }
-            else if (currentDoTask.Id != boUpdateEngineer.Task.Id)
-            {
-                //get the task that is currently assign to the engineer
-                DO.Task newDoTask = _dal.Task.Read(boUpdateEngineer.Task.Id)!;
-                //update the task that was assign to the engineer
-                DO.Task updatedCurrentTask = new DO.Task(
-                    EngineerId: 0,
-                    Id: currentDoTask.Id,
-                    Alias: currentDoTask.Alias,
-                    Description: currentDoTask.Description,
-                    CreatedAtDate: currentDoTask.CreatedAtDate,
-                    RequiredEffortTime: currentDoTask.RequiredEffortTime,
-                    IsMilestone: currentDoTask.IsMilestone,
-                    Complexity: currentDoTask.Complexity,
-                    StartDate: currentDoTask.StartDate,
-                    ScheduledDate: currentDoTask.ScheduledDate,
-                    DeadlineDate: currentDoTask.DeadlineDate,
-                    CompleteDate: currentDoTask.CompleteDate,
-                    Deliverables: currentDoTask.Deliverables,
-                    Remarks: currentDoTask.Remarks);
-                //update the task that will be assign to the engineer
-                DO.Task updatedNewTask = new DO.Task(EngineerId: boUpdateEngineer.Id,
-                    Id: newDoTask.Id,
-                    Alias: newDoTask.Alias,
-                    Remarks: newDoTask.Remarks,
-                    Description: newDoTask.Description,
-                    CreatedAtDate: newDoTask.CreatedAtDate,
-                    RequiredEffortTime: newDoTask.RequiredEffortTime,
-                    IsMilestone: newDoTask.IsMilestone,
-                    Complexity: newDoTask.Complexity,
-                    StartDate: newDoTask.StartDate,
-                    ScheduledDate: newDoTask.ScheduledDate,
-                    DeadlineDate: newDoTask.DeadlineDate,
-                    CompleteDate: newDoTask.CompleteDate,
-                    Deliverables: newDoTask.Deliverables);
-                _dal.Task.Update(updatedCurrentTask);
-                _dal.Task.Update(updatedNewTask);
-            }
-
-        }
-        else if (boUpdateEngineer.Task == null)
-        {
-            DO.Task? currentDoTask = _dal.Task.Read(task => task.EngineerId == boUpdateEngineer.Id);
-            if (currentDoTask != null)
-            {
-                DO.Task updatedCurrentTask = new DO.Task(
-                    EngineerId: 0,
-                    Id: currentDoTask.Id,
-                    Alias: currentDoTask.Alias,
-                    Description: currentDoTask.Description,
-                    CreatedAtDate: currentDoTask.CreatedAtDate,
-                    RequiredEffortTime: currentDoTask.RequiredEffortTime,
-                    IsMilestone: currentDoTask.IsMilestone,
-                    Complexity: currentDoTask.Complexity,
-                    StartDate: currentDoTask.StartDate,
-                    ScheduledDate: currentDoTask.ScheduledDate,
-                    DeadlineDate: currentDoTask.DeadlineDate,
-                    CompleteDate: currentDoTask.CompleteDate,
-                    Deliverables: currentDoTask.Deliverables,
-                    Remarks: currentDoTask.Remarks);
-                _dal.Task.Update(updatedCurrentTask);
-            }
-        }
-
+            updateTaskInDal(boUpdateEngineer, existingDoTaskWithBoEngineerId);
+        }  
     }
+
+    private void updateTaskInDal(BO.Engineer boUpdateEngineer, DO.Task? existingDoTaskWithBoEngineerId)
+    {
+        //if there is no engineer with such ID in the DAL.Task
+        if (existingDoTaskWithBoEngineerId == null)
+        {
+            DO.Task tempTaskFromDal = _dal.Task.Read(boUpdateEngineer.Task.Id);
+                DO.Task updatedExsitingTask = new DO.Task(
+                    EngineerId: boUpdateEngineer.Id,
+                    Id: tempTaskFromDal.Id,
+                    Alias: tempTaskFromDal.Alias,
+                    Description: tempTaskFromDal.Description,
+                    CreatedAtDate: tempTaskFromDal.CreatedAtDate,
+                    RequiredEffortTime: tempTaskFromDal.RequiredEffortTime,
+                    IsMilestone: tempTaskFromDal.IsMilestone,
+                    Complexity: tempTaskFromDal.Complexity,
+                    StartDate: tempTaskFromDal.StartDate,
+                    ScheduledDate: tempTaskFromDal.ScheduledDate,
+                    DeadlineDate: tempTaskFromDal.DeadlineDate,
+                    CompleteDate: tempTaskFromDal.CompleteDate,
+                    Deliverables: tempTaskFromDal.Deliverables,
+                    Remarks: tempTaskFromDal.Remarks);
+                _dal.Task.Update(updatedExsitingTask);
+        }
+        else if (existingDoTaskWithBoEngineerId.Id != boUpdateEngineer.Task.Id)// chenge the refernce of engineer to another task
+        {
+            //get the task that is currently assign to the engineer
+            DO.Task tempTaskFromDal = existingDoTaskWithBoEngineerId;
+            //update the task that was assign to the engineer
+            DO.Task updatedExsitingTask = new DO.Task(
+                EngineerId: 0,
+                Id: existingDoTaskWithBoEngineerId.Id,
+                Alias: existingDoTaskWithBoEngineerId.Alias,
+                Description: existingDoTaskWithBoEngineerId.Description,
+                CreatedAtDate: existingDoTaskWithBoEngineerId.CreatedAtDate,
+                RequiredEffortTime: existingDoTaskWithBoEngineerId.RequiredEffortTime,
+                IsMilestone: existingDoTaskWithBoEngineerId.IsMilestone,
+                Complexity: existingDoTaskWithBoEngineerId.Complexity,
+                StartDate: existingDoTaskWithBoEngineerId.StartDate,
+                ScheduledDate: existingDoTaskWithBoEngineerId.ScheduledDate,
+                DeadlineDate: existingDoTaskWithBoEngineerId.DeadlineDate,
+                CompleteDate: existingDoTaskWithBoEngineerId.CompleteDate,
+                Deliverables: existingDoTaskWithBoEngineerId.Deliverables,
+                Remarks: existingDoTaskWithBoEngineerId.Remarks);
+            //
+            _dal.Task.Update(updatedExsitingTask);
+
+            //update the task that will be assign to the engineer
+            DO.Task tempNewTaskFromDal = _dal.Task.Read(boUpdateEngineer.Task.Id)!;
+            DO.Task updatedNewAssignTask = new DO.Task(EngineerId: boUpdateEngineer.Id,
+                    Id: tempNewTaskFromDal.Id,
+                    Alias: tempNewTaskFromDal.Alias,
+                    Remarks: tempNewTaskFromDal.Remarks,
+                    Description: tempNewTaskFromDal.Description,
+                    CreatedAtDate: tempNewTaskFromDal.CreatedAtDate,
+                    RequiredEffortTime: tempNewTaskFromDal.RequiredEffortTime,
+                    IsMilestone: tempNewTaskFromDal.IsMilestone,
+                    Complexity: tempNewTaskFromDal.Complexity,
+                    StartDate: tempNewTaskFromDal.StartDate,
+                    ScheduledDate: tempNewTaskFromDal.ScheduledDate,
+                    DeadlineDate: tempNewTaskFromDal.DeadlineDate,
+                    CompleteDate: tempNewTaskFromDal.CompleteDate,
+                    Deliverables: tempNewTaskFromDal.Deliverables);
+
+            _dal.Task.Update(updatedNewAssignTask);
+        }
+    }
+
+
+
 }
 
 
