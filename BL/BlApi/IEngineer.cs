@@ -15,4 +15,6 @@ public interface IEngineer
     public IEnumerable<BO.Engineer?> ReadAll(Func<BO.Engineer, bool>? filter );
     public void Update(BO.Engineer item);
     public void Delete(int id);
+    public void deleteAll();
+
 }

@@ -110,6 +110,19 @@ internal class EngineerImplementation :BlApi.IEngineer
         }
     }
 
+    public void deleteAll()
+    {
+        try
+        {
+            _dal.Task.DeleteAll();
+        }
+        catch
+        (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
     private void updateStartDate(BO.Engineer boEngineer)
     {
        if (boEngineer.Task!=null)

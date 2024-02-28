@@ -130,6 +130,19 @@ internal class TaskImplementation : BlApi.ITask
 
     }
 
+    public void deleteAll()
+    {
+        try
+        {
+            _dal.Task.DeleteAll();
+        }
+      catch 
+      (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
     // Update the dependencies in the DAL based on the task item
     private void updateDependencyInDal(BO.Task item)
     {
