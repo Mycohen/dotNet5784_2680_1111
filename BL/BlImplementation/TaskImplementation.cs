@@ -441,9 +441,30 @@ internal class TaskImplementation : BlApi.ITask
         }
         else 
         {
-
+            foreach (var dependency in task.Dependencies)
+            {
+                recursiveSearch(_dal.Task.Read(dependency.Id));
+          
+             
+            }
         }
         return DateTime.MinValue;
+    }
+
+    private static void recursiveSearch(BO.Task t)
+    {
+        if (t.Dependencies == null)
+        {
+            return;
+        }
+        else
+        {
+            foreach (var dependency in t.Dependencies)
+            {
+                recursiveSearch(_dal.Read(dependency.Id));
+            }
+        }
+       
     }
 }
 
