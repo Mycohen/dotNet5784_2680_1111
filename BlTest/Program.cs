@@ -11,18 +11,22 @@ using System.Reflection.Emit;
 // A static class that serves as the entry point for the program
 internal static class Program
 {
-  
+    static bool planingPhase = false;
+    static bool executiuonPhase = false;
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); //stage 4
 
     // Main method, the starting point of the program
     public static void Main()
     {
-
+       
 
         do
         {
+           
             try
             {
+                //check the phase
+
                 // Initialize Data Access Layer dependencies
 
 
