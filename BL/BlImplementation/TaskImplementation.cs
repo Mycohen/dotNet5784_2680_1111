@@ -431,8 +431,6 @@ internal class TaskImplementation : BlApi.ITask
         _dal.Task.Update(taskToUpdate);
     }
 
-
-
     public DateTime LastAvailableDateOfScheduleDate(BO.Task task, DateTime projectStartDate)
     {
         // Base case: If there are no dependencies, return the project start date

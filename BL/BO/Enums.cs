@@ -18,13 +18,18 @@ public class Enums
     /// <summary>
     /// Represents the main menu options for the application.
     /// </summary>
-    public enum MainMenuOption
+    public enum MainTaskMenu
     {
         MainExit,      // Option to exit the main menu
         TaskMenu,      // Option to navigate to the task menu
-        EngineerMenu,  // Option to navigate to the engineer menu
-        DependencyMenu, // Option to navigate to the dependency menu
+        CloseTaskMenu, // Option to close the task menu
         InitData      // Option to initialize the data
+    };
+    public enum MainEngineerMenu
+    {
+        MainExit,      // Option to exit the main menu
+        EngineerMenu,      // Option to navigate to the task menu
+        CloseEngineerMenu, // Option to close the task menu
     };
 
     /// <summary>

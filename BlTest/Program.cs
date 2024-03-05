@@ -29,32 +29,32 @@ internal static class Program
                 // Main program loop
 
                 // Display the main menu
-                printMainMenu();
+                printFirstTaskMainMenu();
 
                 // Parse the user's choice from the main menu
-                if (Enum.TryParse(Console.ReadLine(), out BO.Enums.MainMenuOption mainMenuChoice))
+                if (Enum.TryParse(Console.ReadLine(), out BO.Enums.MainTaskMenu mainMenuChoice))
                 {
                     // Process the user's choice
                     switch (mainMenuChoice)
                     {
-                        case BO.Enums.MainMenuOption.MainExit:
+                        case BO.Enums.MainTaskMenu.MainExit:
                             // Exit the program
                             //removeAllFromXml();
                             Environment.Exit(0);
                             break;
-                        case BO.Enums.MainMenuOption.TaskMenu:
+                        case BO.Enums.MainTaskMenu.TaskMenu:
                             // Handle user choice for Task operations
                             taskOptions();
                             break;
-                        case BO.Enums.MainMenuOption.EngineerMenu:
+                        case BO.Enums.MainTaskMenu.EngineerMenu:
                             // Handle user choice for Engineer operations
                             engineerOptions();
                             break;
-                        case BO.Enums.MainMenuOption.DependencyMenu:
+                        case BO.Enums.MainTaskMenu.DependencyMenu:
                             // Handle user choice for Dependency operations
                             dependencyOptions();
                             break;
-                        case BO.Enums.MainMenuOption.InitData: //stage 3
+                        case BO.Enums.MainTaskMenu.InitData: //stage 3
                             initOp();
                             break;
 
@@ -245,15 +245,24 @@ internal static class Program
     }
 
     //printing the main menu for the switch
-    private static void printMainMenu()
+    private static void printFirstEngineerMainMenu()
     {
         // Display the main menu options
+        Console.WriteLine("Welcome to the project.");
+        Console.WriteLine("Please enter all the project's tasks, enter 2 to finish the tasks configuration");
         Console.WriteLine("Enter 0 for quitting the program:");
         Console.WriteLine("Enter 1 for Tasks menu:");
-        Console.WriteLine("Enter 2 for Engineers menu:");
-        Console.WriteLine("Enter 3 for Dependencies menu");
-        Console.WriteLine("Enter 4 for initalize Option:");
+        Console.WriteLine("Enter 3 for initalize Option:");
     }
+    private static void printFirstTaskMainMenu()
+    {
+        // Display the main menu options
+        
+        Console.WriteLine("Please enter all the project's engineers, enter 2 to finish the tasks configuration");
+        Console.WriteLine("Enter 0 for quitting the program:");
+        Console.WriteLine("Enter 1 for Engineers menu:");
+    }
+
 
     //printing the sub menu for the switch
     private static void printSubMenu(string entity)
