@@ -445,12 +445,12 @@ internal class TaskImplementation : BlApi.ITask
         _dal.Task.Update(taskToUpdate);
     }
 
-    public DateTime LastAvailableDateOfScheduleDate(BO.Task task, DateTime projectStartDate)
+    public int TaskWithLastScheduledDate(BO.Task task)
     {
         // Base case: If there are no dependencies, return the project start date
         if (task.Dependencies == null || task.Dependencies.Count == 0)
         {
-            return projectStartDate;
+            return task.Id;
         }
 
         DateTime latestAvailableDate = DateTime.MinValue;
@@ -459,12 +459,12 @@ internal class TaskImplementation : BlApi.ITask
         foreach (var dependency in task.Dependencies)
         {
             // Recursively check the availability date of the dependent task
-            DateTime dependencyCompletionDate = LastAvailableDateOfScheduleDate(convertFromDotoBo(_dal.Task.Read(dependency.Id)!), projectStartDate);
+            int idOfLatestTask = TaskWithLastScheduledDate(convertFromDotoBo(_dal.Task.Read(task=>task.Id==dependency.Id)!));
 
             // Update the latest available date if the current dependency's completion date is later
-            if (dependencyCompletionDate > latestAvailableDate)
+            if (idOfLatestTask > latestAvailableDate)
             {
-                latestAvailableDate = dependencyCompletionDate;
+                latestAvailableDate = idOfLatestTask;
             }
         }
 
