@@ -13,10 +13,7 @@ namespace BlImplementation;
 internal class EngineerImplementation :BlApi.IEngineer
 {
     private DalApi.IDal _dal = DalApi.Factory.Get;
-    public readonly BlApi.ITask _taskImplementation = new TaskImplementation();
-    // function for converting a DO.Engineer to BO.Engineer
-
-
+    
     public int Create(BO.Engineer boEngineer)
     {
 
@@ -33,7 +30,7 @@ internal class EngineerImplementation :BlApi.IEngineer
         }
         catch (Exception ex)
         {
-            throw new BO.BlDalError($"unrecognized exception from DAL {ex}", ex);
+            throw new BO.BlDalError($"exception from DAL {ex}", ex);
         }
         finally
         {
@@ -44,15 +41,30 @@ internal class EngineerImplementation :BlApi.IEngineer
 
     public void Delete(int id)
     {
-        BO.Engineer boEngineer = this.Read(id);
-        if (boEngineer == null)
-            throw new BO.BlDoesNotExistExeption($"Engineer with {id} does not exist");
-        else if (boEngineer.Task != null)
-            throw new BO.BlEngineerHasTaskExeption($"Engineer with {id} has a task and can not be deleted");
-        else if (_dal.Task.ReadAll(task => task.EngineerId == id) != null)
-            throw new BO.BlEngineerHasTaskExeption($"Engineer with {id} has a task and can not be deleted");
-        else
-            _dal.Engineer.Delete(id);
+        try {
+            BO.Engineer boEngineer = this.Read(id);
+            if (boEngineer == null)
+                throw new BO.BlDoesNotExistExeption($"Engineer with {id} does not exist");
+
+            else if (boEngineer.Task != null)
+                throw new BO.BlEngineerHasTaskExeption($"Engineer with {id} has a task and " +
+                    $"can not be deleted");
+
+            else if (_dal.Task.ReadAll(task => task.EngineerId == id) != null)
+                throw new BO.BlEngineerHasTaskExeption($"Engineer with {id} has a task " +
+                    $"and can not be deleted");
+            else
+                _dal.Engineer.Delete(id);
+        }
+        catch (Exception ex)
+        {
+            throw new BO.BlDalError($"exception from DAL {ex}", ex);
+        }
+        finally
+        {
+            Console.WriteLine("Data from the BAL was successfully deleted in DAL");
+        }
+        
     }
 
     public BO.Engineer Read(int id)
@@ -62,7 +74,6 @@ internal class EngineerImplementation :BlApi.IEngineer
         BO.Engineer boEngineer = convertFromDoToBo(doEngineer);
         return boEngineer;
     }
-
 
     public IEnumerable<BO.Engineer?> ReadAll(Func<BO.Engineer, bool>? filter = null)
     {
@@ -88,15 +99,22 @@ internal class EngineerImplementation :BlApi.IEngineer
 
         try
         {
-            DO.Engineer doEngineer = _dal.Engineer.Read(boEngineer.Id) ?? throw new BO.BlDoesNotExistExeption($"Engineer with such ID = {boEngineer.Id} does not excist");
+            DO.Engineer doEngineer = _dal.Engineer.Read(boEngineer.Id) ??
+                throw new BO.BlDoesNotExistExeption($"Engineer with such ID = {boEngineer.Id}" +
+                $" does not excist");
+
             CheckIfValidEngineerData(boEngineer);
+
             if (doEngineer.Level > boEngineer.Level)
             {
-                throw new BO.BlInvalidInputException($"The level of the updated Engineer should not be lower than the current level: current level is {doEngineer.Level} entered level was {boEngineer.Level}");
+                throw new BO.BlInvalidInputException($"The level of the updated Engineer" +
+                    $" should not be lower than the current level: current level is {doEngineer.Level} " +
+                    $"entered level was {boEngineer.Level}");
             }
 
             updateTaskThatAssignedToEngineer(boEngineer);
-            updateStartDate(boEngineer);
+
+            updateTaskInDo(boEngineer);
 
             _dal.Engineer.Update(convertFrom_BO_to_DO(boEngineer));
         }
@@ -119,11 +137,11 @@ internal class EngineerImplementation :BlApi.IEngineer
         catch
         (Exception ex)
         {
-            throw ex;
+            throw  ex;
         }
     }
 
-    private void updateStartDate(BO.Engineer boEngineer)
+    private void updateTaskInDo(BO.Engineer boEngineer)
     {
        if (boEngineer.Task!=null)
         {
@@ -150,7 +168,6 @@ internal class EngineerImplementation :BlApi.IEngineer
         }
     }
 
-
     // function for converting a DO.Engineer to BO.Engineer
     private BO.Engineer convertFromDoToBo(DO.Engineer boEngineer)
     {
@@ -168,7 +185,9 @@ internal class EngineerImplementation :BlApi.IEngineer
     private DO.Engineer convertFrom_BO_to_DO(BO.Engineer boEngineer)
     {
         return new DO.Engineer
-            (Id: boEngineer.Id, Email: boEngineer.Email, Cost: boEngineer.Cost, Name: boEngineer.Name, Level: boEngineer.Level);
+            (Id: boEngineer.Id, Email: boEngineer.Email,
+            Cost: boEngineer.Cost, Name: boEngineer.Name, 
+            Level: boEngineer.Level);
     }
 
     private BO.TaskInEngineer? MapTask(int? id)
@@ -225,17 +244,28 @@ internal class EngineerImplementation :BlApi.IEngineer
             return true;
     }
 
+    /// <summary>
+    /// Updates the task that is assigned to the engineer.
+    /// </summary>
+    /// <param name="boUpdateEngineer">The engineer to update.</param>
     private void updateTaskThatAssignedToEngineer(BO.Engineer boUpdateEngineer)
     {
-        //if the engineer has a task
+        // Check if the engineer has a task
         if (boUpdateEngineer.Task != null)
         {
+            // Check if there is an existing task with the same engineer ID
             DO.Task? existingDoTaskWithBoEngineerId = _dal.Task.Read(task => task.EngineerId == boUpdateEngineer.Id);
             if (existingDoTaskWithBoEngineerId != null)
-            if (existingDoTaskWithBoEngineerId!.EngineerId == boUpdateEngineer.Id) throw new BO.BlAlreadyExistsException($"The Engineer with ID = {boUpdateEngineer.Id} alredy assigned to the Task with ID = {existingDoTaskWithBoEngineerId.Id}");
+            {
+                // Throw an exception if the engineer is already assigned to a task
+                if (existingDoTaskWithBoEngineerId!.EngineerId == boUpdateEngineer.Id)
+                    throw new BO.BlAlreadyExistsException($"The Engineer with ID = {boUpdateEngineer.Id}" +
+                        $" already assigned to the Task with ID = {existingDoTaskWithBoEngineerId.Id}");
+            }
 
+            // Update the task in the DAL
             updateTaskInDal(boUpdateEngineer, existingDoTaskWithBoEngineerId);
-        }  
+        }
     }
 
     private void updateTaskInDal(BO.Engineer boUpdateEngineer, DO.Task? existingDoTaskWithBoEngineerId)
