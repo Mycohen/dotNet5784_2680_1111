@@ -1,4 +1,6 @@
 ﻿namespace BlImplementation;
+
+using BO;
 using System;
 using System.Collections.Generic;
 
@@ -281,7 +283,8 @@ internal class TaskImplementation : BlApi.ITask
     // Generates a forecast date based on the task ID
     private DateTime? generateForecastDate(int taskId)
     {
-        BO.Task task = Read(taskId);
+        BO.Task? task = Read(taskId);
+        if (task == null) throw new BlDoesNotExistExeption($"There is no such task with ID of {taskId} does not exist");
         if (task.Status == BO.Enums.Status.Unscheduled)
         {
             return null;
@@ -405,6 +408,8 @@ internal class TaskImplementation : BlApi.ITask
         }
     }
 
+    // Update the scheduled date of a task based on the task ID and new date 
+    // This method is responsible for updating the scheduled date of a task. It checks if the new date is valid and updates the task in the data store.
     private void updateScheduleDate(BO.Task boTask, DateTime date)
     {
         List<DO.Dependency?> dependencies = _dal.Dependency.ReadAll(dependency => dependency.DependentTask == boTask.Id).ToList();
@@ -414,13 +419,13 @@ internal class TaskImplementation : BlApi.ITask
             foreach(var dependency in dependencies)
             {
                 DO.Task task = _dal.Task.Read(task => task.Id == dependency!.DependsOnTask)!;
-                if(task.ScheduledDate == null)
+                if (task.ScheduledDate == null)
                 {
                     throw new BO.BlUpdateImpossible($"Can't update Task {boTask.Id} becouse at least one of its dependent on previous tasks (found task {task.Id}) was not assign with its start date. please make sure to update the start dates of all the privious tasks");
                 }
                 else if (task.ScheduledDate < boTask.ScheduledDate)
                 {
-                    throw new BO.BlUpdateImpossible($"Can't update Task {boTask.Id} becouse at least one of its dependent on previous tasks (found task {task.Id}) has a start date that is smaller than the start date of {boTask.Id}");
+                    throw new BO.BlUpdateImpossible($"Can't update Task {boTask.Id} becouse at least one of its dependent on previous tasks (found task {task.Id}) has a start date that is earlier than the start date of {boTask.Id}");
                 }
             }
           boTask.ScheduledDate = date;  
@@ -430,7 +435,7 @@ internal class TaskImplementation : BlApi.ITask
         DO.Task taskToUpdate = convertFromBoToDo(boTask);
         _dal.Task.Update(taskToUpdate);
     }
-
+    
     public DateTime LastAvailableDateOfScheduleDate(BO.Task task, DateTime projectStartDate)
     {
         // Base case: If there are no dependencies, return the project start date
