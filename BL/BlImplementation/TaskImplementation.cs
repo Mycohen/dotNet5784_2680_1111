@@ -1,6 +1,8 @@
 ﻿namespace BlImplementation;
 
 using BO;
+using DalApi;
+using DO;
 using System;
 using System.Collections.Generic;
 
@@ -450,32 +452,34 @@ internal class TaskImplementation : BlApi.ITask
         _dal.Task.Update(taskToUpdate);
     }
 
-    public int TaskWithLastScheduledDate(BO.Task task)
+   
+    // return the first available start date for a task
+    public DateTime? FirstAvailableStartDate(BO.Task task)
     {
-        // Base case: If there are no dependencies, return the project start date
+        DateTime? LastStartDate = DateTime.MinValue;
+        DO.Task? latestTask = null;
         if (task.Dependencies == null || task.Dependencies.Count == 0)
         {
-            return task.Id;
+            return BO.Enums.projectStartDate;
         }
-
-        DateTime latestAvailableDate = DateTime.MinValue;
-
-        // Iterate through each dependency to find the latest completion date
-        foreach (var dependency in task.Dependencies)
-        {
-            // Recursively check the availability date of the dependent task
-            int idOfLatestTask = TaskWithLastScheduledDate(convertFromDotoBo(_dal.Task.Read(task=>task.Id==dependency.Id)!));
-
-            // Update the latest available date if the current dependency's completion date is later
-            if (idOfLatestTask > latestAvailableDate)
+        else
+        {  //find the last start date of the dependencies
+            foreach (var dependency in task.Dependencies)
             {
-                latestAvailableDate = idOfLatestTask;
+                DO.Task taskToCheck = _dal.Task.Read(t => t.Id == dependency.Id)!;
+                if (taskToCheck.ScheduledDate == null)
+                {
+                    throw new BO.BlUpdateImpossible($"Cannot update Task {task.Id} because at least one of its dependencies (found task {taskToCheck.Id}) was not assigned with a start date. Please make sure to update the start dates of all the previous tasks.");
+                }
+                else if (taskToCheck.ScheduledDate > LastStartDate)
+                {
+                    LastStartDate = taskToCheck.ScheduledDate;
+                    latestTask = taskToCheck;
+                }
             }
         }
-
-
-        // Return the latest available date considering the dependencies' completion dates
-        return latestAvailableDate;
+        // Return the first available start date
+        return LastStartDate + latestTask!.RequiredEffortTime;
     }
 
 }

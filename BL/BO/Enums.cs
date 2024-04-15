@@ -2,7 +2,9 @@
 
 public class Enums
 {
+    
     public static DateTime projectStartDate = DateTime.MinValue;
+
     public enum Status
     {
         Unscheduled = 1,
@@ -40,6 +42,13 @@ public class Enums
         PrintAllOp,    // Option to print details of all entities
         DeleteOp,      // Option to delete a single entity
         DeleteAllOp    // Option to delete all entities
+    };
+
+    public enum projectPhase
+    {
+        taskCreationPhase = 1, //the director creates the tasks
+        schedualingPhase, //the director schedules the tasks
+        executionPhase, //the tasks are being assighend to engineers
     };
 }
 
