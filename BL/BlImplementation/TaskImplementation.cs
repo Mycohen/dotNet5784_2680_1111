@@ -6,6 +6,7 @@ internal class TaskImplementation : BlApi.ITask
 {
     private DalApi.IDal _dal = DalApi.Factory.Get;
 
+
     // Creates a new task
     // This method is responsible for creating a new task. It converts the business object task to a data object task and performs necessary validations before saving it.
     public int Create(BO.Task item)
@@ -17,8 +18,10 @@ internal class TaskImplementation : BlApi.ITask
         {
             // Validate the data object task
             checkValidDoInput(doTaskCreate);
+
             // Call the data access layer to create the task
             int taskId = _dal.Task.Create(doTaskCreate);
+
             // Add dependencies to the newly created task
             addDependencyToDal(item, taskId);
         }
@@ -37,6 +40,10 @@ internal class TaskImplementation : BlApi.ITask
             // Handle the case where invalid input is encountered during the creation operation
             throw new BO.BlInvalidInputException("Invalid input encountered during creation operation");
         }
+        finally
+        {
+            Console.WriteLine("The data was succesfully added to DO");
+        }
 
         // Return the ID of the newly created task
         return item.Id;
@@ -52,12 +59,16 @@ internal class TaskImplementation : BlApi.ITask
         try
         {
             // Check if the task exists before updating
-            BO.Task originalTaskCreationTest = Read(item.Id) ?? throw new BO.BlDoesNotExistExeption($"Task with ID={item.Id} doesn't exist");
+            BO.Task originalTaskCreationTest = Read(item.Id) ??
+                throw new BO.BlDoesNotExistExeption($"Task with ID={item.Id} doesn't exist");
             // Validate the data object task
+
             checkValidDoInput(doTaskToUpdate);
             // Call the data access layer to update the task
+
             _dal.Task.Update(doTaskToUpdate);
             // Update dependencies for the task
+
             updateDependencyInDal(item);
         }
         catch (DO.DalAlreadyExistsException ex)
@@ -109,7 +120,8 @@ internal class TaskImplementation : BlApi.ITask
         try
         {
             // Read the task from the DAL based on the ID
-            BO.Task taskToDelete = Read(id) ?? throw new BO.BlDoesNotExistExeption($"Task with ID={id} doesn't exist");
+            BO.Task taskToDelete = Read(id) ??
+                throw new BO.BlDoesNotExistExeption($"Task with ID={id} doesn't exist");
             foreach (var boDependency in taskToDelete.Dependencies)
             {
                 // Check if any dependencies are not done
@@ -136,8 +148,8 @@ internal class TaskImplementation : BlApi.ITask
         {
             _dal.Task.DeleteAll();
         }
-      catch 
-      (Exception ex)
+        catch
+        (Exception ex)
         {
             throw ex;
         }
@@ -147,7 +159,9 @@ internal class TaskImplementation : BlApi.ITask
     private void updateDependencyInDal(BO.Task item)
     {
         // Get the list of dependencies from the DAL based on the dependent task ID
-        List<DO.Dependency> dependencyDalList = _dal.Dependency.ReadAll(dependency => dependency.DependentTask == item.Id).ToList();
+        List<DO.Dependency ? >  dependencyDalList  = _dal.Dependency.ReadAll(
+            dependency => dependency.DependentTask == item.Id).ToList();
+
         if (dependencyDalList == null)
         {
             // If no dependencies exist, add the dependency to the DAL
@@ -245,7 +259,7 @@ internal class TaskImplementation : BlApi.ITask
         // Check if the ID is negative
         if (doTask.Id < 0)
         {
-            throw new BO.BlInvalidInputException("ID cannot be negative");
+            throw new BO.BlInvalidInputException("Task ID cannot be negative");
         }
         // Check if the required effort time is negative
         if (doTask.RequiredEffortTime < TimeSpan.Zero)
@@ -288,11 +302,11 @@ internal class TaskImplementation : BlApi.ITask
         }
         else if (task.Status == BO.Enums.Status.Scheduled)
         {
-            DateTime actualStartDate = task.StartDate?? DateTime.MinValue;
+            DateTime actualStartDate = task.StartDate ?? DateTime.MinValue;
             DateTime plannedStartDate = task.ScheduledDate ?? DateTime.MinValue;
             TimeSpan duration = task.RequiredEffortTime ?? TimeSpan.Zero;
             DateTime forecastDate = DateTime.MaxValue;
-            
+
             if (actualStartDate != DateTime.MinValue)
             {
                 forecastDate = actualStartDate;
@@ -354,7 +368,7 @@ internal class TaskImplementation : BlApi.ITask
             {
                 status = BO.Enums.Status.OnTrack;
             }
-            else 
+            else
             {
                 status = BO.Enums.Status.Scheduled;
             }
@@ -381,27 +395,27 @@ internal class TaskImplementation : BlApi.ITask
                     DependsOnTask = boDependency.Id
                 });
 
-            try
+
+            // Try to add the dependencies to the DAL
+
+
+
+            dependenciesToAdd.ToList().ForEach(doDependency =>
             {
-                // If there are dependencies to add, execute the creation for each
-                dependenciesToAdd.ToList().ForEach(doDependency =>
-                {
-                    try
-                    {
-                        _dal.Dependency.Create(doDependency);
-                    }
-                    catch (DO.DalAlreadyExistsException ex)
-                    {
-                        // Handle DAL exception
-                        throw new BO.BlAlreadyExistsException($"Dependency with ID={doDependency.DependsOnTask} already exists", ex);
-                    }
-                });
-            }
-            catch (Exception ex)
+                if (_dal.Task.Read(task => task.Id == doDependency.DependsOnTask) == null)
+                    throw new BO.BlDoesNotExistExeption
+                    ($"Task with ID={doDependency.DependsOnTask} doesn't exist");
+            });
+
+            // If there are dependencies to add, execute the creation for each
+
+            dependenciesToAdd.ToList().ForEach(doDependency =>
             {
-                // Handle any other exceptions if needed
-                throw ex;
-            }
+                _dal.Dependency.Create(doDependency);
+
+            });
+
+
         }
     }
 
@@ -411,10 +425,10 @@ internal class TaskImplementation : BlApi.ITask
 
         if (dependencies != null)
         {
-            foreach(var dependency in dependencies)
+            foreach (var dependency in dependencies)
             {
                 DO.Task task = _dal.Task.Read(task => task.Id == dependency!.DependsOnTask)!;
-                if(task.ScheduledDate == null)
+                if (task.ScheduledDate == null)
                 {
                     throw new BO.BlUpdateImpossible($"Can't update Task {boTask.Id} becouse at least one of its dependent on previous tasks (found task {task.Id}) was not assign with its start date. please make sure to update the start dates of all the privious tasks");
                 }
@@ -423,7 +437,7 @@ internal class TaskImplementation : BlApi.ITask
                     throw new BO.BlUpdateImpossible($"Can't update Task {boTask.Id} becouse at least one of its dependent on previous tasks (found task {task.Id}) has a start date that is smaller than the start date of {boTask.Id}");
                 }
             }
-          boTask.ScheduledDate = date;  
+            boTask.ScheduledDate = date;
         }
 
         // if there was no problem with the date of boTask 
@@ -453,6 +467,7 @@ internal class TaskImplementation : BlApi.ITask
                 latestAvailableDate = dependencyCompletionDate;
             }
         }
+
 
         // Return the latest available date considering the dependencies' completion dates
         return latestAvailableDate;

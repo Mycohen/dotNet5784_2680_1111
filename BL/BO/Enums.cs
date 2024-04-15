@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace BO;
 public class Enums
 {
+    public static DateTime projectStartDate = DateTime.MinValue;
     public enum Status
     {
         Unscheduled = 1,
