@@ -128,7 +128,7 @@ internal class EngineerImplementation :BlApi.IEngineer
         }
     }
 
-    public void deleteAll()
+    public void DeleteAll()
     {
         try
         {

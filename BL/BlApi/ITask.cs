@@ -8,7 +8,7 @@ public interface ITask
     public void Update(BO.Task item);//Don't forget the bool func for StartDate
     public void Delete(int id);
     public void DeleteAll();
-
+    public DateTime? FirstAvailableStartDate(BO.Task task);
 }
 
 

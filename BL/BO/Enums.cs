@@ -33,7 +33,7 @@
         public enum Phase2Menu
         {
             MainExit,        // Exit the main menu.
-            
+            EnterDates
         }
         /// <summary>
         /// Enumeration representing the main engineer menu options.

@@ -21,13 +21,15 @@ internal static class Program
         BO.ProjectPhaseData phaseData = new BO.ProjectPhaseData();
         phaseData.Phase = BO.Enums.projectPhase.TaskCreationPhase;
         phaseData.StartedDate = DateTime.MinValue;
-        BO.Tools.SerializeToXml(phaseData, "./xml/projectPhase.xml");
-
+       
+        welcomeMessage();
         do
         {
-            if (phaseData.Phase == Enums.projectPhase.TaskCreationPhase)
+            BO.Tools.SerializeToXml(phaseData, "./xml/projectPhase.xml");
+           
+            try
             {
-                try
+                if (phaseData.Phase == Enums.projectPhase.TaskCreationPhase)
                 {
                     printSchedulingPhase1();
                     if (Enum.TryParse(Console.ReadLine(), out BO.Enums.Phase1Menu userChoice))
@@ -35,37 +37,55 @@ internal static class Program
                         switch (userChoice)
                         {
                             case Enums.Phase1Menu.MainExit:
+                                phaseData.Phase = BO.Enums.projectPhase.SchedualingPhase;
                                 break;
                             case Enums.Phase1Menu.AddMultiple:
                                 phase1TasksInputInARow();
                                 break;
                             case Enums.Phase1Menu.TaskMenu:
-
+                                taskOptions();
+                                break;
                             default:
-
+                                throw new BO.BlInvalidInputException($"invalid choice input {userChoice}");
                         }
+
                     }
                     else
                     {
                         throw new BO.BlInvalidInputException($"invalid choice input {userChoice}");
                     }
                 }
-                catch (BO.BlDoesNotExistExeption ex)
+                else if (phaseData.Phase == Enums.projectPhase.SchedualingPhase)
                 {
-                    Console.WriteLine(ex);
+                    if (Enum.TryParse(Console.ReadLine(), out BO.Enums.Phase2Menu userChoice))
+                    {
+                        switch (userChoice)
+                        { 
+                            case Enums.Phase2Menu.MainExit:
+                                Console.WriteLine("Exiting the program at stage 2");
+                                break;
+                            case Enums.Phase2Menu.EnterDates:
+                                loopOverTasksForUpdatingPhase2();
+                                break;
+                        }
+                    }
                 }
-                catch (BO.BlAlreadyExistsException ex)
-                {
-                    Console.WriteLine(ex);
-                }
-                catch (BO.BlDeletionImpossible ex)
-                {
-                    Console.WriteLine(ex);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                }
+            }
+            catch (BO.BlDoesNotExistExeption ex)
+            {
+                Console.WriteLine(ex);
+            }
+            catch (BO.BlAlreadyExistsException ex)
+            {
+                Console.WriteLine(ex);
+            }
+            catch (BO.BlDeletionImpossible ex)
+            {
+                Console.WriteLine(ex);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
             }
 
         } while (true);  // Infinite loop for continuous user interaction
@@ -189,11 +209,6 @@ internal static class Program
         Console.WriteLine("0 - Finish stage 1");
     }
 
-    private static void phase1CRUD()
-    {
-
-    }
-
     private static void printSchedulingPhase2()
     {
         // Introduction to Phase 2: Scheduling Phase
@@ -204,6 +219,7 @@ internal static class Program
 
         // Present the option to quit the program
         Console.WriteLine("Choose an option:");
+        Console.WriteLine("1 - Enter the Project Start Date and the start dates of all the tasks");
         Console.WriteLine("0 - Quit the program");
     }
 
@@ -257,6 +273,7 @@ internal static class Program
         Console.WriteLine($"Enter 5 to Remove an instance of the {entity} element");
         Console.WriteLine($"Enter 6 to Remove all of the {entity} elements");
     }
+    //for phase 3
     private static void printSubMenuWithoutCreate(string entity)
     {
         // Display the sub-menu options for a given entity (Task, Engineer, Dependency)
@@ -291,7 +308,7 @@ internal static class Program
 
         if (yesOrNo())
             //Initialization.Do(s_dal); //stage 2
-            DO.Initialization.Do(); //stage 4
+            DalTest.Initialization.Do(); //stage 4
     }
     //Engineer methods
     // Method to create a new Engineer instance
@@ -709,116 +726,69 @@ internal static class Program
         Console.WriteLine("The data received successfully, here is the updated Data:");
         Console.WriteLine(taskToUpdate);
     }
-    private static void UpdateTaskPhase2()
+
+    private static void loopOverTasksForUpdatingPhase2()
     {
-        // Prompt user for task alias
-        Console.WriteLine("Enter the task alias: ");
-        string? _Alias = Console.ReadLine() ??
-            throw new Exception("ERROR: enter a valid input (Not a null)");
+        List<BO.Task?> taskList = s_bl.Tasks.ReadAll(null).ToList();
+        foreach (Task? task in taskList) 
+        {
+            UpdateTaskPhase2(task!);
+        }
+    }
 
-        // Prompt user for task description
-        Console.WriteLine("Enter the task description");
-        string? _Description = Console.ReadLine() ??
-            throw new Exception("ERROR: enter a valid input (Not a null)");
+    private static void UpdateTaskPhase2(BO.Task taskToUpdateTheStartDate)
+    {
 
-        // Set the creation date to the current date and time
-        DateTime _CreatedAtDate = DateTime.Now;
-
-        // Prompt user for required effort time in the specified format
-        Console.WriteLine("Enter the required effort time for the task, enter in the format [d.]hh:mm:ss[.fffffff]");
-        string? userInput = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
-        TimeSpan _requiredEffortTimeI = checkTimeSpanFormat(userInput);
-
-        // Prompt user to determine if the task is a milestone
-        Console.WriteLine("Does the task have a milestone? (Y/N):");
-        userInput = Console.ReadLine()?.Trim().ToUpper(); // Read input and convert to uppercase
-        bool _IsMilestone = userInput == "Y";
-
-        // Prompt user for the complexity of the task in the range 0-5
-        Console.WriteLine("Enter the complexity of the task? (1-5)");
-        userInput = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
-        DO.EngineerExperience complexity = (DO.EngineerExperience)getInt(userInput);
+        string? userInput = null;
+        DateTime? recomendedStartDate = s_bl!.Tasks.FirstAvailableStartDate(taskToUpdateTheStartDate);
 
         // Prompt user for planned start date
         Console.WriteLine("Enter the planned start date for the task (e.g., 2024-01-10): ");
-        userInput = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
-        DateTime? _startDate = CheckDateTimeFormat(userInput);
-
-        // Prompt user for schedule date
-        Console.WriteLine("Enter the schedule date for the task (e.g., 2024-01-10):");
+        Console.WriteLine($"The recommended start date for task with id = {taskToUpdateTheStartDate.Id}" +
+            $" is {recomendedStartDate}");
         userInput = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
         DateTime? _scheduleDate = CheckDateTimeFormat(userInput);
+
+        // Prompt user for task forcast date
+        Console.WriteLine("Enter the task foracst date (e.g., 2024-01-10):");
+        userInput = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
+        DateTime? _forcastDate = CheckDateTimeFormat(userInput);
 
         // Prompt user for task deadline date
         Console.WriteLine("Enter the task deadline date (e.g., 2024-01-10):");
         userInput = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
         DateTime _deadLineDate = CheckDateTimeFormat(userInput);
 
-        // Prompt user to determine if the task is completed
-        Console.WriteLine("Was the task completed? (Y/N)");
-        DateTime _completeDatte;
-        if (yesOrNo())
-        {
-            // Prompt user for completion date if the task is completed
-            Console.WriteLine("Enter the completion date (e.g., 2024-01-10)");
-            userInput = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
-            _completeDatte = CheckDateTimeFormat(userInput);
-        }
-        else
-            _completeDatte = DateTime.MinValue;
-
-        // Prompt user for associated deliverables
-        Console.WriteLine("Does the task have deliverables associated with it? (Enter Y/N)");
-        string? _deliverables;
-        if (yesOrNo())
-        {
-            Console.WriteLine("Enter the deliverables:");
-            _deliverables = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
-        }
-        else
-            _deliverables = null;
-
-        // Prompt user for remarks associated with the task
-        Console.WriteLine("Does the task have remarks associated withit? (Enter Y/N)");
-        string? _remarks;
-        if (yesOrNo())
-        {
-            Console.WriteLine("Enter the remarks:");
-            _remarks = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
-        }
-        else _remarks = null;
-
-        // Prompt user for Engineer ID associated with the task
-        Console.WriteLine("Enter the Engineer ID for the task");
-        userInput = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
-        int _engineerid = getInt(userInput);
-
         // Create a new Task instance with the provided details
-        Task inputTask = new Task
-            (
-            Id: 0,
-            Alias: _Alias,
-            Description: _Description,
-            CreatedAtDate: _CreatedAtDate,
-            RequiredEffortTime: _requiredEffortTimeI,
-            IsMilestone: _IsMilestone,
-            Complexity: complexity,
-            StartDate: _startDate,
-           ScheduledDate: _scheduleDate,
-            DeadlineDate: _deadLineDate,
-            CompleteDate: _completeDatte,
-           Deliverables: _deliverables,
-           Remarks: _remarks,
-           EngineerId: _engineerid
-            );
+        Task inputOfUpdetedTask = new Task
+        { 
+            //updeted filds in phase 2
+            ScheduledDate =  _scheduleDate,
+            ForecastDate = _forcastDate,
+            DeadlineDate =  _deadLineDate,
+            //
+            Id = taskToUpdateTheStartDate.Id,
+            Alias = taskToUpdateTheStartDate.Alias,
+            Description = taskToUpdateTheStartDate.Description,
+            CreatedAtDate = taskToUpdateTheStartDate.CreatedAtDate,
+            Status = taskToUpdateTheStartDate.Status,
+            Dependencies = taskToUpdateTheStartDate.Dependencies,
+            RequiredEffortTime = taskToUpdateTheStartDate.RequiredEffortTime,
+            StartDate = taskToUpdateTheStartDate.StartDate,
+            CompleteDate = taskToUpdateTheStartDate.CompleteDate,
+            Deliverables = taskToUpdateTheStartDate.Deliverables,
+            Remarks = taskToUpdateTheStartDate.Remarks,
+            Engineer = taskToUpdateTheStartDate.Engineer,
+            Complexity = taskToUpdateTheStartDate.Complexity
+        };
 
         // Call the Create method in the data access layer to store the new task
-        s_bl!.Tasks!.Create(inputTask);
+        s_bl!.Tasks!.Update(inputOfUpdetedTask);
 
         // Display the received data
         Console.WriteLine("The data received successfully, here is the Data:");
         Console.WriteLine("At this stage, the task ID is not 0. To see the task ID, type 1 then 4. Don't worry, be happy!");
-        PrintTask(inputTask);
+        Console.WriteLine(inputOfUpdetedTask);
     }
     private static void updateTaskPhase3()
     {
