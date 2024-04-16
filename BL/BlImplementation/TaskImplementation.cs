@@ -144,7 +144,7 @@ internal class TaskImplementation : BlApi.ITask
 
     }
 
-    public void deleteAll()
+    public void DeleteAll()
     {
         try
         {
