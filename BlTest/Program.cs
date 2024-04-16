@@ -13,7 +13,7 @@ internal static class Program
 {
     
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); //stage 4
-
+    static ProjectPhaseData projectPhase = new ProjectPhaseData(Enums.projectPhase.TaskCreationPhase, )
     // Main method, the starting point of the program
     public static void Main()
     {
@@ -32,32 +32,31 @@ internal static class Program
                 // Main program loop
 
                 // Display the main menu
-                printFirstTaskMainMenu();
-
+                welcomeMessage();
                 // Parse the user's choice from the main menu
-                if (Enum.TryParse(Console.ReadLine(), out BO.Enums.MainTaskMenu mainMenuChoice))
+                if (Enum.TryParse(Console.ReadLine(), out BO.Enums.Phase1Menu mainMenuChoice))
                 {
                     // Process the user's choice
                     switch (mainMenuChoice)
                     {
-                        case BO.Enums.MainTaskMenu.MainExit:
+                        case BO.Enums.Phase1Menu.MainExit:
                             // Exit the program
                             //removeAllFromXml();
                             Environment.Exit(0);
                             break;
-                        case BO.Enums.MainTaskMenu.TaskMenu:
+                        case BO.Enums.Phase1Menu.TaskMenu:
                             // Handle user choice for Task operations
                             taskOptions();
                             break;
-                        case BO.Enums.MainTaskMenu.EngineerMenu:
+                        case BO.Enums.Phase1Menu.EngineerMenu:
                             // Handle user choice for Engineer operations
                             engineerOptions();
                             break;
-                        case BO.Enums.MainTaskMenu.DependencyMenu:
+                        case BO.Enums.Phase1Menu.DependencyMenu:
                             // Handle user choice for Dependency operations
                             dependencyOptions();
                             break;
-                        case BO.Enums.MainTaskMenu.InitData: //stage 3
+                        case BO.Enums.Phase1Menu.InitData: //stage 3
                             initOp();
                             break;
 
@@ -98,7 +97,7 @@ internal static class Program
     private static void taskOptions()
     {
         // Display sub-menu for Task operations
-        printSubMenu("Task");
+        printSubMenuWithCreate("Task");
 
         // Parse user's choice from the sub-menu
         if (Enum.TryParse(Console.ReadLine(), out BO.Enums.CrudMenuOption crudMenuChoice))
@@ -144,12 +143,12 @@ internal static class Program
             throw new Exception("ERROR: Invalid choice input. Please try again");
         }
     }
-
-    //Sub menu for engineer options
+    
+      //Sub menu for engineer options
     private static void engineerOptions()
     {
         // Display sub-menu for Engineer operations
-        printSubMenu("Engineer");
+        printSubMenuWithCreate("Engineer");
 
         // Parse user's choice from the sub-menu
         if (Enum.TryParse(Console.ReadLine(), out BO.Enums.CrudMenuOption crudMenuChoice))
@@ -196,82 +195,77 @@ internal static class Program
         }
     }
 
-    //Sub menu for dependency options
-    private static void dependencyOptions()
+    private static void printSchedulingPhase1()
     {
-        // Display sub-menu for Dependency operations
-        printSubMenu("Dependency");
+        // Introduction to Phase 1: Task Creation Phase
+        Console.WriteLine("Phase 1: Task Creation Phase");
 
-        // Parse user's choice from the sub-menu
-        if (Enum.TryParse(Console.ReadLine(), out BO.Enums.CrudMenuOption crudMenuChoice))
-        {
-            // Process the user's choice
-            switch (crudMenuChoice)
-            {
-                case BO.Enums.CrudMenuOption.SubExit:
-                    // Exit to the main menu
-                    return;
-                case BO.Enums.CrudMenuOption.CreateOp:
-                    // Handle user choice to create a new dependency
-                    createDependency();
-                    break;
-                case BO.Enums.CrudMenuOption.UpdateOp:
-                    // Handle user choice to update an existing dependency
-                    updateDependency();
-                    break;
-                case BO.Enums.CrudMenuOption.PrintSingleOp:
-                    // Handle user choice to print a single dependency
-                    readDependency();
-                    break;
-                case BO.Enums.CrudMenuOption.PrintAllOp:
-                    // Handle user choice to print all dependencies
-                    readAllDependency();
-                    break;
-                case BO.Enums.CrudMenuOption.DeleteOp:
-                    // Handle user choice to remove a dependency
-                    removeDependency();
-                    break;
-                case BO.Enums.CrudMenuOption.DeleteAllOp:
-                    // Handle user choice to remove all dependencies
-                    removeAllDependency();  // Note: This might be a mistake, consider updating the action
-                    break;
-                default:
-                    // Invalid choice, throw an exception
-                    throw new Exception("ERROR: Invalid choice input. Please try again");
-            }
-        }
-        else
-        {
-            // Invalid input format, throw an exception
-            throw new Exception("ERROR: Invalid choice input. Please try again");
-        }
+        // User's responsibilities in Phase 1
+        Console.WriteLine("In this phase, you need to add all tasks required for the project.");
+
+        // Present available options to the user
+        Console.WriteLine("Choose an option:");
+        Console.WriteLine("1 - Add multiple tasks to the project");
+        Console.WriteLine("2 - Perform CRUD operations on tasks");
+        Console.WriteLine("0 - Quit the program");
     }
 
-    //printing the main menu for the switch
-    private static void printFirstEngineerMainMenu()
+    private static void printSchedulingPhase2()
     {
-        // Display the main menu options
-        Console.WriteLine("Welcome to the project.");
-        Console.WriteLine("Please enter all the project's tasks, enter 2 to finish the tasks configuration");
-        Console.WriteLine("Enter 0 for quitting the program:");
-        Console.WriteLine("Enter 1 for Tasks menu:");
-        Console.WriteLine("Enter 3 for initalize Option:");
-    }
-    private static void printFirstTaskMainMenu()
-    {
-        // Display the main menu options
-        
-        Console.WriteLine("Please enter all the project's engineers, enter 2 to finish the tasks configuration");
-        Console.WriteLine("Enter 0 for quitting the program:");
-        Console.WriteLine("Enter 1 for Engineers menu:");
+        // Introduction to Phase 2: Scheduling Phase
+        Console.WriteLine("Phase 2: Scheduling Phase");
+
+        // User's responsibilities in Phase 2
+        Console.WriteLine("In this phase, you will set the project start date and schedule dates for all tasks.");
+
+        // Present the option to quit the program
+        Console.WriteLine("Choose an option:");
+        Console.WriteLine("0 - Quit the program");
     }
 
+    private static void printExecutionPhase3()
+    {
+        // Introduction to Phase 3: Execution Phase
+        Console.WriteLine("Phase 3: Execution Phase");
+
+        // User's responsibilities in Phase 3
+        Console.WriteLine("In this phase, you cannot add new tasks.");
+        Console.WriteLine("However, you can add engineers and update tasks.");
+
+        // Present available options to the user
+        Console.WriteLine("Choose an option:");
+        Console.WriteLine("1 - Perform CRUD operations on engineers");
+        Console.WriteLine("2 - Add multiple engineers to the project");
+        Console.WriteLine("3 - Navigate to the tasks menu (to read or update tasks)");
+        Console.WriteLine("4 - Initialize options (if necessary)");
+        Console.WriteLine("0 - Quit the program");
+    }
+
+    private static void welcomeMessage()
+    {
+        // Introduction to the project planning
+        Console.WriteLine("Welcome to the project planning.");
+        Console.WriteLine("The planning process is divided into three phases:");
+
+        // Description of Phase 1
+        Console.WriteLine("Phase 1 - Task Creation:");
+        Console.WriteLine("In this stage, you will add all tasks required to complete the project.");
+
+        // Description of Phase 2
+        Console.WriteLine("Phase 2 - Planning Phase:");
+        Console.WriteLine("In this stage, you will set the project start date and then set start dates for each task.");
+
+        // Description of Phase 3
+        Console.WriteLine("Phase 3 - Execution Phase:");
+        Console.WriteLine("In this stage, the project manager can assign tasks to engineers." +
+            " Engineers can choose available tasks to begin working on.");
+    }
 
     //printing the sub menu for the switch
-    private static void printSubMenu(string entity)
+    private static void printSubMenuWithCreate(string entity)
     {
         // Display the sub-menu options for a given entity (Task, Engineer, Dependency)
-        Console.WriteLine("Enter 0 for returning to the main menu.");
+        Console.WriteLine("Enter 0 for returning to the previous menu.");
         Console.WriteLine($"Enter 1 to Create {entity}");
         Console.WriteLine($"Enter 2 to Update the {entity}");
         Console.WriteLine($"Enter 3 to Print a {entity} by entering its ID");
@@ -279,6 +273,17 @@ internal static class Program
         Console.WriteLine($"Enter 5 to Remove an instance of the {entity} element");
         Console.WriteLine($"Enter 6 to Remove all of the {entity} elements");
     }
+    private static void printSubMenuWithoutCreate(string entity)
+    {
+        // Display the sub-menu options for a given entity (Task, Engineer, Dependency)
+        Console.WriteLine("Enter 0 for returning to the previous menu.");
+        Console.WriteLine($"Enter 2 to Update the {entity}");
+        Console.WriteLine($"Enter 3 to Print a {entity} by entering its ID");
+        Console.WriteLine($"Enter 4 to Read all of the {entity} elements");
+        Console.WriteLine($"Enter 5 to Remove an instance of the {entity} element");
+        Console.WriteLine($"Enter 6 to Remove all of the {entity} elements");
+    }
+
 
     private static void removeAllFromXml()
     {
@@ -333,9 +338,9 @@ internal static class Program
         // Prompt user to enter Engineer's level, and validate the input
         Console.WriteLine("Enter Engineer's level:");
         DO.EngineerExperience level = (DO.EngineerExperience)isValidIntInput(); // Assuming EngineerExperience is an enum
-
+        Console.WriteLine();
         // Create a new Engineer instance with the collected information
-        Engineer engineerInstance = new Engineer(Id: id, Email: email, Cost: cost, Name: name, Level: (DO.EngineerExperience)level);
+        BO.Engineer engineerInstance = new BO.Engineer(Id: id, Email: email, Cost: cost, Name: name, Level: (DO.EngineerExperience)level);
 
         // Call the Create method on the data access layer to store the Engineer instance
         //s_dalEngineer!.Create(engineerInstance); //(stage 1)
@@ -532,156 +537,6 @@ internal static class Program
     {
         // Delete all Engineers using the data access layer
         s_bl!.Engineers!.DeleteAll();
-    }
-
-
-    //Dependency 
-    // Method to create a new Dependency between tasks
-    private static void createDependency()
-    {
-        // Prompt the user to enter the ID of the dependent task
-        Console.WriteLine("Enter dependent task ID");
-        int dependentTask = isValidIntInput();
-
-        // Prompt the user to provide the task necessary for the current task
-        Console.WriteLine("Provide the task necessary for the current task");
-        int dependsOnTask = isValidIntInput();
-
-        // Create a new Dependency instance with the provided information
-        Dependency dependencyInstance = new Dependency(Id: 0,
-            DependentTask: dependentTask,
-            DependsOnTask: dependsOnTask);
-
-        // Save the Dependency instance using the data access layer
-        s_bl!.Dependency!.Create(dependencyInstance);
-
-        // Display a success message and print the created Dependency data
-        Console.WriteLine("The data received successfully. Here is the Data:\n");
-        Console.WriteLine("At this stage, the task ID is not 0. For seeing the task ID, type 3 then 4. Don't worry, be happy!");
-        printDependency(dependencyInstance);
-    }
-
-    // Method to update an existing Dependency
-    private static void updateDependency()
-    {
-        // Prompt the user to enter the ID of the Dependency they want to update
-        Console.WriteLine("Enter the ID of the task you want to update");
-        int id = isValidIntInput();
-
-        // Retrieve the current Dependency data based on the provided ID
-        Dependency currentDependencyData = s_bl!.Dependency!.Read(id) ?? throw new Exception("Dependency with such ID does not exist");
-
-        // Prompt the user if they want to update the dependent task
-        Console.WriteLine("Do you want to update the dependent task? (y/n)");
-
-        int dependentTask;
-        if (yesOrNo())
-        {
-            // If yes, prompt the user to enter the new dependent task
-            Console.WriteLine("Enter the new dependent task");
-            dependentTask = isValidIntInput();
-        }
-        else
-        {
-            // If no, retain the current dependent task
-            dependentTask = (int)currentDependencyData!.DependentTask!;
-        }
-
-        // Prompt the user if they want to update the dependency task
-        Console.WriteLine("Do you want to update the dependency task? (y/n)");
-
-        int dependsOnTask;
-        if (yesOrNo())
-        {
-            // If yes, prompt the user to enter the new dependency task
-            Console.WriteLine("Enter the new dependency task");
-            dependsOnTask = isValidIntInput();
-        }
-        else
-        {
-            // If no, retain the current dependency task
-            dependsOnTask = (int)currentDependencyData!.DependsOnTask!;
-        }
-
-        // Create a new Dependency instance with the updated information
-        Dependency updatedDependencyData = new Dependency(Id: currentDependencyData.Id,
-            DependentTask: dependentTask,
-            DependsOnTask: dependsOnTask);
-
-        // Update the Dependency in the data access layer
-        s_bl!.Dependency!.Update(updatedDependencyData);
-
-        // Display a success message and print the updated Dependency data
-        Console.WriteLine("The data received successfully. Here is the Data:\n");
-        printDependency(updatedDependencyData);
-    }
-
-    // Method to read and print details of a specific Dependency
-    private static void readDependency()
-    {
-        // Prompt the user to enter the ID of the Dependency they want to read
-        Console.WriteLine("Enter the ID of dependency you want to read");
-        int id = isValidIntInput();
-
-        // Retrieve the current Dependency data based on the provided ID
-        //Dependency currentDependencyData = s_dalDependency!.Read(id) ?? throw new Exception("Dependency with such ID does not exist"); (stage 1)
-        Dependency currentDependencyData = s_bl!.Dependency.Read(id) ?? throw new Exception("Dependency with such ID does not exist");
-
-        // Call the printDependency method to display details of the current Dependency
-        printDependency(currentDependencyData);
-    }
-
-    // Method to read and print details of all Dependencies
-    private static void readAllDependency()
-    {
-        // Retrieve a list of all Dependencies from the data access layer
-        //List<Dependency> dependencies = s_dalDependency!.ReadAll(); (stage1)
-        IEnumerable<Dependency> dependencies = s_bl!.Dependency.ReadAll()!;
-
-        // Iterate through each Dependency and print its details
-        if (dependencies.Any())
-            foreach (Dependency dependency in dependencies)
-            {
-                // Call the printDependency method to display details of the current Dependency
-                printDependency(dependency);
-            }
-    }
-
-    // Method to remove a Dependency based on the provided ID
-    private static void removeDependency()
-    {
-        // Prompt the user to enter the ID of the Dependency they wish to delete
-        Console.WriteLine("Enter the ID of the Dependency you wish to delete");
-
-        // Read and validate the user input for the Dependency ID
-        int id = isValidIntInput();
-
-        // Call the Delete method in the data access layer to remove the Dependency
-        //s_dalDependency!.Delete(id);(stage1)
-        s_bl!.Dependency.Delete(id);
-    }
-
-    // Method to print details of a Dependency
-    private static void printDependency(Dependency dependency)
-    {
-        // Display the ID of the dependency
-        Console.WriteLine($"The ID of the dependency is: {dependency.Id}");
-
-        // Display the ID of the dependent task
-        Console.WriteLine($"The dependent task is: {dependency.DependentTask}");
-
-        // Display the ID of the task that is necessary for the current task
-        Console.WriteLine($"The task that is necessary for the current task: {dependency.DependsOnTask}");
-
-        // An empty line between Dependency details
-        Console.WriteLine("\n");
-    }
-
-    // Method to remove all Dependencies
-    private static void removeAllDependency()
-    {
-        // Call the DeleteAll method in the data access layer to remove all Dependencies
-        s_dal!.Dependency!.DeleteAll();
     }
 
 

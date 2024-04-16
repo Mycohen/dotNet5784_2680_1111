@@ -1,54 +1,74 @@
-﻿namespace BO;
-
-public class Enums
+﻿namespace BO
 {
-    
-    public static DateTime projectStartDate = DateTime.MinValue;
-
-    public enum Status
+    /// <summary>
+    /// This namespace contains various enums and shared resources for the business objects (BO).
+    /// </summary>
+    public class Enums
     {
-        Unscheduled = 1,
-        Scheduled,
-        OnTrack,
-       /* InJeopardy,*/
-        Done
+        // The project start date, initialized to DateTime.MinValue (represents the minimum possible date value).
+        public static DateTime projectStartDate = DateTime.MinValue;
+
+        /// <summary>
+        /// Enumeration to represent the status of a task or project.
+        /// </summary>
+        public enum Status
+        {
+            Unscheduled = 1, // Task has not yet been scheduled.
+            Scheduled,       // Task has been scheduled but not yet started.
+            OnTrack,         // Task is currently in progress and on track.
+            /* InJeopardy, */ // Task is in jeopardy of not meeting its objectives (currently commented out).
+            Done             // Task is completed.
+        }
+
+        /// <summary>
+        /// Enumeration representing the main menu options for the application.
+        /// </summary>
+        public enum Phase1Menu
+        {
+            MainExit,      // Exit the main menu.
+            AddMultiple,   // Add multiple tasks.
+            TaskMenu,      // Navigate to the task menu.
+            //InitData       // Initialize the data.
+        }
+        public enum Phase2Menu
+        {
+            MainExit,        // Exit the main menu.
+            
+        }
+        /// <summary>
+        /// Enumeration representing the main engineer menu options.
+        /// </summary>
+        public enum Phase3Menu
+        {
+            MainExit,        // Exit the main engineer menu.
+            CRUDEngineer,    // Navigate to the CRUD menu for engineers.
+            AddMultipleEngineers,     // Add multiple engineers.
+            TaskMenuEngineer, // Navigate to the task menu for engineers.
+            InitData  // Initialize the data.
+        }
+
+        /// <summary>
+        /// Enumeration representing the CRUD menu options for data entities.
+        /// </summary>
+        public enum CrudMenuOption
+        {
+            SubExit,        // Exit the CRUD sub-menu.
+            CreateOp,       // Create a new data entity.
+            UpdateOp,       // Update an existing data entity.
+            PrintSingleOp,  // Print details of a single data entity.
+            PrintAllOp,     // Print details of all data entities.
+            DeleteOp,       // Delete a single data entity.
+            DeleteAllOp     // Delete all data entities.
+        }
+
+        /// <summary>
+        /// Enumeration representing the different phases of a project.
+        /// </summary>
+        public enum projectPhase
+        {
+            TaskCreationPhase = 1, // The phase in which the director creates tasks.
+            SchedualingPhase,      // The phase in which the director schedules the tasks.
+            ExecutionPhase         // The phase in which tasks are assigned to engineers.
+        }
     }
-    /// <summary>
-    /// Represents the main menu options for the application.
-    /// </summary>
-    public enum MainTaskMenu
-    {
-        MainExit,      // Option to exit the main menu
-        TaskMenu,      // Option to navigate to the task menu
-        CloseTaskMenu, // Option to close the task menu
-        InitData      // Option to initialize the data
-    };
-    public enum MainEngineerMenu
-    {
-        MainExit,      // Option to exit the main menu
-        EngineerMenu,      // Option to navigate to the task menu
-        CloseEngineerMenu, // Option to close the task menu
-    };
-
-    /// <summary>
-    /// Represents the CRUD (Create, Read, Update, Delete) menu options for data entities.
-    /// </summary>
-    public enum CrudMenuOption
-    {
-        SubExit,       // Option to exit the CRUD sub-menu
-        CreateOp,      // Option to create a new entity
-        UpdateOp,      // Option to update an existing entity
-        PrintSingleOp, // Option to print details of a single entity
-        PrintAllOp,    // Option to print details of all entities
-        DeleteOp,      // Option to delete a single entity
-        DeleteAllOp    // Option to delete all entities
-    };
-
-    public enum projectPhase
-    {
-        taskCreationPhase = 1, //the director creates the tasks
-        schedualingPhase, //the director schedules the tasks
-        executionPhase, //the tasks are being assighend to engineers
-    };
 }
-
