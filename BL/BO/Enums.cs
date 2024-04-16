@@ -60,6 +60,15 @@
             DeleteOp,       // Delete a single data entity.
             DeleteAllOp     // Delete all data entities.
         }
+        public enum CrudMenuOptionTaskPhase3
+        {
+            SubExit,        // Exit the CRUD sub-menu.
+            UpdateOp,       // Update an existing data entity.
+            PrintSingleOp,  // Print details of a single data entity.
+            PrintAllOp,     // Print details of all data entities.
+            DeleteOp,       // Delete a single data entity.
+            DeleteAllOp     // Delete all data entities.
+        }
 
         /// <summary>
         /// Enumeration representing the different phases of a project.

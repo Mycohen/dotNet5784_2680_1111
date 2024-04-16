@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace BO;
 
-internal static class  Tools
+public static class  Tools
 {
     public static void SerializeToXml<T>(this T obj, string filePath)
     {

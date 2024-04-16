@@ -1,17 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-
-namespace BO;
-
-public class EngineerInTask
+namespace BO
 {
-    // Properties
-    public int Id { get; init; }
-    public string? Name { get; set; }
+    /// <summary>
+    /// Represents an engineer assigned to a task, including an identifier and name.
+    /// </summary>
+    public class EngineerInTask
+    {
+        /// <summary>
+        /// Gets the unique identifier of the engineer.
+        /// </summary>
+        public int Id { get; init; }
 
+        /// <summary>
+        /// Gets or sets the name of the engineer.
+        /// </summary>
+        public string? Name { get; set; }
+    }
 }
-

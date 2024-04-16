@@ -13,18 +13,33 @@ internal static class Program
 {
     
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get(); //stage 4
-    static ProjectPhaseData projectPhase = new ProjectPhaseData(Enums.projectPhase.TaskCreationPhase, )
+    
+
     // Main method, the starting point of the program
     public static void Main()
     {
-       
+        ProjectPhaseData phaseData = new ProjectPhaseData();
+        phaseData.Phase = Enums.projectPhase.TaskCreationPhase;
+        phaseData.StartedDate = DateTime.MinValue;
+        Tools.SerializeToXml(phaseData, "./xml/projectPhase.xml");
 
         do
         {
-           
+            if (phaseData.Phase == Enums.projectPhase.TaskCreationPhase)
+            {
+                try
+                {
+                    printSchedulingPhase1();
+                    if (Enum.TryParse(Console.ReadLine(), out BO.Enums.CrudMenuOption crudMenuChoice))
+                    {
+                        switch
+                    }
+                }
+                catch { }
+            }
             try
             {
-                //check the phase
+                
 
                 // Initialize Data Access Layer dependencies
 
@@ -114,7 +129,7 @@ internal static class Program
                     break;
                 case BO.Enums.CrudMenuOption.UpdateOp:
                     // Handle user choice to update an existing task
-                    updateTask();
+                    updateTaskPhase1();
                     break;
                 case BO.Enums.CrudMenuOption.PrintSingleOp:
                     // Handle user choice to print a single task
@@ -338,9 +353,20 @@ internal static class Program
         // Prompt user to enter Engineer's level, and validate the input
         Console.WriteLine("Enter Engineer's level:");
         DO.EngineerExperience level = (DO.EngineerExperience)isValidIntInput(); // Assuming EngineerExperience is an enum
-        Console.WriteLine();
+        Console.WriteLine("Enter the task id for the engineer:");
+        int taskId = isValidIntInput();
+        Console.WriteLine("Enter the task alias:");
+        string taskAlias = Console.ReadLine() ??
+            throw new Exception("ERROR: Enter a valid input (not null)");
+        BO.TaskInEngineer task = new BO.TaskInEngineer
+        {
+            Id = taskId,
+            Alias = taskAlias
+        };
         // Create a new Engineer instance with the collected information
-        BO.Engineer engineerInstance = new BO.Engineer(Id: id, Email: email, Cost: cost, Name: name, Level: (DO.EngineerExperience)level);
+        BO.Engineer engineerInstance = new BO.Engineer{
+            Id= id, Email= email, Cost=cost, Name= name, Level= (DO.EngineerExperience)level, Task= task
+        };
 
         // Call the Create method on the data access layer to store the Engineer instance
         //s_dalEngineer!.Create(engineerInstance); //(stage 1)
@@ -350,7 +376,7 @@ internal static class Program
         Console.WriteLine("The data received successfully. Here is the Data:");
 
         // Print the details of the created Engineer instance
-        printEngineer(engineerInstance);
+        Console.WriteLine(engineerInstance);
     }
 
     // Method to update an existing Engineer's information
@@ -362,7 +388,8 @@ internal static class Program
 
         // Retrieve the current data of the Engineer to be updated from the data access layer
         //Engineer currentEngineerData = s_dalEngineer!.Read(id) ?? throw new Exception("Engineer with such ID does not exist"); //(satge1)
-        Engineer currentEngineerData = s_bl!.Engineers!.Read(id) ?? throw new Exception("Engineer with such ID does not exist");
+        Engineer currentEngineerData = s_bl!.Engineers!.Read(id) ?? 
+            throw new Exception("Engineer with such ID does not exist");
 
 
 
@@ -421,9 +448,35 @@ internal static class Program
         {
             level = currentEngineerData.Level;
         }
-
+        updateEngineer_PrintText("Task assined to the Engineer");
+        BO.TaskInEngineer task;
+        if(yesOrNo())
+        {
+            Console.WriteLine("Enter the task id for the engineer:");
+            int taskId = isValidIntInput();
+            Console.WriteLine("Enter the task alias:");
+            string taskAlias = Console.ReadLine() ??
+                throw new Exception("ERROR: Enter a valid input (not null)");
+            task = new BO.TaskInEngineer
+            {
+                Id = taskId,
+                Alias = taskAlias
+            };
+        }
+        else
+        {
+            task = currentEngineerData.Task!;
+        }
         // Create a new Engineer instance with the updated information
-        Engineer updatedEngineerData = new Engineer(Id: id, Email: email, Name: name, Cost: cost, Level: level);
+        Engineer updatedEngineerData = new Engineer
+        {
+            Id = id,
+            Email = email,
+            Name = name,
+            Cost = cost,
+            Level = level,
+            Task = task
+        };
 
         // Call the Update method on the data access layer to apply the changes
         s_bl!.Engineers!.Update(updatedEngineerData);
@@ -432,7 +485,7 @@ internal static class Program
         Console.WriteLine("The data received successfully. Here is the Data:");
 
         // Print the details of the updated Engineer instance
-        printEngineer(updatedEngineerData);
+        Console.WriteLine(updatedEngineerData); 
     }
 
     // Method to prompt the user whether they wish to update a specific property of an Engineer
@@ -483,36 +536,37 @@ internal static class Program
         int id = isValidIntInput();
 
         // Retrieve the current Engineer data using the data access layer
-        Engineer correntEngineerData = s_bl!.Engineers!.Read(id) ?? throw new Exception("Engineer with such ID does not exist");
+        BO.Engineer correntEngineerData = s_bl!.Engineers!.Read(id) ??
+            throw new Exception("Engineer with such ID does not exist");
 
         // Call the printEngineer method to display details of the current Engineer
-        printEngineer(correntEngineerData);
+        Console.WriteLine(correntEngineerData);
     }
 
     // Method to print details of a specific Engineer
-    private static void printEngineer(Engineer engineer)
-    {
-        // Display the details of the Engineer
-        Console.WriteLine("Engineer ID: " + engineer.Id);
-        Console.WriteLine("Engineer Name: " + engineer.Name);
-        Console.WriteLine("Engineer Level: " + engineer.Level);
-        Console.WriteLine("Engineer Email: " + engineer.Email);
-        Console.WriteLine("Engineer Cost: " + engineer.Cost);
-        Console.WriteLine("\n");
-    }
+    //private static void printEngineer(Engineer engineer)
+    //{
+    //    // Display the details of the Engineer
+    //    Console.WriteLine("Engineer ID: " + engineer.Id);
+    //    Console.WriteLine("Engineer Name: " + engineer.Name);
+    //    Console.WriteLine("Engineer Level: " + engineer.Level);
+    //    Console.WriteLine("Engineer Email: " + engineer.Email);
+    //    Console.WriteLine("Engineer Cost: " + engineer.Cost);
+    //    Console.WriteLine("\n");
+    //}
 
     // Method to read details of all Engineers
     private static void readAllEngineers()
     {
         // Retrieve a list of all Engineers from the data access layer
-        IEnumerable<Engineer> engineers = s_bl!.Engineers!.ReadAll()!;
+        IEnumerable<BO.Engineer> engineers = s_bl!.Engineers!.ReadAll(null)!;
 
         // Iterate through each Engineer and print their details
         if (engineers.Any())
             foreach (Engineer engineer in engineers)
             {
                 // Call the printEngineer method to display details of the current Engineer
-                printEngineer(engineer!);
+                Console.WriteLine(engineer!);
             }
     }
 
@@ -526,7 +580,8 @@ internal static class Program
         int id = isValidIntInput();
 
         // Retrieve the current Engineer data using the data access layer
-        Engineer correntEngineerData = s_bl!.Engineers!.Read(id) ?? throw new Exception("Engineer with such ID does not exist");
+        BO.Engineer correntEngineerData = s_bl!.Engineers!.Read(id) ?? 
+            throw new Exception("Engineer with such ID does not exist");
 
         // Delete the Engineer using the data access layer
         s_bl!.Engineers.Delete(id);
@@ -653,7 +708,196 @@ internal static class Program
     }
 
     // Method to update an existing task
-    private static void updateTask()
+    private static void updateTaskPhase1()
+    {
+        // Prompt user to enter the ID of the task to be updated
+        Console.WriteLine("Which task do you want to update? (enter an ID)\n");
+        int id = isValidIntInput();
+
+        // Read the existing task data from the data access layer
+        Task taskT = s_bl!.Tasks!.Read(id) ?? throw new Exception("Task with such ID does not exist");
+
+        // Prompt user to update the Alias field
+        updateEngineer_PrintText("Alias");
+
+        string alias;
+        if (yesOrNo())
+        {
+            printFieldForYes("Alias");
+            alias = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
+        }
+        else
+        {
+            alias = taskT!.Alias!;
+        }
+
+        // Prompt user to update the Description field
+        updateEngineer_PrintText("Description");
+
+        string description;
+        if (yesOrNo())
+        {
+            printFieldForYes("Description");
+            description = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
+        }
+        else
+        {
+            description = taskT!.Description!;
+        }
+
+        // The creation date remains unchanged, as it is not for updating
+        DateTime? createdAtDate = taskT!.CreatedAtDate;
+
+        // Prompt user to update the Required Effort Time field
+        updateEngineer_PrintText("Required effort time");
+
+        TimeSpan? requiredEffortTime;
+        if (yesOrNo())
+        {
+            printFieldForYes("Required effort time");
+            requiredEffortTime = checkTimeSpanFormat(Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)"));
+        }
+        else
+        {
+            requiredEffortTime = taskT!.RequiredEffortTime;
+        }
+
+        // Prompt user to update the Is Milestone field
+        updateEngineer_PrintText("Is Milestone");
+        bool isMilestone = yesOrNo();
+
+        // Prompt user to update the Complexity field
+        updateEngineer_PrintText("Complexity");
+
+        DO.EngineerExperience complexity;
+        if (yesOrNo())
+        {
+            printFieldForYes("Complexity");
+            complexity = (DO.EngineerExperience)getInt(Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)"));
+        }
+        else
+        {
+            complexity = taskT!.Complexity;
+        }
+
+        // Prompt user to update the Start Date field
+        updateEngineer_PrintText("Start Date");
+        DateTime? startDate;
+
+        if (yesOrNo())
+        {
+            printFieldForYes("Start Date");
+            startDate = CheckDateTimeFormat(Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)"));
+        }
+        else { startDate = taskT!.StartDate; }
+
+        // Prompt user to update the Schedule Date field
+        updateEngineer_PrintText("Schedule Date");
+
+        DateTime? scheduleDate;
+        if (yesOrNo())
+        {
+            printFieldForYes("Schedule Date");
+            scheduleDate = CheckDateTimeFormat(Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)"));
+        }
+        else
+        {
+            scheduleDate = taskT!.ScheduledDate;
+        }
+
+        // Prompt user to update the Deadline Date field
+        updateEngineer_PrintText("Dead Line Date");
+        DateTime? deadLineDate;
+
+        if (yesOrNo())
+        {
+            printFieldForYes("Dead Line Date");
+            deadLineDate = CheckDateTimeFormat(Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)"));
+        }
+        else
+        {
+            deadLineDate = taskT!.DeadlineDate;
+        }
+
+        // Prompt user to update the Complete Date field
+        updateEngineer_PrintText("Complete Date");
+
+        DateTime? completeDate;
+        if (yesOrNo())
+        {
+            printFieldForYes("Complete Date");
+            completeDate = CheckDateTimeFormat(Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)"));
+        }
+        else
+        {
+            completeDate = taskT!.CompleteDate;
+        }
+
+        // Prompt user to update the Deliverables field
+        updateEngineer_PrintText("Deliverables");
+
+        string deliverables;
+        if (yesOrNo())
+        {
+            printFieldForYes("Deliverables");
+            deliverables = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
+        }
+        else
+        {
+            deliverables = taskT!.Deliverables!;
+        }
+
+        // Prompt user to update the Remarks field
+        updateEngineer_PrintText("Remarks");
+
+        string remarks;
+        if (yesOrNo())
+        {
+            printFieldForYes("Remarks");
+            remarks = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
+        }
+        else
+        {
+            remarks = taskT!.Remarks!;
+        }
+
+        // Prompt user to update the Engineer ID field
+        updateEngineer_PrintText("Engineer ID");
+        int engineerId;
+
+        if (yesOrNo())
+        {
+            printFieldForYes("Engineer ID");
+            engineerId = isValidIntInput();
+        }
+        else
+        {
+            engineerId = taskT!.EngineerId;
+        }
+        // Create a new Task instance with the updated details
+        Task taskToUpdate = new Task(Id: id,
+            Alias: alias,
+            Description: description,
+            CreatedAtDate: createdAtDate,
+            RequiredEffortTime: requiredEffortTime,
+            IsMilestone: isMilestone,
+            Complexity: complexity,
+            StartDate: startDate,
+            ScheduledDate: scheduleDate,
+            DeadlineDate: deadLineDate,
+            CompleteDate: completeDate,
+            Deliverables: deliverables,
+            Remarks: remarks,
+            EngineerId: engineerId);
+
+        // Call the Update method in the data access layer to apply the changes
+        s_bl!.Tasks!.Update(taskToUpdate);
+
+        // Display the updated data
+        Console.WriteLine("The data received successfully, here is the updated Data:");
+        PrintTask(taskToUpdate);
+    }
+    private static void updateTaskPhase3()
     {
         // Prompt user to enter the ID of the task to be updated
         Console.WriteLine("Which task do you want to update? (enter an ID)\n");
@@ -847,36 +1091,37 @@ internal static class Program
     private static void readTask()
     {
         Console.WriteLine("Enter the task ID which you want to print:");
-        string? userInput = Console.ReadLine() ?? throw new Exception("ERROR: enter a valid input (Not a null)");
+        string? userInput = Console.ReadLine() ??
+            throw new Exception("ERROR: enter a valid input (Not a null)");
         int id = getInt(userInput);
 
         // Retrieve the task data from the data access layer based on the entered ID
-        Task currentTaskData = s_bl!.Tasks!.Read(id) ?? throw new Exception("Task with such ID does not exist");
+        BO.Task currentTaskData = s_bl!.Tasks!.Read(id) ?? throw new Exception("Task with such ID does not exist");
 
         // Call the PrintTask method to display details of the current task
-        PrintTask(currentTaskData);
+        Console.WriteLine(currentTaskData);
     }
 
-    // Method to print details of a specific task
-    private static void PrintTask(Task taskToPrint)
-    {
-        Console.WriteLine("Task ID:" + taskToPrint.Id);
-        Console.WriteLine("Task Alias:" + taskToPrint.Alias);
-        Console.WriteLine("Task Description:" + taskToPrint.Description);
-        Console.WriteLine("Task Created at:" + taskToPrint.CreatedAtDate);
-        Console.WriteLine("Required time for the task:" + taskToPrint.RequiredEffortTime);
-        Console.WriteLine("Does the task have a milestone?:" + taskToPrint.IsMilestone);
-        Console.WriteLine("Complexity's task:" + (DO.EngineerExperience)taskToPrint.Complexity);
-        Console.WriteLine("The task started at:" + taskToPrint.StartDate);
-        Console.WriteLine("Task schedule date:" + taskToPrint.ScheduledDate);
-        Console.WriteLine("Dead line task:" + taskToPrint.DeadlineDate);
-        Console.WriteLine("Task completed at:" + taskToPrint.CompleteDate);
-        Console.WriteLine("Task deliverables:" + taskToPrint.Deliverables);
-        Console.WriteLine("Task remarks:" + taskToPrint.Remarks);
-        Console.WriteLine("Task Engineer ID:" + taskToPrint.EngineerId);
-        Console.WriteLine("\n");
+    //// Method to print details of a specific task
+    //private static void PrintTask(Task taskToPrint)
+    //{
+    //    Console.WriteLine("Task ID:" + taskToPrint.Id);
+    //    Console.WriteLine("Task Alias:" + taskToPrint.Alias);
+    //    Console.WriteLine("Task Description:" + taskToPrint.Description);
+    //    Console.WriteLine("Task Created at:" + taskToPrint.CreatedAtDate);
+    //    Console.WriteLine("Required time for the task:" + taskToPrint.RequiredEffortTime);
+    //    Console.WriteLine("Does the task have a milestone?:" + taskToPrint.IsMilestone);
+    //    Console.WriteLine("Complexity's task:" + (DO.EngineerExperience)taskToPrint.Complexity);
+    //    Console.WriteLine("The task started at:" + taskToPrint.StartDate);
+    //    Console.WriteLine("Task schedule date:" + taskToPrint.ScheduledDate);
+    //    Console.WriteLine("Dead line task:" + taskToPrint.DeadlineDate);
+    //    Console.WriteLine("Task completed at:" + taskToPrint.CompleteDate);
+    //    Console.WriteLine("Task deliverables:" + taskToPrint.Deliverables);
+    //    Console.WriteLine("Task remarks:" + taskToPrint.Remarks);
+    //    Console.WriteLine("Task Engineer ID:" + taskToPrint.EngineerId);
+    //    Console.WriteLine("\n");
 
-    }
+    //}
 
     // Method to read and print details of all tasks
     private static void readAllTask()
@@ -888,7 +1133,7 @@ internal static class Program
         if (tasks.Any())
             foreach (Task task in tasks)
             {
-                PrintTask(task!);
+                Console.WriteLine(task!);
             }
     }
 
@@ -899,7 +1144,8 @@ internal static class Program
         int id = isValidIntInput();
 
         // Retrieve the task data from the data access layer based on the entered ID
-        Task currentTaskData = s_bl!.Tasks!.Read(id) ?? throw new Exception("Task with such ID does not exist");
+        BO.Task currentTaskData = s_bl!.Tasks!.Read(id) ??
+            throw new Exception("Task with such ID does not exist");
 
         // Call the Delete method in the data access layer to remove the task
         s_bl!.Tasks!.Delete(id);

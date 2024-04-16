@@ -1,8 +1,6 @@
 ﻿namespace BlImplementation;
 
-using BO;
-using DalApi;
-using DO;
+
 using System;
 using System.Collections.Generic;
 
@@ -300,7 +298,7 @@ internal class TaskImplementation : BlApi.ITask
     private DateTime? generateForecastDate(int taskId)
     {
         BO.Task? task = Read(taskId);
-        if (task == null) throw new BlDoesNotExistExeption($"There is no such task with ID of {taskId} does not exist");
+        if (task == null) throw new BO.BlDoesNotExistExeption($"There is no such task with ID of {taskId} does not exist");
         if (task.Status == BO.Enums.Status.Unscheduled)
         {
             return null;

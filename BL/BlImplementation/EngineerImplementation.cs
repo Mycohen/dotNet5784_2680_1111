@@ -44,7 +44,7 @@ internal class EngineerImplementation :BlApi.IEngineer
         try {
             BO.Engineer boEngineer = this.Read(id);
             if (boEngineer == null)
-                throw new BO.BlDoesNotExistExeption($"Engineer with {id} does not exist");
+                throw new ($"Engineer with {id} does not exist");
 
             else if (boEngineer.Task != null)
                 throw new BO.BlEngineerHasTaskExeption($"Engineer with {id} has a task and " +
@@ -262,7 +262,10 @@ internal class EngineerImplementation :BlApi.IEngineer
                     throw new BO.BlAlreadyExistsException($"The Engineer with ID = {boUpdateEngineer.Id}" +
                         $" already assigned to the Task with ID = {existingDoTaskWithBoEngineerId.Id}");
             }
-
+            else if (boUpdateEngineer.Level < _dal.Task.Read(task=>task.Id == boUpdateEngineer.Task.Id)!.Complexity)
+            {
+                throw new BO.BlInvalidOperation($"Invalid Level of Engineer");
+            }
             // Update the task in the DAL
             updateTaskInDal(boUpdateEngineer, existingDoTaskWithBoEngineerId);
         }

@@ -5,11 +5,11 @@ using System;
 [Serializable]
 public class BlDoesNotExistExeption : Exception
 {
-   public BlDoesNotExistExeption(string? message) : base(message) { }
-   
-   //exeption with inner exception
+    public BlDoesNotExistExeption(string? message) : base(message) { }
+
+    //exeption with inner exception
     public BlDoesNotExistExeption(string? massage, DalDoesNotExistExeption innerExeption)
-        : base(massage, innerExeption) 
+        : base(massage, innerExeption)
     {
     }
 }
@@ -72,7 +72,7 @@ public class BlEngineerHasTaskExeption : Exception
 // generic error from DAL
 [Serializable]
 public class BlDalError : Exception
-{ 
+{
     public BlDalError(string? errorMassag, Exception innerMassage) : base(errorMassag, innerMassage)
     { }
 }
@@ -83,3 +83,4 @@ public class BlInvalidOperation : Exception
     public BlInvalidOperation(string? errorMassag) : base(errorMassag)
     { }
 }
+
